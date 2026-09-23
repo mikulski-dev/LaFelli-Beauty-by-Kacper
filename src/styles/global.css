@@ -1,0 +1,82 @@
+@import "./tokens.css";
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Jost:wght@300;400&display=swap");
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	background: var(--color-bg);
+	overflow-x: hidden;
+	overscroll-behavior-y: none;
+}
+
+body {
+	margin: 0;
+	background: var(--color-bg);
+	color: var(--color-text);
+	font-family: var(--font-body);
+	font-size: var(--text-base);
+	line-height: var(--leading-normal);
+	overscroll-behavior-y: none;
+}
+
+.page-content {
+	position: relative;
+	z-index: 1;
+	background: var(--color-bg-light);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+img {
+	filter: saturate(1.15);
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-display);
+	line-height: var(--leading-tight);
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+a {
+	color: inherit;
+}
+
+/* Faint square-grid texture, shared by the hero and the section right after
+   it so the two read as one continuous backdrop. */
+.grid-texture {
+	position: relative;
+}
+
+.grid-texture::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image:
+		linear-gradient(color-mix(in srgb, var(--color-graphite) 3%, transparent) 1px, transparent 1px),
+		linear-gradient(90deg, color-mix(in srgb, var(--color-graphite) 3%, transparent) 1px, transparent 1px);
+	background-size: 56px 56px;
+	background-position: center top;
+	-webkit-mask-image: radial-gradient(ellipse 70% 65% at 68% 42%, black 0%, transparent 75%);
+	mask-image: radial-gradient(ellipse 70% 65% at 68% 42%, black 0%, transparent 75%);
+	pointer-events: none;
+	z-index: 0;
+}

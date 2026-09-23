@@ -1,0 +1,743 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Reveal from "../components/Reveal.astro";
+import { business, pageSchema } from "../lib/business";
+
+const pageTitle = "Contact Lafeli Beauty | Massage & Beauty in Willaston, Nantwich";
+const pageDescription =
+	"Book online or message Lili on WhatsApp. Lafeli Beauty is a calm home studio at 70 Colleys Lane, Willaston, near Nantwich, Cheshire.";
+
+const schema = pageSchema("ContactPage", "/contact", pageTitle, pageDescription);
+
+// Enquiry tabs. Options come from the treatment names on the pricing page (Fresha).
+const categories = [
+	{ key: "massage", label: "Massage", options: ["Brazilian Lymphatic Drainage", "Aromatherapy Massage / Relaxation", "Face Massage"] },
+	{ key: "waxing", label: "Waxing", options: ["Stomach / abdomen or centre line wax", "Underarm wax", "Other waxing"] },
+	{ key: "nails", label: "Nails", options: ["Nails"] },
+	{ key: "brows", label: "Brows", options: ["Eyebrows"] },
+	{ key: "bundles", label: "Bundles", options: ["The Brazilian Body & Face Sculpt Ritual"] },
+	{ key: "other", label: "Other", options: ["Something else"] },
+];
+
+const iconPerson = "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-8 8c0-4 3.6-6 8-6s8 2 8 6";
+const iconPhone = "M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.2 1.1L6.6 10.8Z";
+const iconPin = "M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Zm0-8.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z";
+const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+	<Reveal />
+
+	<main>
+		<section class="k-contact" id="enquiry" aria-labelledby="contact-title">
+			<div class="k-contact__grid">
+				<div class="k-left">
+					<h1 class="k-left__title reveal-up" id="contact-title" style="--d:0ms">Ready to book your treatment?</h1>
+					<p class="k-left__lead reveal-up" style="--d:80ms">
+						Tell me what you are looking for and I'll come back to you as soon as I can, with clear, practical next steps.
+					</p>
+
+					<ul class="k-rows reveal-up" style="--d:160ms">
+						<li class="k-row">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPerson} /></svg>
+							<div>
+								<p class="k-row__label">Your therapist</p>
+								<p class="k-row__value">Lili</p>
+							</div>
+						</li>
+						<li class="k-row">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPhone} /></svg>
+							<div>
+								<p class="k-row__label">Telephone</p>
+								<a class="k-row__value k-row__value--link" href={business.phoneHref}>{business.phoneDisplay}</a>
+							</div>
+						</li>
+						<li class="k-row">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" /></svg>
+							<div>
+								<p class="k-row__label">WhatsApp</p>
+								<a class="k-row__value k-row__value--link" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">Message Lili</a>
+							</div>
+						</li>
+						<li class="k-row">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPin} /></svg>
+							<div>
+								<p class="k-row__label">Studio</p>
+								<address class="k-row__value">{business.address.full}</address>
+								<div class="k-copy-row">
+									<button type="button" class="k-copy" data-copy={business.address.full}>Copy address</button>
+									<span class="k-toast" data-toast role="status" aria-live="polite"></span>
+								</div>
+							</div>
+						</li>
+						<li class="k-row">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconChat} /></svg>
+							<div>
+								<p class="k-row__label">Languages</p>
+								<p class="k-row__value">English &amp; Portuguese</p>
+							</div>
+						</li>
+						{/* TODO: add "How to find us / parking" (Lili to supply where to park and any access notes) as another row. */}
+					</ul>
+
+					<div class="k-note reveal-up" style="--d:240ms">
+						<p class="k-note__label">Qualified massage therapist</p>
+						<p class="k-note__text">
+							Every massage treatment is carried out by a qualified therapist, with your comfort and safety
+							front of mind. Treatments are available in English or Portuguese.
+						</p>
+					</div>
+
+					<p class="k-book reveal-up" style="--d:320ms">
+						Prefer to book straight away?{" "}
+						<a href={business.bookingUrl} target="_blank" rel="noopener noreferrer">Book on Fresha</a>
+					</p>
+				</div>
+
+				<div class="k-panel reveal-up" style="--d:120ms">
+					<p class="k-panel__eyebrow">Enquiry</p>
+					<h2 class="k-panel__title">What are you interested in?</h2>
+
+					<div class="k-tabs" role="group" aria-label="Treatment type" data-tabs data-categories={JSON.stringify(Object.fromEntries(categories.map((c) => [c.key, c.options])))}>
+						{
+							categories.map((c, i) => (
+								<button type="button" class="k-tab" data-tab={c.key} aria-pressed={i === 0 ? "true" : "false"}>
+									{c.label}
+								</button>
+							))
+						}
+					</div>
+
+					<form class="k-form" data-form novalidate>
+						<div class="k-row2">
+							<div class="k-field">
+								<label for="f-name">Full name <span class="k-req" aria-hidden="true">*</span></label>
+								<input class="k-input" id="f-name" name="name" type="text" placeholder="Your full name" autocomplete="name" required aria-describedby="f-name-err" />
+								<p class="k-error" id="f-name-err" data-error></p>
+							</div>
+							<div class="k-field">
+								<label for="f-phone">Phone number</label>
+								<input class="k-input" id="f-phone" name="phone" type="tel" placeholder="07xxx xxxxxx" autocomplete="tel" aria-describedby="f-phone-err" />
+								<p class="k-error" id="f-phone-err" data-error></p>
+							</div>
+						</div>
+						<div class="k-field">
+							<label for="f-treatment">Treatment</label>
+							<div class="k-select">
+								<select class="k-input" id="f-treatment" name="treatment" data-treatment></select>
+							</div>
+						</div>
+						<div class="k-field">
+							<label for="f-message">Tell me about your enquiry <span class="k-req" aria-hidden="true">*</span></label>
+							<textarea class="k-input k-input--area" id="f-message" name="message" rows="5" placeholder="Brief description of what you would like, and any dates that suit you…" required aria-describedby="f-message-err"></textarea>
+							<p class="k-error" id="f-message-err" data-error></p>
+						</div>
+						<button class="k-submit" type="submit">
+							<span class="k-submit__bg" aria-hidden="true"></span>
+							<span class="k-submit__label">Send on WhatsApp</span>
+						</button>
+					</form>
+
+					<div class="k-success" data-success hidden role="status" aria-live="polite" tabindex="-1">
+						<span class="k-success__icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
+						</span>
+						<h3 class="k-success__title">Opening WhatsApp…</h3>
+						<p class="k-success__body">
+							Your message is ready to send. If WhatsApp did not open,
+							<a data-success-link href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">tap here</a>.
+						</p>
+						<button type="button" class="k-success__again" data-again>Send another message</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- MOBILE STICKY BAR -->
+		<nav class="m-bar" data-mobile-bar aria-label="Quick contact">
+			<a class="m-bar__item" href={business.phoneHref}>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d={iconPhone} /></svg>
+				Call
+			</a>
+			<a class="m-bar__item" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" /></svg>
+				WhatsApp
+			</a>
+			<a class="m-bar__item m-bar__item--book" href={business.bookingUrl} target="_blank" rel="noopener noreferrer">Book</a>
+		</nav>
+	</main>
+</BaseLayout>
+
+<style>
+	.k-contact {
+		position: relative;
+		background: var(--color-graphite);
+		color: #fff;
+		padding: clamp(3rem, 6vw, 5rem) var(--space-4) clamp(3.5rem, 7vw, 6rem);
+		border-bottom: 1px solid color-mix(in srgb, #fff 12%, transparent);
+		overflow: hidden;
+	}
+	/* Faint dotted texture with a soft rose glow, echoing the reference's dotted backdrop. */
+	.k-contact::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image:
+			radial-gradient(circle at 20% 55%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 55%),
+			radial-gradient(color-mix(in srgb, #fff 9%, transparent) 1px, transparent 1.5px);
+		background-size: auto, 22px 22px;
+		-webkit-mask-image: radial-gradient(ellipse 70% 80% at 25% 55%, #000 0%, transparent 80%);
+		mask-image: radial-gradient(ellipse 70% 80% at 25% 55%, #000 0%, transparent 80%);
+		pointer-events: none;
+	}
+	.k-contact__grid {
+		position: relative;
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+		gap: clamp(2.5rem, 5vw, 5rem);
+		align-items: start;
+		max-width: 80rem;
+		margin: 0 auto;
+	}
+
+	/* ---------- left column ---------- */
+	.k-left__title {
+		font-weight: 400;
+		font-size: clamp(2.4rem, 4.6vw, 4.2rem);
+		line-height: 1.05;
+		margin-bottom: 1.4rem;
+	}
+	.k-left__lead {
+		font-weight: 300;
+		font-size: calc(var(--text-lg) * 0.95);
+		color: color-mix(in srgb, #fff 62%, transparent);
+		max-width: 30rem;
+		margin-bottom: 2.5rem;
+	}
+	.k-rows {
+		list-style: none;
+		margin: 0 0 2.25rem;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+	.k-row {
+		display: flex;
+		gap: 1.1rem;
+		align-items: flex-start;
+	}
+	.k-row svg {
+		flex: none;
+		width: 1.6rem;
+		height: 1.6rem;
+		color: var(--color-accent);
+		margin-top: 0.15rem;
+	}
+	.k-row__label {
+		font-size: calc(var(--text-xs) * 0.85);
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #fff 45%, transparent);
+		margin-bottom: 0.2rem;
+	}
+	.k-row__value {
+		font-style: normal;
+		font-weight: 400;
+		font-size: 1.2rem;
+		color: #fff;
+		text-decoration: none;
+	}
+	.k-row__value--link:hover,
+	.k-row__value--link:focus-visible {
+		color: var(--color-accent);
+	}
+	.k-copy-row {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+	}
+	.k-copy {
+		all: unset;
+		cursor: pointer;
+		font-size: calc(var(--text-xs) * 0.9);
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #fff 70%, transparent);
+		border-bottom: 1px solid color-mix(in srgb, #fff 35%, transparent);
+		padding-bottom: 2px;
+		transition: color 250ms var(--ease-standard), border-color 250ms var(--ease-standard);
+	}
+	.k-copy:hover,
+	.k-copy:focus-visible {
+		color: var(--color-accent);
+		border-color: var(--color-accent);
+	}
+	.k-toast {
+		font-size: calc(var(--text-xs) * 0.9);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		background: var(--color-accent);
+		color: #000;
+		padding: 0.2rem 0.6rem;
+		opacity: 0;
+		transform: translateY(4px);
+		transition: opacity 250ms var(--ease-standard), transform 250ms var(--ease-standard);
+	}
+	.k-toast.is-on {
+		opacity: 1;
+		transform: none;
+	}
+	.k-note {
+		background: color-mix(in srgb, #fff 5%, transparent);
+		border: 1px solid color-mix(in srgb, #fff 12%, transparent);
+		padding: 1.4rem 1.6rem;
+		max-width: 34rem;
+	}
+	.k-note__label {
+		font-size: calc(var(--text-xs) * 0.9);
+		font-weight: 500;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		margin-bottom: 0.6rem;
+	}
+	.k-note__text {
+		font-weight: 300;
+		font-size: var(--text-sm);
+		color: color-mix(in srgb, #fff 62%, transparent);
+	}
+	.k-book {
+		margin-top: 1.5rem;
+		font-weight: 300;
+		font-size: var(--text-sm);
+		color: color-mix(in srgb, #fff 62%, transparent);
+	}
+	.k-book a {
+		color: #fff;
+		text-decoration: underline;
+		text-underline-offset: 0.25em;
+		text-decoration-color: var(--color-accent);
+	}
+	.k-book a:hover,
+	.k-book a:focus-visible {
+		color: var(--color-accent);
+	}
+
+	/* ---------- right panel ---------- */
+	.k-panel {
+		background: #fff;
+		color: var(--color-text);
+		padding: clamp(1.75rem, 3.5vw, 3rem);
+	}
+	.k-panel__eyebrow {
+		font-size: calc(var(--text-xs) * 0.9);
+		font-weight: 500;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		margin-bottom: 0.6rem;
+	}
+	.k-panel__eyebrow::before {
+		content: "02 / ";
+		color: var(--color-accent);
+	}
+	.k-panel__title {
+		font-weight: 400;
+		font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+		margin-bottom: 1.6rem;
+	}
+	.k-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem;
+		margin-bottom: 2rem;
+	}
+	.k-tab {
+		all: unset;
+		box-sizing: border-box;
+		cursor: pointer;
+		padding: 0.85rem 1.2rem;
+		font-size: var(--text-sm);
+		font-weight: 500;
+		color: var(--color-text-muted);
+		transition: background 250ms var(--ease-standard), color 250ms var(--ease-standard);
+	}
+	.k-tab:hover {
+		color: var(--color-text);
+	}
+	.k-tab[aria-pressed="true"] {
+		background: var(--color-accent);
+		color: #fff;
+	}
+	.k-tab:focus-visible {
+		outline: 2px solid var(--color-text);
+		outline-offset: 2px;
+	}
+	.k-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.4rem;
+	}
+	.k-row2 {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.4rem;
+	}
+	.k-field label {
+		display: block;
+		font-size: calc(var(--text-xs) * 0.9);
+		font-weight: 500;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, var(--color-text) 78%, transparent);
+		margin-bottom: 0.6rem;
+	}
+	.k-req {
+		color: var(--color-accent);
+	}
+	.k-input {
+		display: block;
+		width: 100%;
+		padding: 1rem 1.1rem;
+		border: 1px solid transparent;
+		border-radius: 0;
+		background: var(--color-bg-alt);
+		color: var(--color-text);
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: 1rem;
+		-webkit-appearance: none;
+		appearance: none;
+		transition: border-color 250ms var(--ease-standard), background 250ms var(--ease-standard);
+	}
+	.k-input::placeholder {
+		color: color-mix(in srgb, var(--color-text) 42%, transparent);
+	}
+	.k-input:focus {
+		outline: none;
+		background: #fff;
+		border-color: var(--color-accent);
+	}
+	.k-input--area {
+		resize: vertical;
+		min-height: 9rem;
+	}
+	.k-select {
+		position: relative;
+	}
+	.k-select::after {
+		content: "";
+		position: absolute;
+		right: 1.1rem;
+		top: 50%;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-right: 1.5px solid var(--color-text);
+		border-bottom: 1.5px solid var(--color-text);
+		transform: translateY(-70%) rotate(45deg);
+		pointer-events: none;
+	}
+	.k-field.is-invalid .k-input {
+		border-color: #a4524f;
+	}
+	.k-error {
+		margin-top: 0.4rem;
+		font-size: var(--text-sm);
+		color: #a4524f;
+	}
+	.k-error:empty {
+		display: none;
+	}
+	.k-submit {
+		all: unset;
+		box-sizing: border-box;
+		position: relative;
+		align-self: flex-start;
+		overflow: hidden;
+		isolation: isolate;
+		cursor: pointer;
+		background: var(--color-accent);
+		color: #fff;
+		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+	.k-submit__bg {
+		position: absolute;
+		inset: 0;
+		width: 2px;
+		background: var(--color-text);
+		transition: width 350ms var(--ease-standard);
+		z-index: -1;
+	}
+	.k-submit:hover .k-submit__bg,
+	.k-submit:focus-visible .k-submit__bg {
+		width: 100%;
+	}
+	.k-submit__label {
+		display: block;
+		padding: 0.95rem 1.8rem;
+	}
+	.k-submit:focus-visible {
+		outline: 2px solid var(--color-text);
+		outline-offset: 3px;
+	}
+	.k-success {
+		text-align: center;
+		padding: 2.5rem 1.5rem;
+		background: var(--color-bg-light);
+		border-top: 2px solid var(--color-accent);
+	}
+	.k-success[hidden] {
+		display: none;
+	}
+	.k-success__icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.6rem;
+		height: 2.6rem;
+		border: 1px solid var(--color-accent);
+		color: var(--color-accent);
+		margin-bottom: 1rem;
+	}
+	.k-success__icon svg {
+		width: 1.2rem;
+		height: 1.2rem;
+	}
+	.k-success__title {
+		font-weight: 300;
+		font-size: 1.8rem;
+		margin-bottom: 0.5rem;
+	}
+	.k-success__body {
+		font-weight: 300;
+		color: var(--color-text-muted);
+	}
+	.k-success__body a {
+		text-decoration: underline;
+		text-underline-offset: 0.25em;
+	}
+	.k-success__again {
+		all: unset;
+		cursor: pointer;
+		margin-top: 1.2rem;
+		font-size: var(--text-xs);
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		text-decoration: underline;
+		text-underline-offset: 0.3em;
+	}
+	.k-success__again:hover,
+	.k-success__again:focus-visible {
+		color: var(--color-accent);
+	}
+
+	/* ---------- mobile sticky bar ---------- */
+	.m-bar {
+		display: none;
+	}
+	@media (max-width: 768px) {
+		.m-bar {
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 120;
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			background: var(--color-graphite);
+			border-top: 1px solid color-mix(in srgb, #fff 18%, transparent);
+			padding-bottom: env(safe-area-inset-bottom);
+			transition: transform 300ms var(--ease-standard);
+		}
+		.m-bar.is-hidden {
+			transform: translateY(100%);
+		}
+		.m-bar__item {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.45rem;
+			min-height: 3rem;
+			color: #fff;
+			text-decoration: none;
+			font-size: var(--text-xs);
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+		}
+		.m-bar__item svg {
+			width: 1rem;
+			height: 1rem;
+		}
+		.m-bar__item--book {
+			background: var(--color-accent);
+			color: #000;
+		}
+	}
+
+	@media (max-width: 960px) {
+		.k-contact__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+	@media (max-width: 560px) {
+		.k-row2 {
+			grid-template-columns: 1fr;
+		}
+		.k-tab {
+			padding: 0.7rem 0.9rem;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.m-bar,
+		.k-toast {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	const WHATSAPP_NUMBER = "447769379946";
+
+	// ---- Treatment tabs fill the treatment dropdown
+	const categories: Record<string, string[]> = JSON.parse(
+		document.querySelector<HTMLElement>("[data-tabs]")!.dataset.categories ?? "{}",
+	);
+	const select = document.querySelector<HTMLSelectElement>("[data-treatment]");
+	const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-tab]"));
+	const fill = (key: string) => {
+		if (!select) return;
+		select.replaceChildren();
+		const first = document.createElement("option");
+		first.value = "";
+		first.textContent = "Not sure yet";
+		select.appendChild(first);
+		for (const name of categories[key] ?? []) {
+			const o = document.createElement("option");
+			o.value = name;
+			o.textContent = name;
+			select.appendChild(o);
+		}
+		if ((categories[key] ?? []).length === 1) select.value = categories[key][0];
+	};
+	tabs.forEach((t) =>
+		t.addEventListener("click", () => {
+			tabs.forEach((x) => x.setAttribute("aria-pressed", x === t ? "true" : "false"));
+			fill(t.dataset.tab ?? "");
+		}),
+	);
+	fill(tabs[0]?.dataset.tab ?? "");
+
+	// ---- Form: validation on blur + WhatsApp prefill
+	const form = document.querySelector<HTMLFormElement>("[data-form]");
+	const success = document.querySelector<HTMLElement>("[data-success]");
+	if (form && success) {
+		const rules: Record<string, (v: string) => string> = {
+			name: (v) => (v.trim() ? "" : "Please tell me your name so I know who I'm talking to."),
+			phone: (v) => (!v.trim() || v.replace(/\D/g, "").length >= 7 ? "" : "That number looks a little short. Please check it."),
+			message: (v) => (v.trim() ? "" : "Please add a short message so I can help."),
+		};
+		const check = (el: HTMLInputElement | HTMLTextAreaElement) => {
+			const rule = rules[el.name];
+			if (!rule) return true;
+			const msg = rule(el.value);
+			const field = el.closest(".k-field")!;
+			field.classList.toggle("is-invalid", !!msg);
+			el.setAttribute("aria-invalid", msg ? "true" : "false");
+			field.querySelector<HTMLElement>("[data-error]")!.textContent = msg;
+			return !msg;
+		};
+		const inputs = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea"));
+		inputs.forEach((el) => {
+			el.addEventListener("blur", () => check(el));
+			el.addEventListener("input", () => {
+				if (el.closest(".k-field")?.classList.contains("is-invalid")) check(el);
+			});
+		});
+
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+			const results = inputs.map((el) => [el, check(el)] as const);
+			const firstBad = results.find(([, ok]) => !ok);
+			if (firstBad) {
+				firstBad[0].focus();
+				return;
+			}
+			const data = new FormData(form);
+			const name = String(data.get("name") ?? "");
+			const phone = String(data.get("phone") ?? "");
+			const treatment = String(data.get("treatment") ?? "");
+			const message = String(data.get("message") ?? "");
+			const text = [
+				`Hi Lili, it's ${name || "a website visitor"}.`,
+				treatment && `I'm interested in: ${treatment}.`,
+				phone && `My phone number: ${phone}.`,
+				message,
+			]
+				.filter(Boolean)
+				.join(" ");
+			const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+
+			success.querySelector<HTMLAnchorElement>("[data-success-link]")!.href = href;
+			form.hidden = true;
+			success.hidden = false;
+			success.focus();
+			window.open(href, "_blank", "noopener,noreferrer");
+		});
+
+		success.querySelector("[data-again]")?.addEventListener("click", () => {
+			form.reset();
+			form.querySelectorAll(".is-invalid").forEach((f) => f.classList.remove("is-invalid"));
+			form.querySelectorAll("[data-error]").forEach((e) => (e.textContent = ""));
+			fill(tabs.find((t) => t.getAttribute("aria-pressed") === "true")?.dataset.tab ?? "");
+			success.hidden = true;
+			form.hidden = false;
+			form.querySelector<HTMLElement>("#f-name")?.focus();
+		});
+	}
+
+	// ---- Copy address + toast
+	const copyBtn = document.querySelector<HTMLElement>("[data-copy]");
+	const toast = document.querySelector<HTMLElement>("[data-toast]");
+	let toastTimer: number | undefined;
+	copyBtn?.addEventListener("click", async () => {
+		const text = copyBtn.dataset.copy ?? "";
+		let ok = false;
+		try {
+			await navigator.clipboard.writeText(text);
+			ok = true;
+		} catch {
+			const ta = document.createElement("textarea");
+			ta.value = text;
+			ta.style.position = "fixed";
+			ta.style.opacity = "0";
+			document.body.appendChild(ta);
+			ta.select();
+			try {
+				ok = document.execCommand("copy");
+			} catch {}
+			ta.remove();
+		}
+		if (!toast) return;
+		toast.textContent = ok ? "Copied" : "Copy failed";
+		toast.classList.add("is-on");
+		window.clearTimeout(toastTimer);
+		toastTimer = window.setTimeout(() => toast.classList.remove("is-on"), 1800);
+	});
+
+	// ---- Mobile sticky bar: hide while the footer is in view
+	const bar = document.querySelector<HTMLElement>("[data-mobile-bar]");
+	const footer = document.querySelector<HTMLElement>(".site-footer");
+	if (bar && footer && "IntersectionObserver" in window) {
+		new IntersectionObserver(
+			(entries) => {
+				for (const e of entries) bar.classList.toggle("is-hidden", e.isIntersecting);
+			},
+			{ threshold: 0 },
+		).observe(footer);
+	}
+</script>

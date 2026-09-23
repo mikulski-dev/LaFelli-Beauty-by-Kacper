@@ -1,0 +1,1952 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PencilUnderline from "../components/PencilUnderline.astro";
+import Faq from "../components/Faq.astro";
+import { faqs } from "../lib/faqs";
+
+// Real values, reused from Footer.astro / Contact.astro / Hero.astro.
+const bookingUrl =
+	"https://www.fresha.com/en-GB/a/lafeli-beauty-willaston-nantwich-70-colleys-lane-hq1yvezc/booking?menu=true&pId=3085259";
+const whatsappUrl = "https://wa.me/447769379946";
+const phone = "+447769379946";
+const address = "70 Colleys Lane, Willaston, Nantwich CW5 6NT";
+const instagramUrl = "https://www.instagram.com/lili_lafeli/";
+const facebookUrl = "https://www.facebook.com/p/Lilly-Massage-Therapist-100089978122676/";
+
+// Treatment data. Images reused from WhatWeDo.astro (local only, no remote
+// images). Prices/durations are not published anywhere in the codebase, so
+// every price/duration field is a clearly labelled placeholder, see the
+// TODO comments beside each one and in the final report.
+interface Treatment {
+	slug: string;
+	category: "massage" | "waxing" | "nails" | "brows" | "bundles";
+	index: string;
+	name: string;
+	image: string;
+	imagePosition: string;
+	alt: string;
+	description: string;
+	goodFor: string[];
+	priceLabel: string;
+	durationLabel: string;
+	// Original price when discounted, plus small badges (all from Fresha).
+	wasPrice?: string;
+	badges?: string[];
+	// Individual services with their own duration/price, as listed on Fresha.
+	menu?: { name: string; duration: string; price: string; note?: string }[];
+	// "Good to know" lines shown in a small panel.
+	notes?: string[];
+	expect: string[];
+	aftercare: string[];
+	// TODO: replace with a per-treatment Fresha deep link once available.
+	bookingUrl: string;
+}
+
+const treatments: Treatment[] = [
+	{
+		slug: "lymphatic-drainage-massage",
+		category: "massage",
+		index: "01.",
+		name: "Brazilian Lymphatic Drainage",
+		image: "/images/gallery/drainage/1.jpg",
+		imagePosition: "center",
+		alt: "Lymphatic drainage massage treatment at Lafeli Beauty in Willaston",
+		description:
+			"Revitalise your well-being with a soothing massage that promotes natural detoxification. This nurturing treatment stimulates lymphatic flow, helping to reduce swelling and enhance relaxation, making it a perfect choice for anyone looking to unwind and rejuvenate their body.",
+		goodFor: ["Puffiness and fluid retention", "Heavy or tired legs", "Post-travel recovery"],
+		priceLabel: "£70",
+		durationLabel: "1 hour",
+		expect: [
+			"A short chat about the areas you would like me to focus on.",
+			"Light, rhythmic strokes following the direction of lymph flow.",
+			"A calm, quiet room; most clients drift off during this one.",
+			"A few minutes to sit up slowly and rehydrate before you leave.",
+		],
+		aftercare: [
+			"Drink plenty of water over the following 24 hours.",
+			"Avoid alcohol and very salty food on the day of your treatment.",
+			"Gentle movement, such as a walk, helps keep things moving afterwards.",
+			"Some light-headedness or a trip to the bathroom soon after is normal.",
+		],
+		bookingUrl,
+	},
+	{
+		slug: "relaxing-massage",
+		category: "massage",
+		index: "02.",
+		name: "Aromatherapy Massage / Relaxation",
+		image: "/images/gallery/massage/1.jpg",
+		imagePosition: "center 72%",
+		alt: "Relaxing full-body massage treatment at Lafeli Beauty in Willaston",
+		description:
+			"Indulge in a soothing experience that blends touch and fragrance for ultimate relaxation. This massage works to alleviate tension, promote relaxation, and rejuvenate your spirit through carefully selected essential oils tailored just for you. Enjoy a moment of calm and uplift your wellbeing.",
+		goodFor: ["Muscle tension and tight shoulders", "Stress and overthinking", "General unwinding"],
+		priceLabel: "£60",
+		durationLabel: "1 hour",
+		expect: [
+			"A quick check-in on pressure preference and any problem areas.",
+			"Warm oils and slow, flowing full-body strokes.",
+			"Extra time on the shoulders and neck if that is where you hold tension.",
+			"A relaxed finish, with no rush back out the door.",
+		],
+		aftercare: [
+			"Drink water afterwards to help your muscles recover.",
+			"A warm bath or shower that evening can extend the relaxation.",
+			"Mild muscle tenderness for a day is normal after a firmer massage.",
+			"Try to keep the rest of the day unhurried if you can.",
+		],
+		bookingUrl,
+	},
+	{
+		slug: "face-massage",
+		category: "massage",
+		index: "03.",
+		name: "Face Massage",
+		image: "/images/gallery/massage/2.jpg",
+		imagePosition: "center",
+		alt: "Face, neck and shoulder massage treatment at Lafeli Beauty in Willaston",
+		description:
+			"A lifting, soothing massage for the face, neck and shoulders, the area that tends to hold the most tension without you noticing. Firm jaws, tight temples and a stiff neck from screen time are all addressed with slow, sculpting strokes that leave your skin looking brighter and your whole face feeling lighter. It is a lovely treatment on its own, or paired with a body massage for a longer session at the Willaston studio.",
+		goodFor: ["Tension in the jaw and temples", "Tired-looking skin", "Neck and shoulder tightness"],
+		priceLabel: "Price on Fresha", // TODO: price from Fresha
+		durationLabel: "Duration on Fresha", // TODO: duration from Fresha
+		expect: [
+			"Skin is cleansed and prepped before we begin.",
+			"Slow, lifting strokes across the face, jaw and hairline.",
+			"Massage extends down into the neck and shoulders.",
+			"A cool, calming finish to leave your skin glowing.",
+		],
+		aftercare: [
+			"Avoid heavy makeup for a few hours to let your skin breathe.",
+			"Drink water, as massage encourages gentle detoxification.",
+			"Skin may look slightly flushed straight after; this settles quickly.",
+			"Use your usual SPF the next day as normal.",
+		],
+		bookingUrl,
+	},
+	{
+		slug: "waxing",
+		category: "waxing",
+		index: "04.",
+		name: "Waxing",
+		image: "/images/gallery/waxing-brows/1.jpg",
+		imagePosition: "25% 55%",
+		alt: "Waxing treatment at Lafeli Beauty in Willaston",
+		description:
+			"Reveal beautifully smooth skin with expert waxing, designed for effortless maintenance and a polished look. We use a specialised two-wax system for maximum comfort and skin care.",
+		goodFor: ["Smooth, longer-lasting results", "Sensitive-skin friendly technique", "Quick appointments"],
+		priceLabel: "From £8",
+		durationLabel: "20 mins",
+		menu: [
+			{
+				name: "Stomach / abdomen or centre line wax",
+				duration: "20 mins",
+				price: "from £8",
+				note: "Price starts at £8 for the abdomen line and goes up to £23 for a full abdomen.",
+			},
+			{
+				name: "Underarm wax",
+				duration: "20 mins",
+				price: "£14",
+				note: "Gentle hot wax to protect delicate underarm skin. Moderate pain. Lasts 3 to 4 weeks.",
+			},
+		],
+		notes: [
+			"Precision Roller Wax: for arms and legs. Fast, clean, and perfectly suited for larger areas.",
+			"Premium Calming Hot Wax: for delicate zones (underarms and intimate areas). It shrink-wraps the hair without tugging delicate skin.",
+			"Finished with a soothing lavender post-wax oil.",
+		],
+		expect: [
+			"A quick skin check, and a patch test area if it is your first time.",
+			"Skin is cleansed and prepped with a pre-wax oil.",
+			"Wax is applied and removed in small, controlled sections.",
+			"A soothing after-oil is applied to calm the skin.",
+		],
+		aftercare: [
+			"Avoid hot baths, saunas and sunbeds for 24 to 48 hours.",
+			"Skip tight clothing over the area for the rest of the day.",
+			"Gentle exfoliation after a few days helps prevent ingrown hairs.",
+			"Mild redness is normal and usually settles within a few hours.",
+		],
+		bookingUrl,
+	},
+	{
+		slug: "nails",
+		category: "nails",
+		index: "05.",
+		name: "Nails",
+		image: "/images/gallery/nails/5.jpg",
+		imagePosition: "center",
+		alt: "Brazilian manicure and pedicure treatment at Lafeli Beauty in Willaston",
+		description:
+			"Brazilian manicures and pedicures with a clean, polished result, a technique known for its careful cuticle work and neat, natural-looking finish. Nails are shaped, tidied and finished with your choice of polish or a simple buff, so hands and feet look genuinely well cared for rather than just painted. A popular add-on to a massage appointment, or a lovely stand-alone treat at the Willaston studio.",
+		goodFor: ["Neat, natural-looking finish", "Careful cuticle care", "Hands and feet together"],
+		priceLabel: "Price on Fresha", // TODO: price from Fresha
+		durationLabel: "Duration on Fresha", // TODO: duration from Fresha
+		expect: [
+			"Nails are soaked, cleaned and shaped to your preference.",
+			"Careful cuticle work using the Brazilian technique.",
+			"A hand or foot massage while everything sets.",
+			"Polish, buff or finish of your choice applied last.",
+		],
+		aftercare: [
+			"Avoid submerging hands or feet in water for a couple of hours.",
+			"Apply cuticle oil regularly to keep the finish looking fresh.",
+			"Wear open shoes for a little while after a pedicure if you can.",
+			"Book a top-up every few weeks to keep nails neat.",
+		],
+		bookingUrl,
+	},
+	{
+		slug: "eyebrows",
+		category: "brows",
+		index: "06.",
+		name: "Eyebrows",
+		image: "/images/gallery/waxing-brows/2.jpg",
+		imagePosition: "40% 65%",
+		alt: "Eyebrow shaping treatment at Lafeli Beauty in Willaston",
+		description:
+			"Transform your look with perfectly shaped eyebrows that beautifully frame your face. Our expert eyebrow service, waxing or tweezers, offers a quick and effective way to achieve clean lines and a polished appearance, leaving you feeling fresh and confident.",
+		goodFor: ["A polished, defined shape", "Quick top-ups", "Pairs well with other treatments"],
+		priceLabel: "£11",
+		durationLabel: "15 mins",
+		expect: [
+			"A brief chat about the shape you are after.",
+			"Brows mapped out before any hair is removed.",
+			"Shaping using wax, tweezers, or a combination of both.",
+			"A cooling after-balm to calm the skin.",
+		],
+		aftercare: [
+			"Avoid touching or applying makeup to the brow area for a few hours.",
+			"Skip exfoliants or retinol products on the area for a day or two.",
+			"Some light redness is normal and fades quickly.",
+			"Avoid direct sun or sunbeds on the area for 24 hours.",
+		],
+		bookingUrl,
+	},
+	{
+		slug: "body-and-face-sculpt-ritual",
+		category: "bundles",
+		index: "07.",
+		name: "The Brazilian Body & Face Sculpt Ritual",
+		image: "/images/hero/pexels-facial-treatment.jpg",
+		imagePosition: "center",
+		alt: "Facial treatment, part of the Brazilian Body and Face Sculpt Ritual bundle at Lafeli Beauty in Willaston",
+		description:
+			"Indulge in a transformative experience with our exclusive aesthetic bundle designed to rejuvenate both body and mind. Enjoy the captivating Lafeli Signature Facial, where your skin will receive the ultimate pampering and care, lasting for 75 minutes of pure bliss. Complementing this luxurious facial, the Brazilian Lymphatic Drainage boosts your body's natural detox processes. This harmonious combination is perfect for those seeking a comprehensive approach to self-care, helping you emerge feeling refreshed and revitalised. Discover a new level of relaxation and radiance today.",
+		goodFor: ["A full self-care session", "Face and body together", "Saving 20%"],
+		priceLabel: "£116",
+		wasPrice: "£145",
+		durationLabel: "2 hours 15 mins",
+		badges: ["Save 20%", "2 services", "Female only"],
+		menu: [
+			{ name: "Lafeli Signature Facial", duration: "75 mins", price: "" },
+			{ name: "Brazilian Lymphatic Drainage", duration: "1 hour", price: "" },
+		],
+		expect: [
+			"A 75 minute Lafeli Signature Facial for your skin.",
+			"A Brazilian Lymphatic Drainage session to support your body's natural detox processes.",
+			"Both treatments booked together in one 2 hour 15 minute visit.",
+		], // TODO: confirm the running order and any extra detail with Lili.
+		aftercare: [
+			"Drink plenty of water over the following 24 hours.",
+			"Avoid alcohol and very salty food on the day of your treatment.",
+			"Use your usual SPF the next day as normal.",
+		],
+		bookingUrl,
+	},
+];
+
+const filters = [
+	{ key: "all", label: "All" },
+	{ key: "massage", label: "Massage" },
+	{ key: "waxing", label: "Waxing" },
+	{ key: "nails", label: "Nails" },
+	{ key: "brows", label: "Brows" },
+	{ key: "bundles", label: "Bundles" },
+];
+
+const finderQuestions = [
+	{
+		question: "What do you want?",
+		options: [
+			{ label: "To relax", value: "relax" },
+			{ label: "To reduce puffiness", value: "puffiness" },
+			{ label: "To look polished", value: "polished" },
+		],
+	},
+	{
+		question: "Where?",
+		options: [
+			{ label: "Body", value: "body" },
+			{ label: "Face", value: "face" },
+			{ label: "Hands and feet", value: "hands-feet" },
+			{ label: "Brows", value: "brows" },
+		],
+	},
+];
+
+const timelineSteps = [
+	{ title: "Book on Fresha", body: "Choose your treatment and a time that works for you, online in a minute." },
+	{ title: "Arrive at the home studio", body: "Find me at 70 Colleys Lane, Willaston, Nantwich, a calm, private space." },
+	{ title: "A quick chat", body: "We talk through what you need and any areas to focus on or avoid." },
+	{ title: "Your treatment", body: "Settle in and let the session do its work, in English or Portuguese." },
+	{ title: "Aftercare tips", body: "You will leave knowing exactly how to look after the results." },
+];
+
+const whyPoints = [
+	{ title: "Qualified massage therapist", body: "Every massage treatment is carried out by a qualified therapist, with your comfort and safety front of mind." },
+	{ title: "A calm home studio", body: "Tucked away in Willaston, the studio is private and quiet, a proper break from a busy day rather than a clinical waiting room." },
+	{ title: "English and Portuguese spoken", body: "Treatments are available in English or Portuguese, whichever you are more comfortable with." },
+	{ title: "Easy online booking", body: "See availability and book in a minute through Fresha, with WhatsApp on hand for any questions first." },
+];
+
+
+const pageTitle = "Treatments & Prices | Massage, Waxing & Nails in Nantwich | Lafeli Beauty";
+const pageDescription =
+	"Massage, lymphatic drainage, waxing, nails and brows at Lafeli Beauty in Willaston, Nantwich. See treatments and book online on Fresha.";
+
+// --- JSON-LD ---
+const localBusinessSchema = {
+	"@context": "https://schema.org",
+	"@type": "BeautySalon",
+	name: "Lafeli Beauty",
+	address: {
+		"@type": "PostalAddress",
+		streetAddress: "70 Colleys Lane",
+		addressLocality: "Willaston, Nantwich",
+		postalCode: "CW5 6NT",
+		addressCountry: "GB",
+	},
+	telephone: phone,
+	url: "https://lafelibeauty.co.uk/pricing", // TODO: confirm live domain for schema url
+	sameAs: [instagramUrl, facebookUrl],
+};
+
+const offerCatalogSchema = {
+	"@context": "https://schema.org",
+	"@type": "OfferCatalog",
+	name: "Lafeli Beauty Treatments",
+	itemListElement: treatments.map((t) => ({
+		"@type": "Offer",
+		itemOffered: {
+			"@type": "Service",
+			name: t.name,
+			description: t.description,
+			provider: { "@type": "BeautySalon", name: "Lafeli Beauty" },
+			areaServed: "Nantwich, Cheshire",
+		},
+	})),
+};
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faqs.map((f) => ({
+		"@type": "Question",
+		name: f.q,
+		acceptedAnswer: { "@type": "Answer", text: f.a },
+	})),
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+	<script type="application/ld+json" set:html={JSON.stringify(offerCatalogSchema)} />
+	<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+	<main>
+		<!-- 1. HERO -->
+		<section class="p-hero grid-texture" id="p-hero">
+			<div class="p-hero__inner">
+				<p class="p-hero__eyebrow reveal-up" style="--d:0ms">
+					<span>PRICING</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+				</p>
+				<h1 class="p-hero__title reveal-up" style="--d:80ms">Treatments &amp; Prices in Willaston, Nantwich</h1>
+				<p class="p-hero__body reveal-up" style="--d:160ms">
+					Massage, lymphatic drainage, waxing, nails and brows, from a calm home studio just outside
+					Nantwich, Cheshire. Prices and durations below match Fresha, where you can also see live availability.
+				</p>
+				<div class="p-hero__actions reveal-up" style="--d:240ms">
+					<a class="p-hero__button p-hero__button--filled" href={bookingUrl} target="_blank" rel="noopener noreferrer">
+						<span class="p-hero__button-bg" aria-hidden="true"></span>
+						<span class="p-hero__button-edge" aria-hidden="true"></span>
+						<span class="p-hero__button-label" data-label="Book on Fresha">Book on Fresha</span>
+					</a>
+					<a class="p-hero__button p-hero__button--outline" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+						<span class="p-hero__button-label-plain">Ask on WhatsApp</span>
+					</a>
+				</div>
+			</div>
+		</section>
+
+
+		<!-- 2. FILTER CHIPS -->
+		<div class="p-filters-wrap">
+			<nav class="p-filters" data-filters aria-label="Filter treatments by category">
+				{
+					filters.map((f, i) => (
+						<button
+							type="button"
+							class="p-filters__chip"
+							data-filter-chip
+							data-filter={f.key}
+							aria-pressed={i === 0 ? "true" : "false"}
+						>
+							{f.label}
+						</button>
+					))
+				}
+				<span class="p-filters__underline" data-filters-underline aria-hidden="true"></span>
+			</nav>
+		</div>
+
+		<!-- 3. TREATMENT LIST -->
+		<section class="p-treatments" id="treatments" aria-label="Treatment list">
+			{
+				treatments.map((t, i) => (
+					<article
+						class="p-treatment reveal-up"
+						data-treatment
+						data-category={t.category}
+						id={t.slug}
+					>
+						<div class:list={["p-treatment__row", { "p-treatment__row--reverse": i % 2 === 1 }]}>
+							<div class="p-treatment__media" data-reveal-media>
+								<img
+									class="p-treatment__img"
+									src={t.image}
+									alt={t.alt}
+									loading="lazy"
+									style={`object-position:${t.imagePosition};`}
+								/>
+							</div>
+
+							<div class="p-treatment__content">
+								<p class="p-treatment__index">{t.index}</p>
+								<h3 class="p-treatment__name">{t.name}</h3>
+								<p class="p-treatment__description">{t.description}</p>
+
+								{t.menu && (
+									<ul class="p-menu" aria-label={`${t.name} services`}>
+										{t.menu.map((m) => (
+											<li class="p-menu__item">
+												<div class="p-menu__main">
+													<span class="p-menu__name">{m.name}</span>
+													<span class="p-menu__meta">{m.duration}</span>
+												</div>
+												{m.price && <span class="p-menu__price">{m.price}</span>}
+												{m.note && <p class="p-menu__note">{m.note}</p>}
+											</li>
+										))}
+									</ul>
+								)}
+
+								{t.notes && (
+									<div class="p-notes">
+										<span class="p-notes__label">Good to know</span>
+										<ul class="p-notes__list">
+											{t.notes.map((n) => (
+												<li>{n}</li>
+											))}
+										</ul>
+									</div>
+								)}
+
+								<div class="p-treatment__goodfor">
+									<span class="p-treatment__goodfor-label">Good for</span>
+									<ul class="p-treatment__tags">
+										{t.goodFor.map((g) => (
+											<li class="p-treatment__tag">{g}</li>
+										))}
+									</ul>
+								</div>
+
+								<!-- Prices and durations are from Fresha. TODO: Face Massage and Nails
+								     still show "Price on Fresha" until their Fresha listings are supplied. -->
+								<div class="p-treatment__pills">
+									<span class="p-treatment__pill">
+										{t.wasPrice && <s class="p-treatment__was">{t.wasPrice}</s>} {t.priceLabel}
+									</span>
+									<span class="p-treatment__pill p-treatment__pill--outline">{t.durationLabel}</span>
+									{t.badges?.map((b) => <span class="p-treatment__pill p-treatment__pill--accent">{b}</span>)}
+								</div>
+
+								<div class="p-accordion" data-accordion>
+									<button class="p-accordion__trigger" type="button" data-accordion-trigger aria-expanded="false">
+										<span>What to expect</span>
+										<span class="p-accordion__icon" aria-hidden="true">+</span>
+									</button>
+									<div class="p-accordion__panel" data-accordion-panel>
+										<div class="p-accordion__panel-inner">
+											<ol class="p-accordion__list">
+												{t.expect.map((step) => (
+													<li>{step}</li>
+												))}
+											</ol>
+										</div>
+									</div>
+								</div>
+
+								<div class="p-accordion" data-accordion>
+									<button class="p-accordion__trigger" type="button" data-accordion-trigger aria-expanded="false">
+										<span>Before and aftercare</span>
+										<span class="p-accordion__icon" aria-hidden="true">+</span>
+									</button>
+									<div class="p-accordion__panel" data-accordion-panel>
+										<div class="p-accordion__panel-inner">
+											<ul class="p-accordion__list">
+												{t.aftercare.map((step) => (
+													<li>{step}</li>
+												))}
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								<a
+									class="p-treatment__book"
+									href={t.bookingUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<span class="p-treatment__book-bg" aria-hidden="true"></span>
+									<span class="p-treatment__book-edge" aria-hidden="true"></span>
+									<span class="p-treatment__book-label" data-label={`Book ${t.name}`}>Book this treatment</span>
+								</a>
+							</div>
+						</div>
+					</article>
+				))
+			}
+		</section>
+
+
+		<!-- 4. TREATMENT FINDER -->
+		<section class="p-finder" id="finder" aria-label="Treatment finder">
+			<div class="p-finder__header">
+				<p class="p-finder__eyebrow reveal-up">
+					<span>Not sure what to book?</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+				</p>
+				<h2 class="p-finder__title reveal-up" style="--d:80ms">Find your treatment in two taps</h2>
+			</div>
+
+			<div class="p-finder__box reveal-up" style="--d:160ms" data-finder>
+				<!-- Step 0 -->
+				<div class="p-finder__step" data-finder-step="0">
+					<p class="p-finder__question">{finderQuestions[0].question}</p>
+					<div class="p-finder__options">
+						{finderQuestions[0].options.map((o) => (
+							<button type="button" class="p-finder__option" data-finder-answer="0" data-value={o.value}>
+								{o.label}
+							</button>
+						))}
+					</div>
+				</div>
+
+				<!-- Step 1 -->
+				<div class="p-finder__step" data-finder-step="1" hidden>
+					<p class="p-finder__question">{finderQuestions[1].question}</p>
+					<div class="p-finder__options">
+						{finderQuestions[1].options.map((o) => (
+							<button type="button" class="p-finder__option" data-finder-answer="1" data-value={o.value}>
+								{o.label}
+							</button>
+						))}
+					</div>
+				</div>
+
+				<!-- Result -->
+				<div class="p-finder__step p-finder__result" data-finder-step="result" hidden>
+					<p class="p-finder__result-label">We would recommend</p>
+					<h3 class="p-finder__result-name" data-finder-result-name></h3>
+					<p class="p-finder__result-desc" data-finder-result-desc></p>
+					<div class="p-finder__result-actions">
+						<a class="p-finder__result-book" data-finder-result-book href={bookingUrl} target="_blank" rel="noopener noreferrer">
+							Book this treatment
+						</a>
+						<button type="button" class="p-finder__restart" data-finder-restart>Start again</button>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 5. FIRST VISIT TIMELINE -->
+		<section class="p-timeline" id="first-visit">
+			<div class="p-timeline__header">
+				<p class="p-timeline__eyebrow reveal-up">
+					<span>First time here?</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+				</p>
+				<h2 class="p-timeline__title reveal-up" style="--d:80ms">Your first visit</h2>
+			</div>
+
+			<ol class="p-timeline__list" data-timeline>
+				<span class="p-timeline__spine" aria-hidden="true"><span class="p-timeline__spine-fill" data-timeline-fill></span></span>
+				{
+					timelineSteps.map((step, i) => (
+						<li class="p-timeline__item" data-timeline-item>
+							<span class="p-timeline__dot" aria-hidden="true">{i + 1}</span>
+							<div class="p-timeline__item-content">
+								<p class="p-timeline__item-title">{step.title}</p>
+								<p class="p-timeline__item-body">{step.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</section>
+
+
+		<!-- 6. WHY LAFELI -->
+		<section class="p-why" id="why-lafeli">
+			<div class="p-why__header">
+				<p class="p-why__eyebrow reveal-up">
+					<span>Why Lafeli Beauty</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+				</p>
+				<h2 class="p-why__title reveal-up" style="--d:80ms">A studio built around you</h2>
+			</div>
+			<div class="p-why__grid">
+				{
+					whyPoints.map((point, i) => (
+						<div class="p-why__card reveal-up" style={`--d:${i * 80}ms`}>
+							<span class="p-why__card-bar" aria-hidden="true" />
+							<p class="p-why__card-title">{point.title}</p>
+							<p class="p-why__card-body">{point.body}</p>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<Faq />
+
+		<!-- 8. FINAL CTA -->
+		<section class="p-cta">
+			<div class="p-cta__inner reveal-up">
+				<h2 class="p-cta__title">Ready when you are.</h2>
+				<p class="p-cta__body">Book online in a minute, or message me on WhatsApp if you have a question first.</p>
+				<div class="p-cta__actions">
+					<a class="p-hero__button p-hero__button--filled" href={bookingUrl} target="_blank" rel="noopener noreferrer">
+						<span class="p-hero__button-bg" aria-hidden="true"></span>
+						<span class="p-hero__button-edge" aria-hidden="true"></span>
+						<span class="p-hero__button-label" data-label="Book on Fresha">Book on Fresha</span>
+					</a>
+					<a class="p-hero__button p-hero__button--outline p-hero__button--outline-dark" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+						<span class="p-hero__button-label-plain">Ask on WhatsApp</span>
+					</a>
+				</div>
+			</div>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	/* ---------- shared button (matches Hero.astro) ---------- */
+	.p-hero__button {
+		--btn-pad: 0.85rem 1.6rem;
+		position: relative;
+		display: inline-flex;
+		text-decoration: none;
+		overflow: hidden;
+		isolation: isolate;
+		font-family: var(--font-body);
+	}
+
+	.p-hero__button--filled {
+		background: var(--color-accent);
+		color: #fff;
+	}
+
+	.p-hero__button-bg {
+		position: absolute;
+		inset: 0;
+		width: 2px;
+		background: var(--color-text);
+		transition: width 350ms var(--ease-standard);
+		z-index: 0;
+	}
+
+	.p-hero__button--filled:hover .p-hero__button-bg,
+	.p-hero__button--filled:focus-visible .p-hero__button-bg {
+		width: 100%;
+	}
+
+	.p-hero__button-edge {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: var(--color-accent);
+		opacity: 0;
+		z-index: 1;
+		transition: opacity 350ms var(--ease-standard);
+	}
+
+	.p-hero__button--filled:hover .p-hero__button-edge,
+	.p-hero__button--filled:focus-visible .p-hero__button-edge {
+		opacity: 1;
+	}
+
+	.p-hero__button-label {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		font-size: var(--text-xs);
+		font-weight: 400;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+		transition: transform 150ms var(--ease-standard);
+	}
+
+	.p-hero__button-label::after {
+		content: attr(data-label);
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		padding: var(--btn-pad);
+		color: #fff;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 350ms var(--ease-standard);
+		pointer-events: none;
+	}
+
+	.p-hero__button--filled:hover .p-hero__button-label::after,
+	.p-hero__button--filled:focus-visible .p-hero__button-label::after {
+		clip-path: inset(0 0 0 0);
+	}
+
+	.p-hero__button:active .p-hero__button-label {
+		transform: scale(0.97);
+	}
+
+	.p-hero__button--outline {
+		align-items: center;
+		border: 1px solid var(--color-text);
+		color: var(--color-text);
+		background: transparent;
+		transition: background 250ms var(--ease-standard), color 250ms var(--ease-standard);
+	}
+
+	.p-hero__button--outline:hover,
+	.p-hero__button--outline:focus-visible {
+		background: var(--color-text);
+		color: #fff;
+	}
+
+	.p-hero__button--outline-dark {
+		border-color: #fff;
+		color: #fff;
+	}
+
+	.p-hero__button--outline-dark:hover,
+	.p-hero__button--outline-dark:focus-visible {
+		background: #fff;
+		color: var(--color-graphite);
+	}
+
+	.p-hero__button-label-plain {
+		font-size: var(--text-xs);
+		font-weight: 400;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+	}
+
+	/* ---------- reveal-up utility ---------- */
+	.reveal-up {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.reveal-up {
+			transition: opacity 700ms var(--ease-standard) var(--d, 0ms), transform 700ms var(--ease-standard) var(--d, 0ms);
+		}
+
+		.p-hero .reveal-up {
+			animation: p-fade-up 700ms var(--ease-standard) var(--d, 0ms) both;
+		}
+	}
+
+	@keyframes p-fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.reveal-up.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.reveal-up,
+		.p-hero .reveal-up {
+			opacity: 1 !important;
+			transform: none !important;
+			animation: none !important;
+		}
+	}
+
+	/* ---------- 1. HERO ---------- */
+	.p-hero {
+		position: relative;
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		color: var(--color-text);
+		padding: calc(var(--section-pad-y) * 1.3) var(--space-4) calc(var(--section-pad-y) * 0.9);
+	}
+
+	.p-hero__inner {
+		position: relative;
+		z-index: 1;
+		max-width: 46rem;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.p-hero__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-family: var(--font-body);
+		font-weight: 500;
+		font-size: calc(var(--text-xs) * 0.9);
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		margin-bottom: 1.4rem;
+	}
+
+	.p-hero__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(2rem, 4.2vw, 3.6rem);
+		line-height: 1.1;
+		margin-bottom: 1.2rem;
+	}
+
+	.p-hero__body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-lg) * 0.9);
+		color: var(--color-text-muted);
+		max-width: 34rem;
+		margin: 0 auto 1.8rem;
+	}
+
+	.p-hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	/* ---------- 2. FILTER CHIPS ---------- */
+	.p-filters-wrap {
+		background: var(--color-bg-light);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.p-filters {
+		position: relative;
+		display: flex;
+		justify-content: safe center;
+		gap: clamp(1.25rem, 3vw, 2.5rem);
+		max-width: var(--content-width);
+		margin: 0 auto;
+		padding: 1rem clamp(1.5rem, 4.5vw, 4rem);
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+
+	.p-filters::-webkit-scrollbar {
+		display: none;
+	}
+
+	.p-filters__chip {
+		all: unset;
+		position: relative;
+		flex: none;
+		cursor: pointer;
+		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		font-weight: 400;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		padding-bottom: 0.6rem;
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.p-filters__chip[aria-pressed="true"] {
+		color: var(--color-text);
+	}
+
+	.p-filters__chip:hover {
+		color: var(--color-text);
+	}
+
+	.p-filters__underline {
+		position: absolute;
+		bottom: 0;
+		height: 2px;
+		background: var(--color-accent);
+		transition: left 300ms var(--ease-standard), width 300ms var(--ease-standard);
+	}
+
+	/* ---------- 3. TREATMENT LIST ---------- */
+	.p-treatments {
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		padding: calc(var(--section-pad-y) * 0.6) 0 var(--section-pad-y);
+	}
+
+	.p-treatment {
+		max-width: var(--content-width);
+		margin: 0 auto;
+		padding: calc(var(--space-6) * 0.7) clamp(1.5rem, 4.5vw, 4rem);
+	}
+
+	.p-treatment[hidden] {
+		display: none;
+	}
+
+	.p-treatment__row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: clamp(2rem, 4vw, 4rem);
+		align-items: center;
+	}
+
+	.p-treatment__row--reverse .p-treatment__media {
+		order: 2;
+	}
+
+	.p-treatment__row--reverse .p-treatment__content {
+		order: 1;
+	}
+
+	.p-treatment__media {
+		position: relative;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+	}
+
+	.p-treatment__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 900ms var(--ease-standard);
+	}
+
+	/* Clip-path lives on the image itself (not the observed container),
+	   because a clip-path that zeroes an element's visual area also makes
+	   IntersectionObserver treat it as having zero intersection, which
+	   would stop the reveal from ever firing. */
+	@media (prefers-reduced-motion: no-preference) {
+		.p-treatment__img {
+			opacity: 0;
+			transition: opacity 900ms var(--ease-standard), transform 900ms var(--ease-standard);
+		}
+
+		.p-treatment__media.is-revealed .p-treatment__img {
+			opacity: 1;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.p-treatment__media:hover .p-treatment__img {
+			transform: scale(1.07);
+		}
+	}
+
+	.p-treatment__content {
+		position: relative;
+	}
+
+	.p-treatment__index {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-weight: 400;
+		font-size: var(--text-lg);
+		color: var(--color-accent);
+		margin: 0 0 0.4rem;
+	}
+
+	.p-treatment__name {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+		line-height: 1.15;
+		margin: 0 0 0.9rem;
+	}
+
+	.p-treatment__description {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-base) * 1.02);
+		line-height: var(--leading-normal);
+		color: var(--color-text-muted);
+		margin: 0 0 1.2rem;
+		max-width: 34rem;
+	}
+
+	.p-treatment__goodfor {
+		margin-bottom: 1.2rem;
+	}
+
+	.p-treatment__goodfor-label {
+		display: block;
+		font-family: var(--font-body);
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 500;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		margin-bottom: 0.5rem;
+	}
+
+	.p-treatment__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.p-treatment__tag {
+		font-family: var(--font-body);
+		font-size: calc(var(--text-xs) * 0.92);
+		font-weight: 400;
+		letter-spacing: 0.03em;
+		padding: 0.4rem 0.8rem;
+		border: 1px solid var(--color-border);
+		color: var(--color-text);
+	}
+
+	.p-treatment__pills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		margin-bottom: 1.4rem;
+	}
+
+	.p-treatment__pill {
+		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		padding: 0.5rem 1rem;
+		background: var(--color-graphite);
+		color: #fff;
+	}
+
+	.p-treatment__pill--accent {
+		background: var(--color-accent);
+		color: #fff;
+	}
+
+	.p-treatment__was {
+		opacity: 0.6;
+		margin-right: 0.35rem;
+	}
+
+	/* Fresha service list */
+	.p-menu {
+		list-style: none;
+		margin: 0 0 1.4rem;
+		padding: 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.p-menu__item {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: baseline;
+		gap: 0.2rem 1rem;
+		padding: 0.85rem 0;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.p-menu__main {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.p-menu__name {
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		color: var(--color-text);
+	}
+
+	.p-menu__meta,
+	.p-menu__price {
+		font-size: var(--text-xs);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.p-menu__price {
+		color: var(--color-text);
+		font-weight: 500;
+	}
+
+	.p-menu__note {
+		grid-column: 1 / -1;
+		font-size: var(--text-sm);
+		font-weight: 300;
+		color: var(--color-text-muted);
+	}
+
+	.p-notes {
+		background: var(--color-bg-alt);
+		border-left: 2px solid var(--color-accent);
+		padding: 1rem 1.2rem;
+		margin-bottom: 1.4rem;
+	}
+
+	.p-notes__label {
+		display: block;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 500;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		margin-bottom: 0.5rem;
+	}
+
+	.p-notes__list {
+		margin: 0;
+		padding-left: 1.1rem;
+		font-size: var(--text-sm);
+		font-weight: 300;
+		color: var(--color-text-muted);
+	}
+
+	.p-notes__list li + li {
+		margin-top: 0.35rem;
+	}
+
+	.p-treatment__pill--outline {
+		background: transparent;
+		border: 1px solid var(--color-text);
+		color: var(--color-text);
+	}
+
+	/* accordions */
+	.p-accordion {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.p-accordion:last-of-type {
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: 1.6rem;
+	}
+
+	.p-accordion__trigger {
+		all: unset;
+		box-sizing: border-box;
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+		cursor: pointer;
+		font-family: var(--font-body);
+		font-size: calc(var(--text-sm) * 1.02);
+		font-weight: 500;
+		color: var(--color-text);
+		padding: 0.9rem 0.1rem;
+	}
+
+	.p-accordion__icon {
+		font-family: var(--font-body);
+		font-size: var(--text-lg);
+		font-weight: 300;
+		color: var(--color-accent);
+		transition: transform 300ms var(--ease-standard);
+		line-height: 1;
+	}
+
+	.p-accordion__trigger[aria-expanded="true"] .p-accordion__icon {
+		transform: rotate(45deg);
+	}
+
+	.p-accordion__panel {
+		height: 0;
+		overflow: hidden;
+		transition: height 350ms var(--ease-standard);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.p-accordion__panel {
+			transition: none;
+		}
+	}
+
+	.p-accordion__panel-inner {
+		padding: 0 0.1rem 1.1rem;
+	}
+
+	.p-accordion__list {
+		margin: 0;
+		padding-left: 1.1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-sm) * 1.02);
+		line-height: var(--leading-normal);
+		color: var(--color-text-muted);
+	}
+
+	.p-treatment__book {
+		--btn-pad: 0.8rem 1.5rem;
+		position: relative;
+		display: inline-flex;
+		text-decoration: none;
+		overflow: hidden;
+		isolation: isolate;
+		background: var(--color-graphite);
+		color: #fff;
+		font-family: var(--font-body);
+	}
+
+	.p-treatment__book-bg {
+		position: absolute;
+		inset: 0;
+		width: 2px;
+		background: var(--color-accent);
+		transition: width 350ms var(--ease-standard);
+		z-index: 0;
+	}
+
+	.p-treatment__book:hover .p-treatment__book-bg,
+	.p-treatment__book:focus-visible .p-treatment__book-bg {
+		width: 100%;
+	}
+
+	.p-treatment__book-edge {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: #fff;
+		opacity: 0;
+		z-index: 1;
+		transition: opacity 350ms var(--ease-standard);
+	}
+
+	.p-treatment__book:hover .p-treatment__book-edge,
+	.p-treatment__book:focus-visible .p-treatment__book-edge {
+		opacity: 1;
+	}
+
+	.p-treatment__book-label {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		font-size: var(--text-xs);
+		font-weight: 400;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+	}
+
+	@media (max-width: 900px) {
+		.p-treatment__row,
+		.p-treatment__row--reverse {
+			grid-template-columns: 1fr;
+		}
+
+		.p-treatment__row .p-treatment__media,
+		.p-treatment__row--reverse .p-treatment__media {
+			order: 1;
+		}
+
+		.p-treatment__row .p-treatment__content,
+		.p-treatment__row--reverse .p-treatment__content {
+			order: 2;
+		}
+
+		.p-treatment__media {
+			margin-bottom: 1.5rem;
+		}
+	}
+
+	/* ---------- 4. FINDER ---------- */
+	.p-finder {
+		box-sizing: border-box;
+		background: var(--color-graphite);
+		color: #fff;
+		padding: var(--section-pad-y) var(--space-4);
+	}
+
+	.p-finder__header {
+		max-width: 40rem;
+		margin: 0 auto var(--space-5);
+		text-align: center;
+	}
+
+	.p-finder__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-family: var(--font-body);
+		font-weight: 400;
+		font-size: calc(var(--text-xs) * 0.85);
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		margin: 0 auto 1rem;
+	}
+
+	.p-finder__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3vw, var(--text-3xl));
+		margin: 0;
+	}
+
+	.p-finder__box {
+		max-width: 34rem;
+		margin: 0 auto;
+		min-height: 14rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.p-finder__step {
+		width: 100%;
+		text-align: center;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.p-finder__step {
+			animation: p-fade-up 450ms var(--ease-standard) both;
+		}
+	}
+
+	.p-finder__question {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(1.3rem, 2vw, 1.8rem);
+		margin: 0 0 1.6rem;
+	}
+
+	.p-finder__options {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+
+	.p-finder__option {
+		all: unset;
+		cursor: pointer;
+		font-family: var(--font-body);
+		font-size: var(--text-sm);
+		letter-spacing: 0.03em;
+		padding: 0.75rem 1.4rem;
+		border: 1px solid color-mix(in srgb, #fff 40%, transparent);
+		color: #fff;
+		transition: background 250ms var(--ease-standard), border-color 250ms var(--ease-standard), color 250ms var(--ease-standard);
+	}
+
+	.p-finder__option:hover,
+	.p-finder__option:focus-visible {
+		background: var(--color-accent);
+		border-color: var(--color-accent);
+	}
+
+	.p-finder__result-label {
+		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #fff 65%, transparent);
+		margin: 0 0 0.6rem;
+	}
+
+	.p-finder__result-name {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+		margin: 0 0 0.8rem;
+	}
+
+	.p-finder__result-desc {
+		font-family: var(--font-body);
+		font-weight: 300;
+		color: color-mix(in srgb, #fff 75%, transparent);
+		max-width: 28rem;
+		margin: 0 auto 1.6rem;
+	}
+
+	.p-finder__result-actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	.p-finder__result-book {
+		background: var(--color-accent);
+		color: #fff;
+		text-decoration: none;
+		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		font-weight: 400;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: 0.85rem 1.6rem;
+		transition: background 250ms var(--ease-standard);
+	}
+
+	.p-finder__result-book:hover,
+	.p-finder__result-book:focus-visible {
+		background: color-mix(in srgb, var(--color-accent) 80%, black);
+	}
+
+	.p-finder__restart {
+		all: unset;
+		cursor: pointer;
+		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #fff 70%, transparent);
+		text-decoration: underline;
+		text-underline-offset: 0.25em;
+		padding: 0.85rem 0.2rem;
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.p-finder__restart:hover,
+	.p-finder__restart:focus-visible {
+		color: #fff;
+	}
+
+	/* ---------- 5. TIMELINE ---------- */
+	.p-timeline {
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		padding: var(--section-pad-y) var(--space-4);
+	}
+
+	.p-timeline__header {
+		max-width: 40rem;
+		margin: 0 auto var(--space-6);
+		text-align: center;
+	}
+
+	.p-timeline__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-family: var(--font-body);
+		font-weight: 400;
+		font-size: calc(var(--text-xs) * 0.85);
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		margin: 0 auto 1rem;
+	}
+
+	.p-timeline__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3vw, var(--text-3xl));
+		margin: 0;
+	}
+
+	.p-timeline__list {
+		position: relative;
+		list-style: none;
+		max-width: 38rem;
+		margin: 0 auto;
+		padding: 0 0 0 3rem;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-5);
+	}
+
+	.p-timeline__spine {
+		position: absolute;
+		left: 0.85rem;
+		top: 0.4rem;
+		bottom: 0.4rem;
+		width: 1px;
+		background: var(--color-border);
+		overflow: hidden;
+	}
+
+	.p-timeline__spine-fill {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 0%;
+		background: var(--color-accent);
+		box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-accent) 50%, transparent);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.p-timeline__spine-fill {
+			transition: height 600ms var(--ease-standard);
+		}
+	}
+
+	.p-timeline__item {
+		position: relative;
+	}
+
+	.p-timeline__dot {
+		position: absolute;
+		left: -3rem;
+		top: 0;
+		width: 1.7rem;
+		height: 1.7rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid var(--color-border);
+		background: var(--color-bg-light);
+		font-family: var(--font-body);
+		font-size: calc(var(--text-xs) * 0.85);
+		color: var(--color-text-muted);
+		transition: border-color 400ms var(--ease-standard), color 400ms var(--ease-standard), background 400ms var(--ease-standard);
+	}
+
+	.p-timeline__item.is-lit .p-timeline__dot {
+		border-color: var(--color-accent);
+		background: var(--color-accent);
+		color: #fff;
+	}
+
+	.p-timeline__item-title {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: var(--text-lg);
+		margin: 0 0 0.3rem;
+	}
+
+	.p-timeline__item-body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-sm) * 1.02);
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+
+	/* ---------- 6. WHY ---------- */
+	.p-why {
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		padding: var(--section-pad-y) var(--space-4);
+	}
+
+	.p-why__header {
+		max-width: 40rem;
+		margin: 0 auto var(--space-6);
+		text-align: center;
+	}
+
+	.p-why__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-family: var(--font-body);
+		font-weight: 400;
+		font-size: calc(var(--text-xs) * 0.85);
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		margin: 0 auto 1rem;
+	}
+
+	.p-why__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3vw, var(--text-3xl));
+		margin: 0;
+	}
+
+	.p-why__grid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--space-4);
+		max-width: var(--content-width);
+		margin: 0 auto;
+	}
+
+	.p-why__card {
+		position: relative;
+		padding: var(--space-4);
+		background: var(--color-graphite);
+		color: #fff;
+		overflow: hidden;
+		transition: transform 300ms var(--ease-standard);
+	}
+
+	.p-why__card-bar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0%;
+		height: 2px;
+		background: var(--color-accent);
+		transition: width 350ms var(--ease-standard);
+	}
+
+	.p-why__card:hover .p-why__card-bar {
+		width: 100%;
+	}
+
+	.p-why__card:hover {
+		transform: translateY(-4px);
+	}
+
+	.p-why__card-title {
+		font-family: var(--font-body);
+		font-weight: 500;
+		font-size: var(--text-sm);
+		letter-spacing: 0.03em;
+		margin: 0 0 0.6rem;
+	}
+
+	.p-why__card-body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-sm) * 0.95);
+		line-height: var(--leading-normal);
+		color: color-mix(in srgb, #fff 70%, transparent);
+		margin: 0;
+	}
+
+	@media (max-width: 1024px) {
+		.p-why__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 560px) {
+		.p-why__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* ---------- 7. FAQ ---------- */
+	.p-faq {
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		padding: var(--section-pad-y) var(--space-4);
+	}
+
+	.p-faq__header {
+		max-width: 40rem;
+		margin: 0 auto var(--space-5);
+		text-align: center;
+	}
+
+	.p-faq__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-family: var(--font-body);
+		font-weight: 400;
+		font-size: calc(var(--text-xs) * 0.85);
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		margin: 0 auto 1rem;
+	}
+
+	.p-faq__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3vw, var(--text-3xl));
+		margin: 0;
+	}
+
+	.p-faq__list {
+		max-width: 42rem;
+		margin: 0 auto;
+	}
+
+	.p-accordion--faq .p-accordion__trigger {
+		font-family: var(--font-display);
+		font-size: var(--text-lg);
+		font-weight: 400;
+	}
+
+	.p-accordion--faq .p-accordion__list,
+	.p-accordion--faq .p-accordion__panel-inner p {
+		color: var(--color-text-muted);
+		font-family: var(--font-body);
+		font-weight: 300;
+		line-height: var(--leading-normal);
+		margin: 0;
+	}
+
+	/* ---------- 8. FINAL CTA ---------- */
+	.p-cta {
+		box-sizing: border-box;
+		background: var(--color-graphite);
+		color: #fff;
+		padding: calc(var(--section-pad-y) * 1.1) var(--space-4);
+	}
+
+	.p-cta__inner {
+		max-width: 36rem;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.p-cta__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(2rem, 3.6vw, 3rem);
+		margin: 0 0 1rem;
+	}
+
+	.p-cta__body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		color: color-mix(in srgb, #fff 75%, transparent);
+		margin: 0 0 2rem;
+	}
+
+	.p-cta__actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+</style>
+
+<script>
+	// --- Reveal-on-scroll (fade + lift), one-shot, respects reduced motion.
+	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const revealEls = document.querySelectorAll<HTMLElement>(".reveal-up");
+
+	if (reduceMotion) {
+		revealEls.forEach((el) => el.classList.add("is-visible"));
+	} else {
+		const revealIo = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					entry.target.classList.add("is-visible");
+					revealIo.unobserve(entry.target);
+				}
+			},
+			{ threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+		);
+		revealEls.forEach((el) => revealIo.observe(el));
+	}
+
+	// --- Treatment media clip-path wipe reveal, one-shot.
+	const mediaEls = document.querySelectorAll<HTMLElement>("[data-reveal-media]");
+	if (reduceMotion) {
+		mediaEls.forEach((el) => el.classList.add("is-revealed"));
+	} else {
+		const mediaIo = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					entry.target.classList.add("is-revealed");
+					mediaIo.unobserve(entry.target);
+				}
+			},
+			{ threshold: 0.2 },
+		);
+		mediaEls.forEach((el) => mediaIo.observe(el));
+	}
+
+	// --- Filter chips ---
+	const chips = document.querySelectorAll<HTMLButtonElement>("[data-filter-chip]");
+	const underline = document.querySelector<HTMLElement>("[data-filters-underline]");
+	const treatmentCards = document.querySelectorAll<HTMLElement>("[data-treatment]");
+
+	function moveUnderline(chip: HTMLElement) {
+		if (!underline) return;
+		underline.style.left = `${chip.offsetLeft}px`;
+		underline.style.width = `${chip.offsetWidth}px`;
+	}
+
+	function applyFilter(filter: string) {
+		treatmentCards.forEach((card) => {
+			const match = filter === "all" || card.dataset.category === filter;
+			card.hidden = !match;
+		});
+	}
+
+	chips.forEach((chip) => {
+		chip.addEventListener("click", () => {
+			chips.forEach((c) => c.setAttribute("aria-pressed", "false"));
+			chip.setAttribute("aria-pressed", "true");
+			moveUnderline(chip);
+			applyFilter(chip.dataset.filter ?? "all");
+		});
+	});
+
+	const activeChip = document.querySelector<HTMLElement>('[data-filter-chip][aria-pressed="true"]');
+	if (activeChip) {
+		// Wait a tick so layout/fonts are settled before measuring.
+		requestAnimationFrame(() => moveUnderline(activeChip));
+		window.addEventListener("resize", () => {
+			const current = document.querySelector<HTMLElement>('[data-filter-chip][aria-pressed="true"]') || activeChip;
+			moveUnderline(current);
+		});
+	}
+
+	// --- Accordions (pure CSS height transition via inline px height) ---
+	const accordionTriggers = document.querySelectorAll<HTMLButtonElement>("[data-accordion-trigger]");
+
+	accordionTriggers.forEach((trigger) => {
+		const panel = trigger.nextElementSibling as HTMLElement | null;
+		if (!panel) return;
+
+		trigger.addEventListener("click", () => {
+			const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+			if (isOpen) {
+				panel.style.height = `${panel.scrollHeight}px`;
+				requestAnimationFrame(() => {
+					panel.style.height = "0px";
+				});
+				trigger.setAttribute("aria-expanded", "false");
+			} else {
+				panel.style.height = `${panel.scrollHeight}px`;
+				trigger.setAttribute("aria-expanded", "true");
+				panel.addEventListener(
+					"transitionend",
+					() => {
+						if (trigger.getAttribute("aria-expanded") === "true") panel.style.height = "auto";
+					},
+					{ once: true },
+				);
+			}
+		});
+	});
+
+	// --- Treatment finder ---
+	const finderBox = document.querySelector<HTMLElement>("[data-finder]");
+	if (finderBox) {
+		const steps = {
+			0: finderBox.querySelector<HTMLElement>('[data-finder-step="0"]'),
+			1: finderBox.querySelector<HTMLElement>('[data-finder-step="1"]'),
+			result: finderBox.querySelector<HTMLElement>('[data-finder-step="result"]'),
+		};
+
+		const treatmentData: Record<string, { name: string; description: string; href: string }> = {};
+		document.querySelectorAll<HTMLElement>("[data-treatment]").forEach((card) => {
+			const name = card.querySelector<HTMLElement>(".p-treatment__name")?.textContent?.trim() ?? "";
+			const description = card.querySelector<HTMLElement>(".p-treatment__description")?.textContent?.trim() ?? "";
+			const href = card.querySelector<HTMLAnchorElement>(".p-treatment__book")?.href ?? "";
+			treatmentData[card.id] = { name, description, href };
+		});
+
+		const finderResults: Record<string, string> = {
+			"relax-body": "relaxing-massage",
+			"relax-face": "face-massage",
+			"relax-hands-feet": "nails",
+			"relax-brows": "eyebrows",
+			"puffiness-body": "lymphatic-drainage-massage",
+			"puffiness-face": "face-massage",
+			"puffiness-hands-feet": "lymphatic-drainage-massage",
+			"puffiness-brows": "lymphatic-drainage-massage",
+			"polished-body": "waxing",
+			"polished-face": "waxing",
+			"polished-hands-feet": "nails",
+			"polished-brows": "eyebrows",
+		};
+
+		let answer0 = "";
+
+		function showStep(step: "0" | "1" | "result") {
+			(["0", "1", "result"] as const).forEach((key) => {
+				const el = steps[key];
+				if (!el) return;
+				el.hidden = key !== step;
+			});
+		}
+
+		finderBox.querySelectorAll<HTMLButtonElement>('[data-finder-answer="0"]').forEach((btn) => {
+			btn.addEventListener("click", () => {
+				answer0 = btn.dataset.value ?? "";
+				showStep("1");
+			});
+		});
+
+		finderBox.querySelectorAll<HTMLButtonElement>('[data-finder-answer="1"]').forEach((btn) => {
+			btn.addEventListener("click", () => {
+				const answer1 = btn.dataset.value ?? "";
+				const slug = finderResults[`${answer0}-${answer1}`] ?? "relaxing-massage";
+				const data = treatmentData[slug];
+
+				const nameEl = finderBox.querySelector<HTMLElement>("[data-finder-result-name]");
+				const descEl = finderBox.querySelector<HTMLElement>("[data-finder-result-desc]");
+				const bookEl = finderBox.querySelector<HTMLAnchorElement>("[data-finder-result-book]");
+
+				if (data && nameEl && descEl && bookEl) {
+					nameEl.textContent = data.name;
+					descEl.textContent = data.description;
+					bookEl.href = data.href;
+				}
+
+				showStep("result");
+			});
+		});
+
+		finderBox.querySelectorAll<HTMLButtonElement>("[data-finder-restart]").forEach((btn) => {
+			btn.addEventListener("click", () => {
+				answer0 = "";
+				showStep("0");
+			});
+		});
+	}
+
+	// --- First-visit timeline: illuminate step by step on scroll ---
+	const timelineItems = document.querySelectorAll<HTMLElement>("[data-timeline-item]");
+	const timelineFill = document.querySelector<HTMLElement>("[data-timeline-fill]");
+
+	if (timelineItems.length) {
+		if (reduceMotion) {
+			timelineItems.forEach((item) => item.classList.add("is-lit"));
+			if (timelineFill) timelineFill.style.height = "100%";
+		} else {
+			let litCount = 0;
+			const total = timelineItems.length;
+
+			const timelineIo = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (!entry.isIntersecting) continue;
+						entry.target.classList.add("is-lit");
+						litCount += 1;
+						if (timelineFill) timelineFill.style.height = `${(litCount / total) * 100}%`;
+						timelineIo.unobserve(entry.target);
+					}
+				},
+				{ threshold: 0.5 },
+			);
+			timelineItems.forEach((item) => timelineIo.observe(item));
+		}
+	}
+</script>

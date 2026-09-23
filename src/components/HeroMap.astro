@@ -1,0 +1,365 @@
+---
+// Ported from the Foundation Finance hero map (lib/ukDotMap.js +
+// app/components/sections/HeroMap.js), verbatim in structure, dot data,
+// sizing and animation. Only colours (gold -> blush pink, navy -> black)
+// and the HQ pin/label/cards text were changed for Lafeli, per instruction.
+import { UK_DOT_FRAME_WIDTH, UK_DOT_FRAME_HEIGHT } from "../lib/ukDotMap";
+
+// HQ pin position, as % of the map frame (x from left, y from top).
+const MAP_HQ = { name: "Willaston", x: 55, y: 71 };
+const hqStyle = `left:${MAP_HQ.x}%; top:${MAP_HQ.y}%;`;
+---
+
+<div class="hero-visual" aria-hidden="true">
+	<div class="hero-map" data-hero-map-frame>
+		<canvas class="hero-map__canvas" data-hero-map-canvas></canvas>
+
+		<span class="hero-map__pin hero-map__pin--hq" style={hqStyle} />
+		<span class="label hero-map__hq-label" style={hqStyle}>Willaston Based</span>
+
+		<div class="hero-chip hero-chip--top">
+			<span class="label hero-chip__title">4 Signature Treatments</span>
+			<span class="hero-chip__caption">Massage, lymphatic, waxing &amp; nails</span>
+		</div>
+
+		<div class="hero-chip hero-chip--bottom">
+			<span class="label hero-chip__title">Private Home Studio</span>
+			<span class="hero-chip__caption">Calm, personal &amp; one-to-one</span>
+		</div>
+
+		<div class="hero-chip hero-chip--right">
+			<span class="label hero-chip__title">Qualified Therapist</span>
+			<span class="hero-chip__caption">Fully insured &amp; experienced</span>
+		</div>
+	</div>
+</div>
+
+<style define:vars={{ frameWidth: UK_DOT_FRAME_WIDTH, frameHeight: UK_DOT_FRAME_HEIGHT }}>
+	.hero-visual {
+		position: relative;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		min-height: 0;
+		width: 100%;
+		height: 100%;
+		padding-right: clamp(0px, 7vw, 120px);
+	}
+
+	.hero-map {
+		position: relative;
+		height: 100%;
+		aspect-ratio: var(--frameWidth) / var(--frameHeight);
+		touch-action: pan-y;
+	}
+
+	.hero-map__canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.hero-map__pin {
+		position: absolute;
+		width: 7px;
+		height: 7px;
+		margin: -3.5px 0 0 -3.5px;
+		border-radius: 50%;
+		background: var(--color-graphite);
+		box-shadow: 0 0 0 3px #ffffff;
+		pointer-events: none;
+	}
+
+	.hero-map__pin--hq {
+		width: 12px;
+		height: 12px;
+		margin: -6px 0 0 -6px;
+		background: var(--color-accent);
+		animation: heroMarkerPulse 2.6s ease-out infinite;
+	}
+
+	@keyframes heroMarkerPulse {
+		0% {
+			box-shadow: 0 0 0 3px #ffffff, 0 0 0 3px color-mix(in srgb, var(--color-accent) 55%, transparent);
+		}
+		70% {
+			box-shadow: 0 0 0 3px #ffffff, 0 0 0 20px color-mix(in srgb, var(--color-accent) 0%, transparent);
+		}
+		100% {
+			box-shadow: 0 0 0 3px #ffffff, 0 0 0 3px color-mix(in srgb, var(--color-accent) 0%, transparent);
+		}
+	}
+
+	.hero-map__hq-label {
+		position: absolute;
+		transform: translate(14px, -50%);
+		padding: 5px 10px;
+		background: var(--color-graphite);
+		color: #ffffff;
+		white-space: nowrap;
+		pointer-events: none;
+	}
+
+	/* Floating info cards */
+	.hero-chip {
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		padding: 12px 16px;
+		white-space: nowrap;
+		background: rgba(255, 255, 255, 0.86);
+		-webkit-backdrop-filter: blur(12px);
+		backdrop-filter: blur(12px);
+		border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+		box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.28);
+		pointer-events: none;
+		animation: heroChipFloat 6s ease-in-out infinite;
+	}
+
+	.hero-chip--top {
+		top: 18%;
+		right: 72%;
+	}
+
+	.hero-chip--bottom {
+		bottom: 14%;
+		right: 92%;
+		animation-delay: -3s;
+	}
+
+	.hero-chip--right {
+		top: 50%;
+		left: 82%;
+		transform: translateY(-50%);
+		animation-name: heroChipFloatRight;
+		animation-delay: -1.5s;
+	}
+
+	@keyframes heroChipFloatRight {
+		0%,
+		100% {
+			transform: translateY(-50%);
+		}
+		50% {
+			transform: translateY(calc(-50% - 8px));
+		}
+	}
+
+	@keyframes heroChipFloat {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-8px);
+		}
+	}
+
+	.hero-chip__title {
+		color: var(--color-text);
+	}
+
+	.hero-chip__caption {
+		font-family: var(--font-body);
+		font-size: 12px;
+		color: rgba(0, 0, 0, 0.55);
+	}
+
+	.label {
+		font-family: var(--font-body);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	/* Cards need the gap between text and map; drop them when it closes */
+	@media (max-width: 1199px) {
+		.hero-chip {
+			display: none;
+		}
+	}
+
+	/* Tablet and phone: faint, centred backdrop behind the text */
+	@media (max-width: 1023px) {
+		.hero-visual {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			justify-content: center;
+			padding-right: 0;
+			opacity: 0.55;
+			pointer-events: none;
+		}
+
+		.hero-map {
+			height: 100%;
+			max-height: 640px;
+		}
+
+		.hero-map__pin,
+		.hero-map__hq-label {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-map__pin--hq,
+		.hero-chip {
+			animation: none;
+		}
+	}
+</style>
+
+<script>
+	import { UK_DOT_PITCH, UK_DOT_FRAME_WIDTH, UK_DOT_FRAME_HEIGHT, UK_DOT_ROWS } from "../lib/ukDotMap";
+
+	interface Dot {
+		x: number;
+		y: number;
+	}
+
+	/* Dot canvas settings — identical values to the source. */
+	const DOT_RADIUS = 5;
+	const DOT_CENTRE_OFFSET = 5;
+	// Hovered dot plus roughly three dots in every direction.
+	const HOVER_RADIUS = UK_DOT_PITCH * 4.5;
+	// Above this intensity a dot shifts from pink towards the charcoal core.
+	const CORE_THRESHOLD = 0.75;
+	// Ring dots reach full pink by this intensity.
+	const PINK_POINT = 0.35;
+	const DOT_GROWTH = 0.35;
+	// Per-frame easing towards the target intensity (1 = instant).
+	const FADE_SPEED = 0.18;
+	const SETTLED_EPSILON = 0.002;
+
+	// Grey base dots (unchanged), blush-pink ring, charcoal core — the only
+	// colour swap from the source's navy/gold/navy palette.
+	const COLOUR_BASE = { red: 2, green: 20, blue: 53, alpha: 0.2 };
+	const COLOUR_PINK = { red: 222, green: 153, blue: 150, alpha: 1 };
+	const COLOUR_CHARCOAL = { red: 17, green: 17, blue: 17, alpha: 1 };
+
+	const UK_DOTS: Dot[] = UK_DOT_ROWS.flatMap((row, rowIndex) =>
+		[...row].flatMap((cell, columnIndex) =>
+			cell === "1"
+				? [
+						{
+							x: columnIndex * UK_DOT_PITCH + DOT_CENTRE_OFFSET,
+							y: rowIndex * UK_DOT_PITCH + DOT_CENTRE_OFFSET,
+						},
+					]
+				: [],
+		),
+	);
+
+	type Colour = { red: number; green: number; blue: number; alpha: number };
+
+	function mixColour(from: Colour, to: Colour, amount: number) {
+		const channel = (key: keyof Colour) => from[key] + (to[key] - from[key]) * amount;
+		return `rgba(${Math.round(channel("red"))}, ${Math.round(channel("green"))}, ${Math.round(channel("blue"))}, ${channel("alpha").toFixed(3)})`;
+	}
+
+	function dotColour(intensity: number) {
+		if (intensity < PINK_POINT) return mixColour(COLOUR_BASE, COLOUR_PINK, intensity / PINK_POINT);
+		if (intensity < CORE_THRESHOLD) return mixColour(COLOUR_PINK, COLOUR_PINK, 1);
+		return mixColour(COLOUR_PINK, COLOUR_CHARCOAL, (intensity - CORE_THRESHOLD) / (1 - CORE_THRESHOLD));
+	}
+
+	function initHeroMap() {
+		const frame = document.querySelector<HTMLElement>("[data-hero-map-frame]");
+		const canvas = document.querySelector<HTMLCanvasElement>("[data-hero-map-canvas]");
+		const heroSection = document.querySelector<HTMLElement>("#hero");
+		if (!frame || !canvas || !heroSection) return;
+		const context = canvas.getContext("2d");
+		if (!context) return;
+
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		const intensities = new Float32Array(UK_DOTS.length);
+		const fadeSpeed = reduceMotion ? 1 : FADE_SPEED;
+
+		let pointer: { x: number; y: number } | null = null;
+		let animationFrame = 0;
+		let isSectionVisible = true;
+
+		const draw = () => {
+			const scale = canvas.width / UK_DOT_FRAME_WIDTH;
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			UK_DOTS.forEach((dot, index) => {
+				const intensity = intensities[index];
+				context.fillStyle = dotColour(intensity);
+				context.beginPath();
+				context.arc(dot.x * scale, dot.y * scale, DOT_RADIUS * scale * (1 + intensity * DOT_GROWTH), 0, Math.PI * 2);
+				context.fill();
+			});
+		};
+
+		const step = () => {
+			let isSettled = true;
+			UK_DOTS.forEach((dot, index) => {
+				const distance = pointer ? Math.hypot(dot.x - pointer.x, dot.y - pointer.y) : Infinity;
+				// Soft falloff: stays strong near the pointer, fades at the edge.
+				const falloff = Math.max(0, 1 - distance / HOVER_RADIUS);
+				const target = 1 - (1 - falloff) ** 2;
+				const next = intensities[index] + (target - intensities[index]) * fadeSpeed;
+				const isClose = Math.abs(next - target) < SETTLED_EPSILON;
+				intensities[index] = isClose ? target : next;
+				if (!isClose) isSettled = false;
+			});
+			draw();
+			animationFrame = isSettled || !isSectionVisible ? 0 : requestAnimationFrame(step);
+		};
+
+		const startAnimation = () => {
+			if (!animationFrame && isSectionVisible) animationFrame = requestAnimationFrame(step);
+		};
+
+		const handlePointerMove = (event: PointerEvent) => {
+			const bounds = frame.getBoundingClientRect();
+			pointer = {
+				x: ((event.clientX - bounds.left) / bounds.width) * UK_DOT_FRAME_WIDTH,
+				y: ((event.clientY - bounds.top) / bounds.height) * UK_DOT_FRAME_HEIGHT,
+			};
+			startAnimation();
+		};
+
+		const handlePointerLeave = () => {
+			pointer = null;
+			startAnimation();
+		};
+
+		const resize = () => {
+			const pixelRatio = window.devicePixelRatio || 1;
+			canvas.width = Math.round(frame.clientWidth * pixelRatio);
+			canvas.height = Math.round(frame.clientHeight * pixelRatio);
+			draw();
+		};
+
+		resize();
+		const resizeObserver = new ResizeObserver(resize);
+		resizeObserver.observe(frame);
+
+		const intersectionObserver = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					isSectionVisible = entry.isIntersecting;
+					if (isSectionVisible) startAnimation();
+				}
+			},
+			{ threshold: 0.05 },
+		);
+		intersectionObserver.observe(heroSection);
+
+		frame.addEventListener("pointermove", handlePointerMove);
+		frame.addEventListener("pointerdown", handlePointerMove);
+		frame.addEventListener("pointerleave", handlePointerLeave);
+		frame.addEventListener("pointercancel", handlePointerLeave);
+	}
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initHeroMap);
+	} else {
+		initHeroMap();
+	}
+</script>

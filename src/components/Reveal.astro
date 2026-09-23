@@ -1,0 +1,63 @@
+---
+// One-shot scroll reveals shared by About, Testimonials and Contact.
+// Add class "reveal-up" (optionally style="--d:80ms") to any element.
+// Elements never re-hide. Reduced motion shows everything immediately.
+---
+
+<style is:global>
+	.reveal-up {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.reveal-up {
+			transition: opacity 700ms var(--ease-standard) var(--d, 0ms), transform 700ms var(--ease-standard) var(--d, 0ms);
+		}
+		.page-hero .reveal-up {
+			animation: reveal-fade-up 700ms var(--ease-standard) var(--d, 0ms) both;
+		}
+	}
+	@keyframes reveal-fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	.reveal-up.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.reveal-up {
+			opacity: 1 !important;
+			transform: none !important;
+			animation: none !important;
+			transition: none !important;
+		}
+	}
+</style>
+
+<script>
+	const els = document.querySelectorAll<HTMLElement>(".reveal-up, [data-reveal-media]");
+	const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const show = (el: Element) => el.classList.add(el.hasAttribute("data-reveal-media") ? "is-revealed" : "is-visible");
+	if (reduce || !("IntersectionObserver" in window)) {
+		els.forEach(show);
+	} else {
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					show(entry.target);
+					io.unobserve(entry.target);
+				}
+			},
+			{ threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+		);
+		els.forEach((el) => io.observe(el));
+	}
+</script>

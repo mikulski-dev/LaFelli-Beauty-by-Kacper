@@ -1,0 +1,502 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PencilUnderline from "../components/PencilUnderline.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Reveal from "../components/Reveal.astro";
+import { business, pageSchema } from "../lib/business";
+
+const pageTitle = "About Lili | Massage Therapist in Willaston, Nantwich | Lafeli Beauty";
+const pageDescription =
+	"Meet Lili, a qualified massage therapist running Lafeli Beauty from a calm home studio in Willaston, near Nantwich. Book online or message on WhatsApp.";
+
+const schema = pageSchema("AboutPage", "/about", pageTitle, pageDescription);
+
+// Copy below is reused from Intro.astro and the pricing page "why" points.
+const expectPoints = [
+	{
+		icon: "badge",
+		title: "Qualified massage therapist",
+		body: "Every massage treatment is carried out by a qualified therapist, with your comfort and safety front of mind.",
+	},
+	{
+		icon: "home",
+		title: "A calm home studio",
+		body: "Tucked away in Willaston, the studio is private and quiet, a proper break from a busy day rather than a clinical waiting room.",
+	},
+	{
+		icon: "chat",
+		title: "English and Portuguese",
+		body: "Treatments are available in English or Portuguese, whichever you are more comfortable with.",
+	},
+	{
+		icon: "calendar",
+		title: "Easy online booking",
+		body: "See availability and book in a minute through Fresha, with WhatsApp on hand for any questions first.",
+	},
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+	<Reveal />
+
+	<main>
+		<!-- 1. SPLIT HERO -->
+		<section class="a-hero grid-texture">
+			<div class="a-hero__inner">
+				<div class="a-hero__media" data-reveal-media data-parallax-wrap>
+					<div class="a-clip">
+					<img
+						class="a-hero__img"
+						src="/images/portrait/lily.jpg"
+						alt="Close portrait of Lili, founder of Lafeli Beauty, smiling in her Willaston studio"
+						width="1300"
+						height="1733"
+						fetchpriority="high"
+						data-parallax-img
+					/>
+					</div>
+				</div>
+				<div class="a-hero__copy">
+					<p class="a-eyebrow reveal-up" style="--d:0ms">
+						<span>ABOUT</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+					</p>
+					<h1 class="a-hero__title reveal-up" style="--d:80ms">Hello, I'm Lili, and I founded Lafeli Beauty</h1>
+					<p class="a-hero__body reveal-up" style="--d:160ms">
+						I specialise in lymphatic drainage, therapeutic massage, precise waxing and Brazilian
+						manicures. I'm a qualified massage therapist, and I treat every client with care and skill.
+					</p>
+					<div class="a-hero__meta reveal-up" style="--d:240ms">Willaston, near Nantwich, Cheshire</div>
+				</div>
+			</div>
+		</section>
+
+
+		<!-- 2. MY STORY -->
+		<section class="a-story" aria-labelledby="story-title">
+			<div class="a-story__inner">
+				<h2 class="a-story__title reveal-up" id="story-title">My story</h2>
+				<div class="a-story__text">
+					<p class="reveal-up" style="--d:80ms">
+						My aim is simple. I want you to leave feeling lighter, more confident and properly
+						looked after.
+						{/* TODO: Lili to add how and why she started, in her own words. */}
+					</p>
+					<p class="reveal-up" style="--d:160ms">
+						I work from a private home studio in Willaston, just outside Nantwich. It feels more
+						like a friend's spare room than a clinic, and it is a place to switch off for an hour.
+						{/* TODO: Lili to add a personal detail, e.g. where she trained or what she loves about the work. */}
+					</p>
+					<p class="reveal-up" style="--d:240ms">
+						I treat every client with care and skill, whether you come for lymphatic drainage,
+						a relaxing massage, waxing or a Brazilian manicure.
+						{/* TODO: Lili to add something personal, e.g. Portuguese roots or what clients often tell her. */}
+					</p>
+				</div>
+			</div>
+			<blockquote class="a-quote reveal-up">
+				<p>&ldquo;Lightness. Shape. Presence. That's what I bring to every session.&rdquo;</p>
+				<footer>Lili</footer>
+			</blockquote>
+		</section>
+
+
+		<!-- 3. WHAT YOU CAN EXPECT -->
+		<section class="a-expect" aria-labelledby="expect-title">
+			<div class="a-expect__inner">
+				<p class="a-eyebrow reveal-up">
+					<span>WHAT TO EXPECT</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+				</p>
+				<h2 class="a-expect__title reveal-up" id="expect-title" style="--d:80ms">What you can expect</h2>
+				<ul class="a-expect__grid">
+					{
+						expectPoints.map((p, i) => (
+							<li class="a-expect__item reveal-up" style={`--d:${i * 80}ms`}>
+								<span class="a-expect__icon" aria-hidden="true">
+									{p.icon === "badge" && (
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<circle cx="12" cy="9" r="5" />
+											<path d="m9.5 9 1.8 1.8L15 7.2" />
+											<path d="m8.5 13.5-1.5 7 5-2.5 5 2.5-1.5-7" />
+										</svg>
+									)}
+									{p.icon === "home" && (
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<path d="M4 11 12 4l8 7" />
+											<path d="M6 10v10h12V10" />
+											<path d="M10 20v-5h4v5" />
+										</svg>
+									)}
+									{p.icon === "chat" && (
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<path d="M4 5h16v11H10l-4 4v-4H4Z" />
+											<path d="M8 9.5h8M8 12.5h5" />
+										</svg>
+									)}
+									{p.icon === "calendar" && (
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+											<rect x="4" y="5" width="16" height="15" />
+											<path d="M4 10h16M9 3v4M15 3v4" />
+										</svg>
+									)}
+								</span>
+								<h3 class="a-expect__item-title">{p.title}</h3>
+								<p class="a-expect__item-body">{p.body}</p>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</section>
+
+
+		<!-- 4. THE STUDIO -->
+		<section class="a-studio" aria-labelledby="studio-title">
+			<div class="a-studio__inner">
+				<div class="a-studio__copy">
+					<p class="a-eyebrow reveal-up">
+						<span>THE STUDIO</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+					</p>
+					<h2 class="a-studio__title reveal-up" id="studio-title" style="--d:80ms">A quiet space in Willaston</h2>
+					<p class="a-studio__body reveal-up" style="--d:160ms">
+						Tucked away at {business.address.street}, the studio is private and calm, a proper break
+						from a busy day, just outside Nantwich.
+					</p>
+					<a class="a-studio__link reveal-up" style="--d:240ms" href="/contact">Get directions</a>
+				</div>
+				<div class="a-studio__media" data-reveal-media>
+					<div class="a-clip a-clip--side">
+					<img
+						src="/images/hero/studio-1.png"
+						alt="Treatment couch with fresh towels and oils in the calm home studio at Lafeli Beauty, Willaston"
+						width="2000"
+						height="1414"
+						loading="lazy"
+					/>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<CtaBand />
+	</main>
+</BaseLayout>
+
+<style>
+	.a-eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-family: var(--font-body);
+		font-weight: 500;
+		font-size: calc(var(--text-xs) * 0.9);
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		margin-bottom: 1.4rem;
+	}
+
+	/* ---------- 1. HERO ---------- */
+	.a-hero {
+		background: var(--color-bg-light);
+		padding: calc(var(--section-pad-y) * 0.9) var(--space-4) calc(var(--section-pad-y) * 1.1);
+	}
+	.a-hero__inner {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+		align-items: center;
+		gap: clamp(2.5rem, 6vw, 6rem);
+		max-width: var(--content-width);
+		margin: 0 auto;
+	}
+	.a-hero__media {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 3 / 4;
+		max-width: 26rem;
+		width: 100%;
+		justify-self: center;
+	}
+	.a-clip {
+		height: 100%;
+		overflow: hidden;
+		clip-path: inset(0 0 100% 0);
+	}
+	.a-clip--side {
+		clip-path: inset(0 100% 0 0);
+	}
+	.is-revealed > .a-clip {
+		clip-path: inset(0 0 0 0);
+		transition: clip-path 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	.a-hero__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/* TODO: only one photo of Lili exists, so this is a tighter crop of it. Swap in a second photo when available. */
+		object-position: 50% 24%;
+		transform-origin: 50% 24%;
+		scale: 1.9;
+		transform: translate3d(0, var(--py, 0px), 0);
+		will-change: transform;
+	}
+	.a-hero__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(2rem, 4vw, 3.4rem);
+		line-height: 1.1;
+		max-width: 16ch;
+		margin-bottom: 1.4rem;
+	}
+	.a-hero__body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-lg) * 0.9);
+		color: var(--color-text-muted);
+		max-width: 32rem;
+	}
+	.a-hero__meta {
+		margin-top: 1.6rem;
+		font-family: var(--font-body);
+		font-size: calc(var(--text-xs) * 0.9);
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+	}
+
+	/* ---------- 2. STORY ---------- */
+	.a-story {
+		background: var(--color-bg-light);
+		padding: calc(var(--section-pad-y) * 1.3) var(--space-4) var(--section-pad-y);
+	}
+	.a-story__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 1.6rem;
+		max-width: 44rem;
+		margin: 0 auto;
+	}
+	.a-story__title {
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3vw, 2.5rem);
+	}
+	.a-story__text {
+		display: flex;
+		flex-direction: column;
+		gap: 1.2rem;
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-lg) * 0.9);
+		color: var(--color-text-muted);
+		max-width: 38rem;
+	}
+	.a-quote {
+		max-width: 52rem;
+		margin: clamp(3rem, 6vw, 5rem) auto 0;
+		text-align: center;
+	}
+	.a-quote p {
+		font-family: var(--font-display);
+		font-style: italic;
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3.6vw, 3rem);
+		line-height: 1.2;
+	}
+	.a-quote footer {
+		margin-top: 1.2rem;
+		font-size: calc(var(--text-xs) * 0.9);
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+	}
+
+	/* ---------- 3. EXPECT ---------- */
+	.a-expect {
+		background: var(--color-bg);
+		padding: calc(var(--section-pad-y) * 1.3) var(--space-4) var(--section-pad-y);
+	}
+	.a-expect__inner {
+		max-width: var(--content-width);
+		margin: 0 auto;
+		text-align: center;
+	}
+	.a-expect__title {
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3vw, 2.5rem);
+		margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+	}
+	.a-expect__grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: clamp(1.5rem, 3vw, 2.5rem);
+		text-align: left;
+	}
+	.a-expect__item {
+		border-top: 1px solid var(--color-border);
+		padding-top: 1.5rem;
+	}
+	.a-expect__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.6rem;
+		height: 2.6rem;
+		border: 1px solid color-mix(in srgb, var(--color-text) 30%, transparent);
+		margin-bottom: 1.1rem;
+		transition: border-color 250ms var(--ease-standard), color 250ms var(--ease-standard);
+	}
+	.a-expect__item:hover .a-expect__icon {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+	.a-expect__icon svg {
+		width: 1.1rem;
+		height: 1.1rem;
+	}
+	.a-expect__item-title {
+		font-size: 1.4rem;
+		font-weight: 400;
+		margin-bottom: 0.6rem;
+	}
+	.a-expect__item-body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+	}
+
+	/* ---------- 4. STUDIO ---------- */
+	.a-studio {
+		background: var(--color-bg-light);
+		padding: calc(var(--section-pad-y) * 1.3) var(--space-4) calc(var(--section-pad-y) * 1.1);
+	}
+	.a-studio__inner {
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+		align-items: center;
+		gap: clamp(2rem, 6vw, 5rem);
+		max-width: var(--content-width);
+		margin: 0 auto;
+	}
+	.a-studio__title {
+		font-weight: 300;
+		font-size: clamp(1.8rem, 3vw, 2.5rem);
+		margin-bottom: 1.2rem;
+	}
+	.a-studio__body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-lg) * 0.9);
+		color: var(--color-text-muted);
+		max-width: 28rem;
+		margin-bottom: 1.6rem;
+	}
+	.a-studio__link {
+		display: inline-block;
+		font-size: var(--text-xs);
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		text-decoration: underline;
+		text-underline-offset: 0.3em;
+		text-decoration-color: color-mix(in srgb, var(--color-text) 35%, transparent);
+		transition: color 250ms var(--ease-standard), text-decoration-color 250ms var(--ease-standard);
+	}
+	.a-studio__link:hover,
+	.a-studio__link:focus-visible {
+		color: var(--color-accent);
+		text-decoration-color: var(--color-accent);
+	}
+	.a-studio__media {
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+	}
+	.a-studio__media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.a-clip {
+			clip-path: none !important;
+			transition: none !important;
+		}
+		.a-hero__img {
+			transform: none;
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.a-expect__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 768px) {
+		.a-hero {
+			padding-top: var(--space-5);
+		}
+		.a-hero__inner,
+		.a-studio__inner {
+			grid-template-columns: 1fr;
+		}
+		.a-hero__media {
+			max-width: 20rem;
+		}
+		.a-hero__copy {
+			text-align: center;
+		}
+		.a-hero__title,
+		.a-hero__body {
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.a-story {
+			padding-top: calc(var(--section-pad-y) * 0.9);
+		}
+		.a-expect__grid {
+			grid-template-columns: 1fr;
+		}
+		.a-studio__copy {
+			order: 1;
+		}
+		.a-studio__media {
+			order: 2;
+		}
+	}
+</style>
+
+<script>
+	// Very subtle portrait parallax, desktop only.
+	const wrap = document.querySelector<HTMLElement>("[data-parallax-wrap]");
+	const img = document.querySelector<HTMLElement>("[data-parallax-img]");
+	if (
+		wrap &&
+		img &&
+		window.matchMedia("(min-width: 1025px)").matches &&
+		!window.matchMedia("(prefers-reduced-motion: reduce)").matches
+	) {
+		let ticking = false;
+		const update = () => {
+			ticking = false;
+			const r = wrap.getBoundingClientRect();
+			const progress = Math.max(-1, Math.min(1, (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight));
+			img.style.setProperty("--py", `${(-progress * 18).toFixed(1)}px`);
+		};
+		window.addEventListener(
+			"scroll",
+			() => {
+				if (ticking) return;
+				ticking = true;
+				requestAnimationFrame(update);
+			},
+			{ passive: true },
+		);
+		update();
+	}
+</script>

@@ -1,0 +1,48 @@
+---
+import Button from "./Button.astro";
+import { business } from "../lib/business";
+
+// Shared final CTA band, same as the pricing page.
+---
+
+<section class="cta-band" aria-labelledby="cta-band-title">
+	<div class="cta-band__inner reveal-up">
+		<h2 class="cta-band__title" id="cta-band-title">Ready when you are.</h2>
+		<p class="cta-band__body">Book online in a minute, or message me on WhatsApp if you have a question first.</p>
+		<div class="cta-band__actions">
+			<Button href={business.bookingUrl} label="Book on Fresha" external />
+			<Button href={business.whatsappUrl} label="Ask on WhatsApp" variant="outline-light" external />
+		</div>
+	</div>
+</section>
+
+<style>
+	.cta-band {
+		background: var(--color-graphite);
+		color: #fff;
+		padding: calc(var(--section-pad-y) * 1.1) var(--space-4);
+	}
+	.cta-band__inner {
+		max-width: 36rem;
+		margin: 0 auto;
+		text-align: center;
+	}
+	.cta-band__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(2rem, 3.6vw, 3rem);
+		margin: 0 0 1rem;
+	}
+	.cta-band__body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		color: color-mix(in srgb, #fff 75%, transparent);
+		margin: 0 0 2rem;
+	}
+	.cta-band__actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+</style>

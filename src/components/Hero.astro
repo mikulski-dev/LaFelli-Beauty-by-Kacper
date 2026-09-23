@@ -1,0 +1,367 @@
+---
+import PencilUnderline from "./PencilUnderline.astro";
+import HeroMap from "./HeroMap.astro";
+
+const bookingUrl =
+	"https://www.fresha.com/en-GB/a/lafeli-beauty-willaston-nantwich-70-colleys-lane-hq1yvezc/booking?menu=true&pId=3085259";
+---
+
+<section class="hero grid-texture" id="hero">
+	<div class="hero__inner">
+		<div class="hero__content">
+			<p class="hero__eyebrow">
+				<span>WILLASTON &middot; NANTWICH &middot; CHESHIRE</span><PencilUnderline color="var(--color-accent)" thickness={2} />
+			</p>
+			<h1 class="hero__title">Beauty and relief, in expert <em>hands</em>.</h1>
+			<p class="hero__body">
+				Lymphatic drainage, massage, waxing and Brazilian nails, in a calm studio in Willaston.
+			</p>
+			<div class="hero__actions">
+				<a class="hero__button hero__button--filled" href={bookingUrl} target="_blank" rel="noopener noreferrer">
+					<span class="hero__button-bg" aria-hidden="true"></span>
+					<span class="hero__button-edge" aria-hidden="true"></span>
+					<span class="hero__button-label" data-label="Book an appointment">Book an appointment</span>
+				</a>
+				<a class="hero__button hero__button--outline" href="#what-we-do">
+					<span class="hero__button-label-plain">View treatments</span>
+				</a>
+			</div>
+
+			<div class="hero__badges">
+				<p class="hero__badge"><span class="hero__badge-mark" aria-hidden="true">&#9670;</span>Qualified massage therapist</p>
+				<p class="hero__badge"><span class="hero__badge-mark" aria-hidden="true">&#9670;</span>Home studio in Willaston</p>
+			</div>
+		</div>
+
+		<div class="hero__decor">
+			<HeroMap />
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		color: var(--color-text);
+		height: calc(100svh - var(--nav-height) - var(--topbar-height));
+		display: flex;
+		overflow: hidden;
+	}
+
+	/* Scroll-driven fade: as the hero scrolls out of view, it eases away
+	   (opacity, slight scale-down and lift) instead of cutting off abruptly. */
+	@supports (animation-timeline: view()) {
+		.hero {
+			animation: hero-fade-out linear both;
+			animation-timeline: view();
+			animation-range: exit-crossing 0% exit-crossing 100%;
+		}
+	}
+
+	@keyframes hero-fade-out {
+		to {
+			opacity: 0;
+			transform: scale(0.96) translateY(-28px);
+			filter: blur(6px);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero {
+			animation: none !important;
+		}
+	}
+
+	.hero__inner {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		max-width: 1600px;
+		margin: 0 auto;
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+		align-items: center;
+		gap: clamp(1.5rem, 4vw, 4rem);
+		padding: 0 clamp(1.5rem, 4vw, 4.5rem);
+	}
+
+	.hero__content {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		box-sizing: border-box;
+		max-width: 40rem;
+	}
+
+	.hero__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-family: var(--font-body);
+		font-weight: 500;
+		font-size: calc(var(--text-xs) * 0.9);
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+		color: var(--color-text);
+		margin-bottom: 1.6rem;
+	}
+
+	.hero__eyebrow:hover :global(.pencil-underline) {
+		background: currentColor;
+	}
+
+	.hero__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(2.3rem, 4.8vw, 4.85rem);
+		line-height: 1.06;
+		max-width: 16ch;
+		margin-bottom: 1.4rem;
+	}
+
+	.hero__title em {
+		font-style: italic;
+		color: var(--color-accent);
+	}
+
+	.hero__body {
+		font-family: var(--font-body);
+		font-weight: 300;
+		font-size: calc(var(--text-lg) * 0.9);
+		color: var(--color-text-muted);
+		max-width: 30rem;
+		margin-bottom: 2rem;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-bottom: 2.2rem;
+	}
+
+	.hero__button {
+		--btn-pad: 0.85rem 1.6rem;
+		position: relative;
+		display: inline-flex;
+		text-decoration: none;
+		overflow: hidden;
+		isolation: isolate;
+		font-family: var(--font-body);
+	}
+
+	.hero__button--filled {
+		background: var(--color-accent);
+		color: #fff;
+	}
+
+	.hero__button-bg {
+		position: absolute;
+		inset: 0;
+		width: 2px;
+		background: var(--color-text);
+		transition: width 350ms var(--ease-standard);
+		z-index: 0;
+	}
+
+	.hero__button--filled:hover .hero__button-bg,
+	.hero__button--filled:focus-visible .hero__button-bg {
+		width: 100%;
+	}
+
+	.hero__button-edge {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: var(--color-accent);
+		opacity: 0;
+		z-index: 1;
+		transition: opacity 350ms var(--ease-standard);
+	}
+
+	.hero__button--filled:hover .hero__button-edge,
+	.hero__button--filled:focus-visible .hero__button-edge {
+		opacity: 1;
+	}
+
+	.hero__button-label {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		font-size: var(--text-xs);
+		font-weight: 400;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+		transition: transform 150ms var(--ease-standard);
+	}
+
+	.hero__button-label::after {
+		content: attr(data-label);
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		padding: var(--btn-pad);
+		color: #fff;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 350ms var(--ease-standard);
+		pointer-events: none;
+	}
+
+	.hero__button--filled:hover .hero__button-label::after,
+	.hero__button--filled:focus-visible .hero__button-label::after {
+		clip-path: inset(0 0 0 0);
+	}
+
+	.hero__button:active .hero__button-label {
+		transform: scale(0.97);
+	}
+
+	.hero__button--outline {
+		align-items: center;
+		border: 1px solid var(--color-text);
+		color: var(--color-text);
+		background: transparent;
+		transition: background 250ms var(--ease-standard), color 250ms var(--ease-standard);
+	}
+
+	.hero__button--outline:hover,
+	.hero__button--outline:focus-visible {
+		background: var(--color-text);
+		color: #fff;
+	}
+
+	.hero__button-label-plain {
+		font-size: var(--text-xs);
+		font-weight: 400;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+	}
+
+	.hero__badges {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem 1.8rem;
+		padding-top: 1.6rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.hero__badge {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: var(--font-body);
+		font-size: calc(var(--text-xs) * 0.95);
+		font-weight: 400;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		margin: 0;
+	}
+
+	.hero__badge-mark {
+		font-size: 0.6rem;
+		color: var(--color-accent);
+	}
+
+	/* ---- Right-hand UK dot map: sizing wrapper, see HeroMap.astro ---- */
+
+	.hero__decor {
+		position: relative;
+		height: clamp(320px, calc(100svh - var(--nav-height) - var(--topbar-height) - 6rem), 680px);
+	}
+
+	/* Short laptop screens: scale the headline and spacing down so the whole
+	   hero still fits within the fixed viewport-derived height above. */
+	@media (max-height: 800px) {
+		.hero__title {
+			font-size: clamp(1.95rem, 3.9vw, 3.45rem);
+			margin-bottom: 1rem;
+		}
+
+		.hero__eyebrow {
+			margin-bottom: 1rem;
+		}
+
+		.hero__body {
+			font-size: calc(var(--text-base) * 0.95);
+			margin-bottom: 1.4rem;
+		}
+
+		.hero__actions {
+			margin-bottom: 1.4rem;
+		}
+
+		.hero__badges {
+			padding-top: 1rem;
+		}
+	}
+
+	/* Tablet and phone: same treatment as the source — the map becomes a
+	   faint, centred backdrop sitting behind the (now full-width) text. */
+	@media (max-width: 1024px) {
+		.hero {
+			height: auto;
+			min-height: calc(100svh - var(--nav-height) - var(--topbar-height));
+			display: flex;
+			align-items: center;
+		}
+
+		.hero__inner {
+			display: block;
+			width: 100%;
+			padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 3rem);
+		}
+
+		.hero__content {
+			position: relative;
+			z-index: 1;
+			max-width: none;
+			text-align: center;
+			align-items: center;
+		}
+
+		.hero__eyebrow,
+		.hero__title,
+		.hero__body {
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.hero__actions {
+			justify-content: center;
+		}
+
+		.hero__badges {
+			justify-content: center;
+		}
+
+		.hero__decor {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			height: auto;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.hero {
+			min-height: calc(100svh - var(--nav-height) - var(--topbar-height));
+		}
+
+		.hero__inner {
+			padding-top: clamp(1.5rem, 5vw, 2.5rem);
+			padding-bottom: clamp(1.5rem, 5vw, 2rem);
+		}
+	}
+</style>

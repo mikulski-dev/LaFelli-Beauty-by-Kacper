@@ -1,0 +1,139 @@
+---
+---
+
+<div class="top-bar">
+	<div class="top-bar__inner">
+		<div class="top-bar__left">
+			<div class="top-bar__icons">
+				<a class="top-bar__icon" href="https://www.instagram.com/lili_lafeli/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+						<rect x="3" y="3" width="18" height="18" rx="5" />
+						<circle cx="12" cy="12" r="4" />
+						<circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+					</svg>
+				</a>
+				<a class="top-bar__icon" href="https://www.facebook.com/p/Lilly-Massage-Therapist-100089978122676/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+						<path d="M15 8.5h-2c-.8 0-1.5.7-1.5 1.5v2h3.4l-.5 3.2H11.5V21h-3v-5.8H6v-3.2h2.5V9.7C8.5 7 10.2 5 13 5h2v3.5Z" />
+					</svg>
+				</a>
+				<a class="top-bar__icon" href="https://wa.me/447769379946" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+						<path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" />
+						<path d="M8.5 9.3c0-.4.3-.7.6-.7h.7c.3 0 .5.2.6.5l.4 1.2c.1.2 0 .5-.1.6l-.5.6c.3.8 1 1.5 1.8 1.8l.6-.5c.2-.1.4-.2.6-.1l1.2.4c.3.1.5.3.5.6v.7c0 .3-.3.6-.7.6-2.9 0-5.7-2.8-5.7-5.7Z" fill="currentColor" stroke="none" />
+					</svg>
+				</a>
+			</div>
+			<span class="top-bar__divider" aria-hidden="true"></span>
+			<a class="top-bar__link" href="tel:+447769379946">Call 07769 379946</a>
+		</div>
+		<div class="top-bar__right-group">
+			<span class="top-bar__divider" aria-hidden="true"></span>
+			<p class="top-bar__right">Based in Willaston, Cheshire</p>
+		</div>
+	</div>
+</div>
+
+<style>
+	.top-bar {
+		background: color-mix(in srgb, var(--color-accent) 22%, #fff);
+		color: var(--color-text);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.top-bar__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		width: 100%;
+		padding: 0.4rem clamp(0.75rem, 2vw, 1.5rem);
+		box-sizing: border-box;
+	}
+
+	.top-bar__left {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+	}
+
+	.top-bar__icons {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+	}
+
+	.top-bar__right-group {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+	}
+
+	.top-bar__divider {
+		display: block;
+		width: 1px;
+		height: 1.2rem;
+		background: var(--color-text);
+	}
+
+	.top-bar__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.1rem;
+		height: 1.1rem;
+		color: var(--color-text);
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.top-bar__icon:hover,
+	.top-bar__icon:focus-visible {
+		color: var(--color-accent);
+	}
+
+	.top-bar__icon svg {
+		width: 100%;
+		height: 100%;
+		stroke-width: 1.75;
+	}
+
+	.top-bar__link,
+	.top-bar__right {
+		font-family: var(--font-body);
+		font-size: calc(var(--text-xs) * 0.95);
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		margin: 0;
+	}
+
+	.top-bar__link {
+		color: var(--color-text);
+		text-decoration: none;
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.top-bar__link:hover,
+	.top-bar__link:focus-visible {
+		color: var(--color-accent);
+	}
+
+	.top-bar__right {
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 560px) {
+		.top-bar__link,
+		.top-bar__divider {
+			display: none;
+		}
+
+		.top-bar__inner {
+			justify-content: center;
+			gap: var(--space-3);
+		}
+
+		.top-bar__right {
+			display: none;
+		}
+	}
+</style>
