@@ -3,6 +3,7 @@ import "../styles/global.css";
 import TopBar from "../components/TopBar.astro";
 import StickyNav from "../components/StickyNav.astro";
 import Footer from "../components/Footer.astro";
+import Loader from "../components/Loader.astro";
 
 interface Props {
 	title: string;
@@ -15,15 +16,24 @@ const { title, description } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<!-- Placeholder favicon: rose circle with a Cormorant Garamond "L".
-		     Replace with a favicon generated from the real Lafeli Beauty logo once supplied. -->
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+		<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<script is:inline>
+			// Play the intro loader once per session.
+			try {
+				if (sessionStorage.getItem("lafeli-loader")) document.documentElement.classList.add("loader-seen");
+				else sessionStorage.setItem("lafeli-loader", "1");
+			} catch (e) {}
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		{description && <meta name="description" content={description} />}
 		<title>{title}</title>
 	</head>
 	<body>
+		<Loader />
 		<TopBar />
 		<StickyNav />
 		<div class="page-content" id="page-content">
