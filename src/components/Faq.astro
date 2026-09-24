@@ -1,6 +1,7 @@
 ---
 import PencilUnderline from "./PencilUnderline.astro";
 import { faqs } from "../lib/faqs";
+import { business } from "../lib/business";
 ---
 
 <section class="faq" id="faq">
@@ -9,6 +10,10 @@ import { faqs } from "../lib/faqs";
 			<span>Questions</span><PencilUnderline color="var(--color-accent)" thickness={2} />
 		</p>
 		<h2 class="faq__title">Frequently asked questions</h2>
+		<p class="faq__sub">
+			Everything you need to know before booking. Can't find your answer? Message Lili on WhatsApp and she'll get back to you.
+		</p>
+		<a class="faq__cta" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
 	</div>
 
 	<div class="faq__list">
@@ -17,7 +22,10 @@ import { faqs } from "../lib/faqs";
 				<div class="faq__item">
 					<button class="faq__trigger" type="button" data-faq-trigger aria-expanded="false">
 						<span>{f.q}</span>
-						<span class="faq__icon" aria-hidden="true">+</span>
+						<span class="faq__icon" aria-hidden="true">
+							<span class="faq__plus">+</span>
+							<svg class="faq__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+						</span>
 					</button>
 					<div class="faq__panel">
 						<div class="faq__panel-inner">
@@ -60,6 +68,13 @@ import { faqs } from "../lib/faqs";
 		font-weight: 300;
 		font-size: clamp(1.8rem, 3vw, var(--text-3xl));
 		margin: 0;
+	}
+
+	/* Mobile keeps the simple layout; the sub text, button and chevron are desktop only. */
+	.faq__sub,
+	.faq__cta,
+	.faq__chevron {
+		display: none;
 	}
 
 	.faq__list {
@@ -125,6 +140,120 @@ import { faqs } from "../lib/faqs";
 		font-weight: 300;
 		line-height: var(--leading-normal);
 		margin: 0;
+	}
+
+	/* Desktop: heading, intro and button on the left, big question rows with round chevrons on the right. */
+	@media (min-width: 1025px) {
+		.faq {
+			display: grid;
+			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+			gap: clamp(3rem, 6vw, 7rem);
+			align-items: start;
+			max-width: 1440px;
+			margin: 0 auto;
+			padding: calc(var(--section-pad-y) * 1.2) clamp(2rem, 4.5vw, 4rem);
+		}
+
+		.faq__header {
+			position: sticky;
+			top: calc(var(--nav-height) + var(--topbar-height) + 2rem);
+			max-width: none;
+			margin: 0;
+			text-align: left;
+		}
+
+		.faq__eyebrow {
+			margin: 0 0 1.4rem;
+		}
+
+		.faq__title {
+			font-size: clamp(2.4rem, 4vw, 3.9rem);
+			line-height: 1.08;
+			max-width: 12ch;
+		}
+
+		.faq__sub {
+			display: block;
+			max-width: 26rem;
+			margin: 1.6rem 0 2rem;
+			font-family: var(--font-body);
+			font-weight: 300;
+			font-size: calc(var(--text-lg) * 0.95);
+			line-height: 1.55;
+			color: var(--color-text-muted);
+		}
+
+		.faq__cta {
+			display: inline-flex;
+			padding: 0.95rem 1.8rem;
+			background: var(--color-accent);
+			color: var(--color-text);
+			font-size: var(--text-xs);
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			text-decoration: none;
+			transition: background 250ms var(--ease-standard), color 250ms var(--ease-standard);
+		}
+
+		.faq__cta:hover,
+		.faq__cta:focus-visible {
+			background: var(--color-graphite);
+			color: #fff;
+		}
+
+		.faq__list {
+			max-width: none;
+			margin: 0;
+		}
+
+		.faq__trigger {
+			gap: 1.5rem;
+			padding: 1.9rem 0.25rem;
+			font-size: clamp(1.35rem, 1.9vw, 1.75rem);
+			letter-spacing: 0.01em;
+			transition: color 200ms var(--ease-standard);
+		}
+
+		.faq__trigger:hover {
+			color: var(--mauve);
+		}
+
+		.faq__plus {
+			display: none;
+		}
+
+		.faq__icon {
+			flex: none;
+			display: grid;
+			place-items: center;
+			width: 3rem;
+			height: 3rem;
+			border-radius: 50%;
+			background: #fff;
+			border: 1px solid var(--color-border);
+			color: var(--color-text);
+			box-shadow: 0 6px 16px -10px rgba(74, 46, 38, 0.35);
+		}
+
+		.faq__chevron {
+			display: block;
+			width: 1.25rem;
+			height: 1.25rem;
+		}
+
+		.faq__trigger[aria-expanded="true"] .faq__icon {
+			transform: rotate(180deg);
+			background: var(--color-accent);
+			border-color: var(--color-accent);
+		}
+
+		.faq__panel-inner {
+			padding: 0 4.5rem 1.9rem 0.25rem;
+		}
+
+		.faq__panel-inner p {
+			font-size: calc(var(--text-lg) * 0.9);
+		}
 	}
 </style>
 
