@@ -56,7 +56,7 @@
 	   every section except Hero, which has its own bespoke spacing. */
 	--section-pad-y: 5rem;
 	/* Height reserved for the fixed StickyNav when it's toggled visible mid-scroll. */
-	--nav-height: 5.5rem;
+	--nav-height: 4.75rem;
 	/* Approximate rendered height of TopBar, used to size the hero against the viewport. */
 	--topbar-height: 2.5rem;
 	--content-width: 72rem;
