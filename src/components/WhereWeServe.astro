@@ -54,15 +54,15 @@ const directionsUrl =
 	<div class="where-we-serve__body">
 		<div class="where-we-serve__info">
 			<div class="where-we-serve__block">
-				<p class="where-we-serve__label">The studio</p>
-				<p class="where-we-serve__address">{business.address.street}<br />{business.address.locality}<br />{business.address.postalCode}</p>
+				<p class="where-we-serve__label"><span>The studio</span><PencilUnderline color="var(--color-accent)" thickness={2} /></p>
+				<p class="where-we-serve__address">{business.address.locality}<br />{business.address.postalCode}</p>
 				<p class="where-we-serve__text">
 					A calm, private studio in Willaston, just outside Nantwich in Cheshire. Every appointment is one-to-one.
 				</p>
 			</div>
 
 			<div class="where-we-serve__block">
-				<p class="where-we-serve__label">Mobile treatments</p>
+				<p class="where-we-serve__label"><span>Mobile treatments</span><PencilUnderline color="var(--color-accent)" thickness={2} /></p>
 				<p class="where-we-serve__text">
 					Can't get to the studio? I also travel to clients at home, across Cheshire and the surrounding villages,
 					including the areas above. Message me with your postcode and I'll let you know if I can come to you.
@@ -234,14 +234,18 @@ const directionsUrl =
 		max-width: 34rem;
 	}
 
+	/* Same look as the "Where to find me" eyebrow above. */
 	.where-we-serve__label {
-		margin: 0 0 0.5rem;
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		margin: 0 0 var(--space-3);
 		font-family: var(--font-body);
-		font-size: var(--text-xs);
-		font-weight: 500;
-		letter-spacing: 0.18em;
+		font-weight: 400;
+		font-size: calc(var(--text-xs) * 0.85);
+		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: var(--mauve);
+		color: var(--color-text);
 	}
 
 	.where-we-serve__address {
