@@ -35,7 +35,16 @@
 </div>
 
 <style>
+	/* Hidden at the top of the page (so the hero gets the full screen), slides in once scrolled. */
 	.top-bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 110;
+		transform: translateY(-100%);
+		visibility: hidden;
+		transition: transform var(--duration-standard) var(--ease-standard), visibility 0s linear var(--duration-standard);
 		background: color-mix(in srgb, var(--color-accent) 22%, #fff);
 		color: var(--color-text);
 		border-bottom: 1px solid var(--color-border);
@@ -136,4 +145,19 @@
 			display: none;
 		}
 	}
+	:global(html.topbar-visible) .top-bar {
+		transform: none;
+		visibility: visible;
+		transition-delay: 0s;
+	}
+	:global(html.topbar-visible .sticky-nav) {
+		top: var(--topbar-height);
+	}
 </style>
+
+<script>
+	const root = document.documentElement;
+	const update = () => root.classList.toggle("topbar-visible", window.scrollY > 40);
+	update();
+	window.addEventListener("scroll", update, { passive: true });
+</script>
