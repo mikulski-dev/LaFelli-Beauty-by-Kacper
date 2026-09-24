@@ -4,6 +4,7 @@ import TopBar from "../components/TopBar.astro";
 import StickyNav from "../components/StickyNav.astro";
 import Footer from "../components/Footer.astro";
 import Loader from "../components/Loader.astro";
+import MobileActionBar from "../components/MobileActionBar.astro";
 
 interface Props {
 	title: string;
@@ -33,5 +34,6 @@ const { title, description } = Astro.props;
 			<slot />
 		</div>
 		<Footer />
+		<MobileActionBar />
 	</body>
 </html>

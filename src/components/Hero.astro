@@ -14,22 +14,23 @@ const bookingUrl =
 			</p>
 			<h1 class="hero__title">Beauty and relief, in expert <em>hands</em>.</h1>
 			<p class="hero__body">
-				Lymphatic drainage, massage, waxing and Brazilian nails, in a calm studio in Willaston.
+				Lymphatic drainage, massage and Brazilian beauty in Willaston.
 			</p>
 			<div class="hero__actions">
 				<a class="hero__button hero__button--filled" href={bookingUrl} target="_blank" rel="noopener noreferrer">
 					<span class="hero__button-bg" aria-hidden="true"></span>
 					<span class="hero__button-edge" aria-hidden="true"></span>
-					<span class="hero__button-label" data-label="Book an appointment">Book an appointment</span>
+					<span class="hero__button-label" data-label="Book online">Book online</span>
 				</a>
-				<a class="hero__button hero__button--outline" href="#what-we-do">
-					<span class="hero__button-label-plain">View treatments</span>
+				<a class="hero__button hero__button--outline" href="https://wa.me/447769379946" target="_blank" rel="noopener noreferrer">
+					<span class="hero__button-label-plain">Call or WhatsApp</span>
 				</a>
 			</div>
+			<p class="hero__phone"><a href="tel:+447769379946">07769 379946</a></p>
 
 			<div class="hero__badges">
 				<p class="hero__badge"><span class="hero__badge-mark" aria-hidden="true">&#9670;</span>Qualified massage therapist</p>
-				<p class="hero__badge"><span class="hero__badge-mark" aria-hidden="true">&#9670;</span>Home studio in Willaston</p>
+				<p class="hero__badge"><span class="hero__badge-mark" aria-hidden="true">&#9670;</span>Private studio in Willaston</p>
 			</div>
 		</div>
 
@@ -246,6 +247,22 @@ const bookingUrl =
 		text-transform: uppercase;
 		padding: var(--btn-pad);
 		white-space: nowrap;
+	}
+
+	.hero__phone {
+		margin: 0 0 1.4rem;
+		font-size: var(--text-base);
+	}
+
+	.hero__phone a {
+		color: var(--color-text);
+		text-decoration: underline;
+		text-decoration-color: var(--mauve);
+		text-underline-offset: 0.25em;
+	}
+
+	.hero__phone a:hover {
+		color: var(--mauve);
 	}
 
 	.hero__badges {

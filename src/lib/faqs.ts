@@ -23,7 +23,7 @@ export const faqs = [
 	},
 	{
 		q: "Where is the studio?",
-		a: `The studio is at ${address}, a home studio just outside Nantwich in Willaston, Cheshire.`,
+		a: `The studio is at ${address}, a private studio just outside Nantwich in Willaston, Cheshire.`,
 	},
 	{
 		q: "Is there parking?",
