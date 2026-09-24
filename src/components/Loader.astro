@@ -2,7 +2,7 @@
 import logoRose from "../assets/logo/lafeli-logo-brown.png";
 
 // Intro loader: shell screen, the logo pops in, then the screen fades straight
-// to the site. Plays on every full page load; with reduced motion it only fades.
+// to the site. Plays once per visit (first page only); with reduced motion it only fades.
 // Pure CSS, so it cannot get stuck if scripts fail.
 ---
 
@@ -20,6 +20,9 @@ import logoRose from "../assets/logo/lafeli-logo-brown.png";
 		justify-content: center;
 		background: var(--shell);
 		animation: loader-out 450ms var(--ease-standard) 1250ms forwards;
+	}
+	.no-loader .loader {
+		display: none;
 	}
 	.loader__logo {
 		width: min(15rem, 55vw);
