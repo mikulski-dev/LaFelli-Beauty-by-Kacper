@@ -165,15 +165,20 @@ const vhPerCard = 80;
 		color: var(--color-text);
 	}
 
+	/* Once the top bar has slid in, the nav sits below it, so the pinned stage moves down too. */
+	:global(html.topbar-visible) .what-we-do__stage {
+		--pin-top: calc(var(--nav-height) + var(--topbar-height));
+	}
+
 	.what-we-do__track {
 		position: relative;
 	}
 
 	.what-we-do__stage {
 		position: sticky;
-		top: var(--nav-height);
+		top: var(--pin-top, var(--nav-height));
 		width: 100%;
-		height: calc(100svh - var(--nav-height));
+		height: calc(100svh - var(--pin-top, var(--nav-height)));
 		overflow: hidden;
 		background: var(--color-bg-light);
 		box-sizing: border-box;
@@ -512,7 +517,7 @@ const vhPerCard = 80;
 			// point drives both, so "where it stops" and "where cards
 			// change" can never drift apart.
 			const navEl = document.querySelector<HTMLElement>(".sticky-nav");
-			const navH = navEl ? navEl.getBoundingClientRect().height : 0;
+			const navH = parseFloat(getComputedStyle(stage).top) || (navEl ? navEl.getBoundingClientRect().height : 0);
 			const rect = track.getBoundingClientRect();
 			const pinnable = track.offsetHeight - stage.offsetHeight;
 			const progress = pinnable > 0 ? Math.min(1, Math.max(0, (navH - rect.top) / pinnable)) : rect.top <= navH ? 1 : 0;

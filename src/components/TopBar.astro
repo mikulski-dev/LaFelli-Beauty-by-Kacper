@@ -42,6 +42,9 @@
 		left: 0;
 		right: 0;
 		z-index: 110;
+		height: var(--topbar-height);
+		box-sizing: border-box;
+		overflow: hidden;
 		transform: translateY(-100%);
 		visibility: hidden;
 		transition: transform var(--duration-standard) var(--ease-standard), visibility 0s linear var(--duration-standard);
@@ -56,7 +59,8 @@
 		justify-content: space-between;
 		gap: var(--space-4);
 		width: 100%;
-		padding: 0.4rem clamp(0.75rem, 2vw, 1.5rem);
+		height: 100%;
+		padding: 0 clamp(0.75rem, 2vw, 1.5rem);
 		box-sizing: border-box;
 	}
 
