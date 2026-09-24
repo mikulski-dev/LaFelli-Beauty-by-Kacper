@@ -1,42 +1,94 @@
 ---
-import PencilUnderline from "./PencilUnderline.astro";
-import HeroMap from "./HeroMap.astro";
+import { business } from "../lib/business";
 
-const bookingUrl =
-	"https://www.fresha.com/en-GB/a/lafeli-beauty-willaston-nantwich-70-colleys-lane-hq1yvezc/booking?menu=true&pId=3085259";
+// Hero: three-image crossfade carousel behind the headline, with a quick
+// enquiry form on the right. There is no email/backend for the business, so
+// the form opens WhatsApp with the details prefilled (same as the Contact form).
+// TODO: swap public/images/hero/slide-1.jpg, slide-2.jpg, slide-3.jpg for Lili's own photos.
+const slides = ["/images/hero/slide-1.jpg", "/images/hero/slide-2.jpg", "/images/hero/slide-3.jpg"];
+const treatments = [
+	"Lymphatic Drainage Massage",
+	"Relaxing Massage",
+	"Face Massage",
+	"Waxing",
+	"Nails",
+	"Eyebrows",
+	"Other",
+];
+const sources = ["Instagram", "Facebook", "Google", "Friend or family", "Passing by", "Other"];
 ---
 
-<section class="hero grid-texture" id="hero">
+<section class="hero" id="hero">
+	<div class="hero__slides" aria-hidden="true">
+		{slides.map((src, i) => <img class="hero__slide" style={`--i:${i}`} src={src} alt="" loading={i === 0 ? "eager" : "lazy"} decoding="async" />)}
+	</div>
+	<div class="hero__shade" aria-hidden="true"></div>
+
 	<div class="hero__inner">
 		<div class="hero__content">
-			<p class="hero__eyebrow">
-				<span>WILLASTON &middot; NANTWICH &middot; CHESHIRE</span><PencilUnderline color="var(--color-accent)" thickness={2} />
-			</p>
+			<p class="hero__eyebrow">WILLASTON &middot; NANTWICH &middot; CHESHIRE</p>
 			<h1 class="hero__title">Beauty and relief, in expert <em>hands</em>.</h1>
-			<p class="hero__body">
-				Lymphatic drainage, massage and Brazilian beauty in Willaston.
-			</p>
+			<p class="hero__body">Lymphatic drainage, massage and Brazilian beauty in Willaston.</p>
 			<div class="hero__actions">
-				<a class="hero__button hero__button--filled" href={bookingUrl} target="_blank" rel="noopener noreferrer">
-					<span class="hero__button-bg" aria-hidden="true"></span>
-					<span class="hero__button-edge" aria-hidden="true"></span>
-					<span class="hero__button-label" data-label="Book online">Book online</span>
-				</a>
-				<a class="hero__button hero__button--outline" href="https://wa.me/447769379946" target="_blank" rel="noopener noreferrer">
-					<span class="hero__button-label-plain">Call or WhatsApp</span>
-				</a>
+				<a class="hero__button hero__button--filled" href={business.bookingUrl} target="_blank" rel="noopener noreferrer">Book online</a>
+				<a class="hero__button hero__button--outline" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">Call or WhatsApp</a>
 			</div>
-			<p class="hero__phone"><a href="tel:+447769379946">07769 379946</a></p>
-
+			<p class="hero__phone"><a href={business.phoneHref}>{business.phoneDisplay}</a></p>
 			<div class="hero__badges">
-				<p class="hero__badge"><span class="hero__badge-mark" aria-hidden="true">&#9670;</span>Qualified massage therapist</p>
-				<p class="hero__badge"><span class="hero__badge-mark" aria-hidden="true">&#9670;</span>Private studio in Willaston</p>
+				<p class="hero__badge"><span aria-hidden="true">&#9670;</span>Qualified massage therapist</p>
+				<p class="hero__badge"><span aria-hidden="true">&#9670;</span>Private studio in Willaston</p>
 			</div>
 		</div>
 
-		<div class="hero__decor">
-			<HeroMap />
-		</div>
+		<form class="hero-form" data-hero-form novalidate>
+			<h2 class="hero-form__title">Start your enquiry</h2>
+			<p class="hero-form__sub">Lili personally reads every message.</p>
+
+			<div class="hero-form__row">
+				<label class="hero-form__field">
+					<span class="hero-form__label">Full name</span>
+					<input class="hero-form__input" type="text" name="name" placeholder="Your full name" required autocomplete="name" />
+				</label>
+				<label class="hero-form__field">
+					<span class="hero-form__label">Phone</span>
+					<input class="hero-form__input" type="tel" name="phone" placeholder="07xxx xxxxxx" required autocomplete="tel" />
+				</label>
+			</div>
+
+			<label class="hero-form__field">
+				<span class="hero-form__label">Email address</span>
+				<input class="hero-form__input" type="email" name="email" placeholder="your@email.com" autocomplete="email" />
+			</label>
+
+			<label class="hero-form__field">
+				<span class="hero-form__label">Which treatment?</span>
+				<select class="hero-form__input" name="treatment" required>
+					<option value="">Please select…</option>
+					{treatments.map((t) => <option value={t}>{t}</option>)}
+				</select>
+			</label>
+
+			<label class="hero-form__field">
+				<span class="hero-form__label">Anything Lili should know?</span>
+				<textarea class="hero-form__input hero-form__input--area" name="message" rows="2" placeholder="Preferred days, questions, anything else…"></textarea>
+			</label>
+
+			<label class="hero-form__field">
+				<span class="hero-form__label">Where did you find us?</span>
+				<select class="hero-form__input" name="source">
+					<option value="">Please select…</option>
+					{sources.map((s) => <option value={s}>{s}</option>)}
+				</select>
+			</label>
+
+			<label class="hero-form__consent">
+				<input type="checkbox" name="consent" required />
+				<span>I agree to be contacted by Lafeli Beauty regarding my enquiry</span>
+			</label>
+
+			<button class="hero-form__submit" type="submit">Send enquiry</button>
+			<p class="hero-form__status" data-hero-status role="status" aria-live="polite"></p>
+		</form>
 	</div>
 </section>
 
@@ -44,341 +96,319 @@ const bookingUrl =
 	.hero {
 		position: relative;
 		box-sizing: border-box;
-		background: var(--color-bg-light);
-		color: var(--color-text);
-		height: calc(100svh - var(--nav-height) - var(--topbar-height));
+		min-height: calc(100svh - var(--nav-height) - var(--topbar-height));
 		display: flex;
+		align-items: center;
 		overflow: hidden;
+		background: var(--brown);
+		color: #fff;
 	}
 
-	/* Scroll-driven fade: as the hero scrolls out of view, it eases away
-	   (opacity, slight scale-down and lift) instead of cutting off abruptly. */
-	@supports (animation-timeline: view()) {
-		.hero {
-			animation: hero-fade-out linear both;
-			animation-timeline: view();
-			animation-range: exit-crossing 0% exit-crossing 100%;
-		}
+	/* Crossfade carousel: three slides, 18s cycle. */
+	.hero__slides,
+	.hero__shade {
+		position: absolute;
+		inset: 0;
 	}
-
-	@keyframes hero-fade-out {
-		to {
-			opacity: 0;
-			transform: scale(0.96) translateY(-28px);
-			filter: blur(6px);
-		}
+	.hero__slide {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		opacity: 0;
+		animation: hero-slide 18s infinite;
+		animation-delay: calc(var(--i) * 6s);
 	}
-
+	@keyframes hero-slide {
+		0% { opacity: 0; }
+		5%, 33% { opacity: 1; }
+		38%, 100% { opacity: 0; }
+	}
 	@media (prefers-reduced-motion: reduce) {
-		.hero {
-			animation: none !important;
-		}
+		.hero__slide { animation: none; }
+		.hero__slide:first-child { opacity: 1; }
+	}
+	.hero__shade {
+		background: linear-gradient(90deg, rgba(74, 46, 38, 0.82) 0%, rgba(74, 46, 38, 0.55) 55%, rgba(74, 46, 38, 0.7) 100%);
 	}
 
 	.hero__inner {
 		position: relative;
 		z-index: 1;
 		width: 100%;
-		max-width: 1600px;
+		max-width: 1400px;
 		margin: 0 auto;
 		box-sizing: border-box;
 		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
 		align-items: center;
 		gap: clamp(1.5rem, 4vw, 4rem);
-		padding: 0 clamp(1.5rem, 4vw, 4.5rem);
+		padding: 2.5rem clamp(1.25rem, 4vw, 4rem);
 	}
 
 	.hero__content {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		box-sizing: border-box;
-		max-width: 40rem;
+		max-width: 38rem;
 	}
-
 	.hero__eyebrow {
-		position: relative;
-		display: inline-block;
-		width: fit-content;
 		font-family: var(--font-body);
 		font-weight: 500;
 		font-size: calc(var(--text-xs) * 0.9);
 		letter-spacing: 0.22em;
-		text-transform: uppercase;
-		color: var(--color-text);
-		margin-bottom: 1.6rem;
+		margin: 0 0 1.2rem;
+		color: color-mix(in srgb, #fff 85%, transparent);
 	}
-
-	.hero__eyebrow:hover :global(.pencil-underline) {
-		background: currentColor;
-	}
-
 	.hero__title {
 		font-family: var(--font-display);
 		font-weight: 300;
-		font-size: clamp(2.3rem, 4.8vw, 4.85rem);
+		font-size: clamp(2.3rem, 4.6vw, 4.6rem);
 		line-height: 1.06;
 		max-width: 16ch;
-		margin-bottom: 1.4rem;
+		margin: 0 0 1.2rem;
 	}
-
 	.hero__title em {
 		font-style: italic;
 		color: var(--color-accent);
 	}
-
 	.hero__body {
 		font-family: var(--font-body);
 		font-weight: 300;
-		font-size: calc(var(--text-lg) * 0.9);
-		color: var(--color-text-muted);
+		font-size: var(--text-lg);
+		color: color-mix(in srgb, #fff 88%, transparent);
 		max-width: 30rem;
-		margin-bottom: 2rem;
+		margin: 0 0 1.8rem;
 	}
-
 	.hero__actions {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1rem;
-		margin-bottom: 2.2rem;
+		margin-bottom: 1.2rem;
 	}
-
 	.hero__button {
-		--btn-pad: 0.85rem 1.6rem;
-		position: relative;
 		display: inline-flex;
-		text-decoration: none;
-		overflow: hidden;
-		isolation: isolate;
+		align-items: center;
+		padding: 0.85rem 1.6rem;
 		font-family: var(--font-body);
+		font-size: var(--text-xs);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		text-decoration: none;
+		white-space: nowrap;
+		transition: background 250ms var(--ease-standard), color 250ms var(--ease-standard), border-color 250ms var(--ease-standard);
 	}
-
 	.hero__button--filled {
 		background: var(--color-accent);
-		color: var(--color-text);
+		color: var(--brown);
+		border: 1px solid var(--color-accent);
 	}
-
-	.hero__button-bg {
-		position: absolute;
-		inset: 0;
-		width: 2px;
-		background: var(--color-text);
-		transition: width 350ms var(--ease-standard);
-		z-index: 0;
-	}
-
-	.hero__button--filled:hover .hero__button-bg,
-	.hero__button--filled:focus-visible .hero__button-bg {
-		width: 100%;
-	}
-
-	.hero__button-edge {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		width: 2px;
-		background: var(--color-accent);
-		opacity: 0;
-		z-index: 1;
-		transition: opacity 350ms var(--ease-standard);
-	}
-
-	.hero__button--filled:hover .hero__button-edge,
-	.hero__button--filled:focus-visible .hero__button-edge {
-		opacity: 1;
-	}
-
-	.hero__button-label {
-		position: relative;
-		z-index: 1;
-		display: inline-flex;
-		align-items: center;
-		font-size: var(--text-xs);
-		font-weight: 400;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		padding: var(--btn-pad);
-		white-space: nowrap;
-		transition: transform 150ms var(--ease-standard);
-	}
-
-	.hero__button-label::after {
-		content: attr(data-label);
-		position: absolute;
-		inset: 0;
-		display: flex;
-		align-items: center;
-		padding: var(--btn-pad);
+	.hero__button--filled:hover,
+	.hero__button--filled:focus-visible {
+		background: var(--mauve);
+		border-color: var(--mauve);
 		color: #fff;
-		clip-path: inset(0 100% 0 0);
-		transition: clip-path 350ms var(--ease-standard);
-		pointer-events: none;
 	}
-
-	.hero__button--filled:hover .hero__button-label::after,
-	.hero__button--filled:focus-visible .hero__button-label::after {
-		clip-path: inset(0 0 0 0);
-	}
-
-	.hero__button:active .hero__button-label {
-		transform: scale(0.97);
-	}
-
 	.hero__button--outline {
-		align-items: center;
-		border: 1px solid var(--color-text);
-		color: var(--color-text);
-		background: transparent;
-		transition: background 250ms var(--ease-standard), color 250ms var(--ease-standard);
+		border: 1px solid #fff;
+		color: #fff;
 	}
-
 	.hero__button--outline:hover,
 	.hero__button--outline:focus-visible {
-		background: var(--color-text);
-		color: #fff;
+		background: #fff;
+		color: var(--brown);
 	}
-
-	.hero__button-label-plain {
-		font-size: var(--text-xs);
-		font-weight: 400;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		padding: var(--btn-pad);
-		white-space: nowrap;
-	}
-
 	.hero__phone {
-		margin: 0 0 1.4rem;
-		font-size: var(--text-base);
+		margin: 0 0 1.6rem;
 	}
-
 	.hero__phone a {
-		color: var(--color-text);
+		color: #fff;
 		text-decoration: underline;
-		text-decoration-color: var(--mauve);
+		text-decoration-color: var(--color-accent);
 		text-underline-offset: 0.25em;
 	}
-
-	.hero__phone a:hover {
-		color: var(--mauve);
-	}
-
 	.hero__badges {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.6rem 1.8rem;
-		padding-top: 1.6rem;
-		border-top: 1px solid var(--color-border);
+		padding-top: 1.4rem;
+		border-top: 1px solid color-mix(in srgb, #fff 25%, transparent);
 	}
-
 	.hero__badge {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		font-family: var(--font-body);
+		margin: 0;
 		font-size: calc(var(--text-xs) * 0.95);
-		font-weight: 400;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
-		color: var(--color-text-muted);
-		margin: 0;
+		color: color-mix(in srgb, #fff 80%, transparent);
 	}
-
-	.hero__badge-mark {
+	.hero__badge span {
 		font-size: 0.6rem;
 		color: var(--color-accent);
 	}
 
-	/* ---- Right-hand UK dot map: sizing wrapper, see HeroMap.astro ---- */
-
-	.hero__decor {
-		position: relative;
-		height: clamp(320px, calc(100svh - var(--nav-height) - var(--topbar-height) - 6rem), 680px);
+	/* Enquiry card */
+	.hero-form {
+		box-sizing: border-box;
+		width: 100%;
+		max-width: 32rem;
+		justify-self: end;
+		padding: 1.6rem 1.75rem 1.5rem;
+		background: rgba(74, 46, 38, 0.92);
+		border-top: 3px solid var(--color-accent);
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+	.hero-form__title {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-style: italic;
+		font-size: 1.8rem;
+		margin: 0;
+	}
+	.hero-form__sub {
+		margin: -0.5rem 0 0.2rem;
+		font-size: var(--text-sm);
+		color: color-mix(in srgb, #fff 70%, transparent);
+	}
+	.hero-form__row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.85rem;
+	}
+	.hero-form__field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		min-width: 0;
+	}
+	.hero-form__label {
+		font-size: 0.7rem;
+		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+	}
+	.hero-form__input {
+		box-sizing: border-box;
+		width: 100%;
+		padding: 0.7rem 0.85rem;
+		font: inherit;
+		font-size: 1rem; /* 16px stops iOS zooming on focus */
+		color: #fff;
+		background: color-mix(in srgb, #fff 8%, transparent);
+		border: 1px solid color-mix(in srgb, #fff 22%, transparent);
+		border-radius: 0;
+	}
+	.hero-form__input::placeholder {
+		color: color-mix(in srgb, #fff 45%, transparent);
+	}
+	.hero-form__input:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 1px;
+	}
+	.hero-form__input option {
+		color: var(--brown);
+	}
+	.hero-form__input--area {
+		resize: vertical;
+		min-height: 3.2rem;
+	}
+	.hero-form__consent {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.6rem;
+		font-size: var(--text-sm);
+		color: color-mix(in srgb, #fff 75%, transparent);
+	}
+	.hero-form__consent input {
+		margin-top: 0.2rem;
+		accent-color: var(--color-accent);
+	}
+	.hero-form__submit {
+		padding: 0.95rem 1rem;
+		font: inherit;
+		font-size: var(--text-sm);
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		background: var(--color-accent);
+		color: var(--brown);
+		border: 0;
+		cursor: pointer;
+		transition: background 250ms var(--ease-standard), color 250ms var(--ease-standard);
+	}
+	.hero-form__submit:hover,
+	.hero-form__submit:focus-visible {
+		background: var(--mauve);
+		color: #fff;
+	}
+	.hero-form__status {
+		margin: 0;
+		min-height: 1.2em;
+		font-size: var(--text-sm);
+		color: var(--color-accent);
 	}
 
-	/* Short laptop screens: scale the headline and spacing down so the whole
-	   hero still fits within the fixed viewport-derived height above. */
-	@media (max-height: 800px) {
-		.hero__title {
-			font-size: clamp(1.95rem, 3.9vw, 3.45rem);
-			margin-bottom: 1rem;
-		}
-
-		.hero__eyebrow {
-			margin-bottom: 1rem;
-		}
-
-		.hero__body {
-			font-size: calc(var(--text-base) * 0.95);
-			margin-bottom: 1.4rem;
-		}
-
-		.hero__actions {
-			margin-bottom: 1.4rem;
-		}
-
-		.hero__badges {
-			padding-top: 1rem;
-		}
-	}
-
-	/* Tablet and phone: same treatment as the source — the map becomes a
-	   faint, centred backdrop sitting behind the (now full-width) text. */
 	@media (max-width: 1024px) {
-		.hero {
-			height: auto;
-			min-height: calc(100svh - var(--nav-height) - var(--topbar-height));
-			display: flex;
-			align-items: center;
-		}
-
 		.hero__inner {
-			display: block;
-			width: 100%;
-			padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 3rem);
+			grid-template-columns: 1fr;
 		}
-
 		.hero__content {
-			position: relative;
-			z-index: 1;
 			max-width: none;
 			text-align: center;
+			display: flex;
+			flex-direction: column;
 			align-items: center;
 		}
-
-		.hero__eyebrow,
-		.hero__title,
-		.hero__body {
-			margin-left: auto;
-			margin-right: auto;
-		}
-
-		.hero__actions {
-			justify-content: center;
-		}
-
+		.hero__actions,
 		.hero__badges {
 			justify-content: center;
 		}
-
-		.hero__decor {
-			position: absolute;
-			inset: 0;
-			z-index: 0;
-			height: auto;
+		.hero-form {
+			justify-self: center;
+			max-width: 36rem;
 		}
 	}
-
-	@media (max-width: 640px) {
-		.hero {
-			min-height: calc(100svh - var(--nav-height) - var(--topbar-height));
-		}
-
-		.hero__inner {
-			padding-top: clamp(1.5rem, 5vw, 2.5rem);
-			padding-bottom: clamp(1.5rem, 5vw, 2rem);
+	@media (max-width: 520px) {
+		.hero-form__row {
+			grid-template-columns: 1fr;
 		}
 	}
 </style>
+
+<script>
+	const whatsappNumber = "447769379946";
+
+	document.querySelectorAll<HTMLFormElement>("[data-hero-form]").forEach((form) => {
+		const status = form.querySelector<HTMLElement>("[data-hero-status]");
+
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+			const data = new FormData(form);
+			const get = (key: string) => String(data.get(key) ?? "").trim();
+			const name = get("name");
+			const phone = get("phone");
+
+			if (!name || !phone || !get("treatment") || !data.get("consent")) {
+				if (status) status.textContent = "Please add your name, phone, a treatment and tick the box.";
+				return;
+			}
+
+			const text = [
+				`Hi Lili, it's ${name}.`,
+				`I'm interested in: ${get("treatment")}.`,
+				`My phone number: ${phone}.`,
+				get("email") && `My email: ${get("email")}.`,
+				get("message"),
+				get("source") && `I found you via: ${get("source")}.`,
+			]
+				.filter(Boolean)
+				.join(" ");
+
+			window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+			if (status) status.textContent = "Opening WhatsApp to send your enquiry…";
+		});
+	});
+</script>
