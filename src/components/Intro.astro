@@ -268,6 +268,10 @@ import PencilUnderline from "./PencilUnderline.astro";
 			padding: 20px;
 		}
 
+		.intro__photo {
+			max-width: 18rem;
+		}
+
 
 		.intro__copy {
 			padding: var(--space-6) var(--space-4);
@@ -309,10 +313,15 @@ import PencilUnderline from "./PencilUnderline.astro";
 			max-width: 22ch;
 		}
 
+		/* Same size and style as the body text in the location section. */
 		.intro__body {
-			font-size: calc(var(--text-lg) * 0.6);
-			line-height: 1.45;
+			font-size: calc(var(--text-lg) * 0.85);
+			line-height: var(--leading-normal);
 			max-width: 32rem;
+		}
+
+		.intro__photo {
+			max-width: 13.5rem;
 		}
 
 		.intro__quote {
