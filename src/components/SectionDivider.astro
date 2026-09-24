@@ -10,7 +10,7 @@
 
 <style>
 	.section-divider {
-		--divider-h: clamp(2.5rem, 6vw, 4rem);
+		--divider-h: clamp(1.5rem, 3vw, 2.25rem);
 		position: relative;
 		z-index: 2;
 		display: flex;
@@ -18,12 +18,6 @@
 		height: var(--divider-h);
 		background: transparent;
 		pointer-events: none;
-	}
-
-	@media (min-width: 1025px) {
-		.section-divider {
-			margin-top: calc(var(--divider-h) * -1);
-		}
 	}
 
 	.section-divider__line {
