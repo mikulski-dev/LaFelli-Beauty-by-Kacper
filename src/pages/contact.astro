@@ -187,8 +187,8 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 			radial-gradient(circle at 20% 55%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 55%),
 			radial-gradient(color-mix(in srgb, #fff 9%, transparent) 1px, transparent 1.5px);
 		background-size: auto, 22px 22px;
-		-webkit-mask-image: radial-gradient(ellipse 70% 80% at 25% 55%, #000 0%, transparent 80%);
-		mask-image: radial-gradient(ellipse 70% 80% at 25% 55%, #000 0%, transparent 80%);
+		-webkit-mask-image: radial-gradient(ellipse 70% 80% at 25% 55%, #4a2e26 0%, transparent 80%);
+		mask-image: radial-gradient(ellipse 70% 80% at 25% 55%, #4a2e26 0%, transparent 80%);
 		pointer-events: none;
 	}
 	.k-contact__grid {
@@ -280,7 +280,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		background: var(--color-accent);
-		color: #000;
+		color: var(--brown);
 		padding: 0.2rem 0.6rem;
 		opacity: 0;
 		transform: translateY(4px);
@@ -369,7 +369,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 	}
 	.k-tab[aria-pressed="true"] {
 		background: var(--color-accent);
-		color: #fff;
+		color: var(--color-text);
 	}
 	.k-tab:focus-visible {
 		outline: 2px solid var(--color-text);
@@ -440,12 +440,12 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 		pointer-events: none;
 	}
 	.k-field.is-invalid .k-input {
-		border-color: #a4524f;
+		border-color: var(--mauve);
 	}
 	.k-error {
 		margin-top: 0.4rem;
 		font-size: var(--text-sm);
-		color: #a4524f;
+		color: var(--mauve);
 	}
 	.k-error:empty {
 		display: none;
@@ -459,7 +459,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 		isolation: isolate;
 		cursor: pointer;
 		background: var(--color-accent);
-		color: #fff;
+		color: var(--color-text);
 		font-family: var(--font-body);
 		font-size: var(--text-xs);
 		letter-spacing: 0.06em;
@@ -575,7 +575,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 		}
 		.m-bar__item--book {
 			background: var(--color-accent);
-			color: #000;
+			color: var(--brown);
 		}
 	}
 

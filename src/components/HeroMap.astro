@@ -1,7 +1,7 @@
 ---
 // Ported from the Foundation Finance hero map (lib/ukDotMap.js +
 // app/components/sections/HeroMap.js), verbatim in structure, dot data,
-// sizing and animation. Only colours (gold -> blush pink, navy -> black)
+// sizing and animation. Only colours (gold -> blush pink, navy -> brown)
 // and the HQ pin/label/cards text were changed for Lafeli, per instruction.
 import { UK_DOT_FRAME_WIDTH, UK_DOT_FRAME_HEIGHT } from "../lib/ukDotMap";
 
@@ -113,7 +113,7 @@ const hqStyle = `left:${MAP_HQ.x}%; top:${MAP_HQ.y}%;`;
 		-webkit-backdrop-filter: blur(12px);
 		backdrop-filter: blur(12px);
 		border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
-		box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.28);
+		box-shadow: 0 18px 40px -18px rgba(74, 46, 38, 0.28);
 		pointer-events: none;
 		animation: heroChipFloat 6s ease-in-out infinite;
 	}
@@ -164,7 +164,7 @@ const hqStyle = `left:${MAP_HQ.x}%; top:${MAP_HQ.y}%;`;
 	.hero-chip__caption {
 		font-family: var(--font-body);
 		font-size: 12px;
-		color: rgba(0, 0, 0, 0.55);
+		color: rgba(74, 46, 38, 0.55);
 	}
 
 	.label {
@@ -226,7 +226,7 @@ const hqStyle = `left:${MAP_HQ.x}%; top:${MAP_HQ.y}%;`;
 	const DOT_CENTRE_OFFSET = 5;
 	// Hovered dot plus roughly three dots in every direction.
 	const HOVER_RADIUS = UK_DOT_PITCH * 4.5;
-	// Above this intensity a dot shifts from pink towards the charcoal core.
+	// Above this intensity a dot shifts from pink towards the brown core.
 	const CORE_THRESHOLD = 0.75;
 	// Ring dots reach full pink by this intensity.
 	const PINK_POINT = 0.35;
@@ -235,11 +235,11 @@ const hqStyle = `left:${MAP_HQ.x}%; top:${MAP_HQ.y}%;`;
 	const FADE_SPEED = 0.18;
 	const SETTLED_EPSILON = 0.002;
 
-	// Grey base dots (unchanged), blush-pink ring, charcoal core — the only
+	// Grey base dots (unchanged), blush-pink ring, brown core — the only
 	// colour swap from the source's navy/gold/navy palette.
-	const COLOUR_BASE = { red: 2, green: 20, blue: 53, alpha: 0.2 };
+	const COLOUR_BASE = { red: 183, green: 118, blue: 111, alpha: 0.45 };
 	const COLOUR_PINK = { red: 222, green: 153, blue: 150, alpha: 1 };
-	const COLOUR_CHARCOAL = { red: 17, green: 17, blue: 17, alpha: 1 };
+	const COLOUR_CHARCOAL = { red: 74, green: 46, blue: 38, alpha: 1 };
 
 	const UK_DOTS: Dot[] = UK_DOT_ROWS.flatMap((row, rowIndex) =>
 		[...row].flatMap((cell, columnIndex) =>

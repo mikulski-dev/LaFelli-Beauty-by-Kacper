@@ -86,7 +86,7 @@ import PencilUnderline from "./PencilUnderline.astro";
 		height: 100%;
 		object-fit: cover;
 		border-radius: 8px;
-		box-shadow: 0 12px 32px -14px rgba(20, 16, 8, 0.25);
+		box-shadow: 0 12px 32px -14px rgba(74, 46, 38, 0.25);
 	}
 
 	.intro__copy {
@@ -150,7 +150,7 @@ import PencilUnderline from "./PencilUnderline.astro";
 		width: fit-content;
 		margin-top: 0.8rem;
 		background: #fff;
-		color: #050505;
+		color: var(--brown);
 		text-decoration: none;
 		overflow: hidden;
 		isolation: isolate;
@@ -171,7 +171,7 @@ import PencilUnderline from "./PencilUnderline.astro";
 	}
 
 	.intro__button:active .intro__button-bg {
-		background: color-mix(in srgb, var(--accent) 80%, black);
+		background: color-mix(in srgb, var(--accent) 80%, var(--brown));
 	}
 
 	.intro__button-edge {
@@ -227,7 +227,7 @@ import PencilUnderline from "./PencilUnderline.astro";
 		transform: scale(0.97);
 	}
 
-	/* Dark variant: black fill, white text, rose accent edge on the left. */
+	/* Dark variant: brown fill, white text, rose accent edge on the left. */
 	.intro__button--dark {
 		background: var(--color-graphite);
 		color: #fff;
@@ -238,7 +238,7 @@ import PencilUnderline from "./PencilUnderline.astro";
 	}
 
 	.intro__button--dark:active .intro__button-bg {
-		background: color-mix(in srgb, var(--accent) 80%, black);
+		background: color-mix(in srgb, var(--accent) 80%, var(--brown));
 	}
 
 	.intro__button--dark .intro__button-edge {

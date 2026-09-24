@@ -5,26 +5,25 @@
   from one file.
 */
 :root {
-	/* Color */
-	--color-bg: #ffffff;
-	--color-bg-alt: #f5f4f2;
-	/* Light section background (About, etc). */
-	--color-bg-light: #faf6f5;
-	/* Dark/graphite-equivalent background for dark buttons and dark sections.
-	   Kept as the brand black rather than a warm graphite, per brand colours. */
-	--color-graphite: #000000;
-	/* Standard dark text color site-wide. */
-	--color-text: #000000;
-	--color-text-muted: #55524f;
-	--color-accent: #de9996;
-	--color-accent-contrast: #ffffff;
-	--color-border: #ece4e2;
+	/* Brand colours (Lili's Instagram palette, source of truth) */
+	--brown: #4a2e26; /* headings, body text, logo, icons, dark sections */
+	--blush: #f4ddd9; /* alternating section backgrounds */
+	--rose: #de9996; /* buttons, links, accents (calls to action) */
+	--mauve: #b7766f; /* dotted silhouette, ornaments, hover states, dividers */
+	--shell: #fbf4f1; /* main page background */
 
-	/* Brand colours (source of truth):
-	   --black: #000000 (logo, headings, text)
-	   --white: #FFFFFF (main background)
-	   --rose:  #DE9996 (accents, buttons, highlights) */
-	--color-division-design-build: #de9996;
+	/* Color roles */
+	--color-bg: var(--shell);
+	--color-bg-alt: var(--blush);
+	--color-bg-light: var(--blush);
+	/* Dark sections and dark button fills. */
+	--color-graphite: var(--brown);
+	--color-text: var(--brown);
+	--color-text-muted: #6b4a41;
+	--color-accent: var(--rose);
+	--color-accent-contrast: var(--brown);
+	--color-border: #ead2ce;
+	--color-division-design-build: var(--rose);
 
 	/* Type */
 	--font-body: "Jost", system-ui, sans-serif;

@@ -75,8 +75,8 @@ a {
 		linear-gradient(90deg, color-mix(in srgb, var(--color-graphite) 3%, transparent) 1px, transparent 1px);
 	background-size: 56px 56px;
 	background-position: center top;
-	-webkit-mask-image: radial-gradient(ellipse 70% 65% at 68% 42%, black 0%, transparent 75%);
-	mask-image: radial-gradient(ellipse 70% 65% at 68% 42%, black 0%, transparent 75%);
+	-webkit-mask-image: radial-gradient(ellipse 70% 65% at 68% 42%, #4a2e26 0%, transparent 75%);
+	mask-image: radial-gradient(ellipse 70% 65% at 68% 42%, #4a2e26 0%, transparent 75%);
 	pointer-events: none;
 	z-index: 0;
 }
