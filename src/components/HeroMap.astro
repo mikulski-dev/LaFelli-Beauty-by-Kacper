@@ -270,7 +270,7 @@ const hqStyle = `left:${MAP_HQ.x}%; top:${MAP_HQ.y}%;`;
 	function initHeroMap() {
 		const frame = document.querySelector<HTMLElement>("[data-hero-map-frame]");
 		const canvas = document.querySelector<HTMLCanvasElement>("[data-hero-map-canvas]");
-		const heroSection = document.querySelector<HTMLElement>("#hero");
+		const heroSection = frame?.closest<HTMLElement>("section") ?? null;
 		if (!frame || !canvas || !heroSection) return;
 		const context = canvas.getContext("2d");
 		if (!context) return;

@@ -1,21 +1,10 @@
 ---
 import PencilUnderline from "./PencilUnderline.astro";
+import HeroMap from "./HeroMap.astro";
 ---
 
 <section class="intro" id="about" style="--accent: var(--color-accent)">
 	<div class="intro__inner">
-		<div class="intro__media" data-collage>
-			<!-- TODO: replace with Lili's portrait photo, arch-shaped frame -->
-			<div class="intro__img intro__img--portrait-a" data-parallax data-speed="1" data-dir="down">
-				<img
-					class="intro__img-photo"
-					src="/images/portrait/lily.jpg"
-					alt="Portrait of Lili, founder of Lafeli Beauty"
-					loading="lazy"
-				/>
-			</div>
-		</div>
-
 		<div class="intro__copy">
 			<p class="intro__eyebrow">
 				<span>ABOUT LAFELI BEAUTY</span><PencilUnderline color="var(--accent)" thickness={2} />
@@ -38,6 +27,12 @@ import PencilUnderline from "./PencilUnderline.astro";
 				<span class="intro__button-edge" aria-hidden="true"></span>
 				<span class="intro__button-label" data-label="View treatments">View treatments</span>
 			</a>
+		</div>
+
+		<div class="intro__media">
+			<div class="intro__map">
+				<HeroMap />
+			</div>
 		</div>
 	</div>
 </section>
@@ -62,38 +57,25 @@ import PencilUnderline from "./PencilUnderline.astro";
 
 	.intro__media {
 		position: relative;
-		overflow: hidden;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: clamp(24px, 3vw, 40px) clamp(8px, 1.2vw, 16px) clamp(24px, 3vw, 40px) clamp(56px, 7vw, 96px);
+		padding: clamp(24px, 3vw, 40px) clamp(24px, 4vw, 64px) clamp(24px, 3vw, 40px) clamp(8px, 1.2vw, 16px);
 		box-sizing: border-box;
 		background: var(--color-bg-light);
 	}
 
-	.intro__img {
+	.intro__map {
 		position: relative;
-		width: 70%;
-		max-width: 26rem;
-		aspect-ratio: 3 / 4;
-		transform: translate3d(var(--dx, 0px), var(--dy, 0px), 0);
-		will-change: transform;
-	}
-
-	.intro__img-photo {
-		display: block;
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		border-radius: 8px;
-		box-shadow: 0 12px 32px -14px rgba(74, 46, 38, 0.25);
+		height: clamp(320px, 70svh, 680px);
 	}
 
 	.intro__copy {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		padding: var(--section-pad-y) clamp(2rem, 4.5vw, 4rem) var(--section-pad-y) clamp(0.75rem, 1.5vw, 1.25rem);
+		padding: var(--section-pad-y) clamp(0.75rem, 1.5vw, 1.25rem) var(--section-pad-y) clamp(2rem, 6vw, 6rem);
 	}
 
 	.intro__eyebrow {
@@ -262,8 +244,25 @@ import PencilUnderline from "./PencilUnderline.astro";
 		}
 
 		.intro__media {
-			height: 60vh;
 			padding: 20px;
+		}
+
+		.intro__map {
+			height: 60vh;
+			max-height: 480px;
+		}
+
+		.intro__map :global(.hero-visual) {
+			position: relative;
+			inset: auto;
+			opacity: 1;
+			padding-right: 0;
+			justify-content: center;
+		}
+
+		.intro__map :global(.hero-map__pin),
+		.intro__map :global(.hero-map__hq-label) {
+			display: block;
 		}
 
 		.intro__copy {
@@ -278,22 +277,18 @@ import PencilUnderline from "./PencilUnderline.astro";
 		}
 
 		.intro__copy {
-			order: 2;
+			order: 1;
 			align-items: center;
 			text-align: center;
 			padding: var(--space-3) var(--space-4) var(--space-4);
 		}
 
 		.intro__media {
-			order: 1;
+			order: 2;
 			position: relative;
 			height: auto;
 			padding: var(--space-5) var(--space-4) var(--space-3);
 			display: flex;
-		}
-
-		.intro__img {
-			width: 60%;
 		}
 
 		.intro__eyebrow {
