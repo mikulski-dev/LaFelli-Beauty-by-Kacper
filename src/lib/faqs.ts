@@ -25,12 +25,4 @@ export const faqs = [
 		q: "Where is the studio?",
 		a: `The studio is at ${address}, a private studio just outside Nantwich in Willaston, Cheshire.`,
 	},
-	{
-		q: "Is there parking?",
-		a: "Parking details will be confirmed when you book.", // TODO: confirm real parking situation and replace this placeholder
-	},
-	{
-		q: "What is your cancellation policy?",
-		a: "Cancellation policy to be confirmed.", // TODO: confirm real cancellation/no-show policy and replace this placeholder
-	},
 ];
