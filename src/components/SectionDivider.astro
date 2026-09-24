@@ -10,7 +10,7 @@
 
 <style>
 	.section-divider {
-		--divider-h: clamp(2rem, 4vw, 3rem);
+		--divider-h: clamp(2.5rem, 6vw, 4rem);
 		position: relative;
 		z-index: 2;
 		display: flex;
@@ -20,11 +20,17 @@
 		pointer-events: none;
 	}
 
+	@media (min-width: 1025px) {
+		.section-divider {
+			margin-top: calc(var(--divider-h) * -1);
+		}
+	}
+
 	.section-divider__line {
 		position: relative;
 		width: 1px;
 		height: 100%;
-		background: color-mix(in srgb, var(--mauve) 45%, transparent);
+		background: var(--color-border);
 		overflow: hidden;
 	}
 
