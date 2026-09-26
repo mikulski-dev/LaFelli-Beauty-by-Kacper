@@ -7,7 +7,6 @@ export const business = {
 		"https://www.fresha.com/en-GB/a/lafeli-beauty-willaston-nantwich-70-colleys-lane-hq1yvezc/booking?menu=true&pId=3085259",
 	whatsappUrl: "https://wa.me/447769379946",
 	whatsappNumber: "447769379946",
-	phoneHref: "tel:+447769379946",
 	phoneE164: "+447769379946",
 	phoneDisplay: "07769 379946",
 	instagramUrl: "https://www.instagram.com/lili_lafeli/",

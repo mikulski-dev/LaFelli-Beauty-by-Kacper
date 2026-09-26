@@ -49,8 +49,8 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 						<li class="k-row">
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPhone} /></svg>
 							<div>
-								<p class="k-row__label">Telephone</p>
-								<a class="k-row__value k-row__value--link" href={business.phoneHref}>{business.phoneDisplay}</a>
+								<p class="k-row__label">WhatsApp or text</p>
+								<a class="k-row__value k-row__value--link" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">{business.phoneDisplay}</a>
 							</div>
 						</li>
 						<li class="k-row">
@@ -146,10 +146,6 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 
 		<!-- MOBILE STICKY BAR -->
 		<nav class="m-bar" data-mobile-bar aria-label="Quick contact">
-			<a class="m-bar__item" href={business.phoneHref}>
-				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d={iconPhone} /></svg>
-				Call
-			</a>
 			<a class="m-bar__item" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" /></svg>
 				WhatsApp

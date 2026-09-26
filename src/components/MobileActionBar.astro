@@ -1,65 +1,18 @@
 ---
+import { business } from "../lib/business";
 
-// A single floating "quick enquiry" pill (all screen sizes) that appears once the
-// page is scrolled. It opens a short questionnaire (treatment, name, phone or
-// email) that sends the answers to Lili on WhatsApp.
-const treatments = [
-	"Lymphatic Drainage",
-	"Relaxing Massage",
-	"Face Massage",
-	"Waxing",
-	"Nails",
-	"Eyebrows",
-	"Not sure yet",
-];
+// A single floating "Book now" pill (all screen sizes) that appears once the
+// page is scrolled. It opens the Fresha booking page in a new tab.
 ---
 
-<button class="qe-pill" type="button" data-qe-open aria-haspopup="dialog" aria-label="Quick enquiry">
+<a class="qe-pill" href={business.bookingUrl} target="_blank" rel="noopener noreferrer" aria-label="Book now on Fresha">
 	<span class="qe-pill__text">
-		<span class="qe-pill__label">Quick enquiry</span>
-		<span class="qe-pill__title">Get in touch</span>
+		<span class="qe-pill__title">Book now</span>
 	</span>
 	<span class="qe-pill__arrow" aria-hidden="true">
 		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
 	</span>
-</button>
-
-<dialog class="qe-sheet" data-qe-dialog aria-labelledby="qe-title">
-	<form class="qe-form" data-qe-form method="dialog" novalidate>
-		<div class="qe-form__head">
-			<h2 class="qe-form__title" id="qe-title">Quick enquiry</h2>
-			<button class="qe-form__close" type="button" data-qe-close aria-label="Close">&times;</button>
-		</div>
-		<p class="qe-form__sub">Three quick taps. Lili will get back to you.</p>
-		<input class="enquiry-trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-		<fieldset class="qe-form__group">
-			<legend class="qe-form__legend">1. What are you after?</legend>
-			<div class="qe-chips">
-				{treatments.map((t, i) => (
-					<label class="qe-chip">
-						<input type="radio" name="treatment" value={t} required checked={false} />
-						<span>{t}</span>
-					</label>
-				))}
-			</div>
-		</fieldset>
-
-		<div class="qe-form__group">
-			<label class="qe-form__legend" for="qe-name">2. Your name</label>
-			<input class="qe-input" id="qe-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
-		</div>
-
-		<div class="qe-form__group">
-			<label class="qe-form__legend" for="qe-contact">3. Phone or email</label>
-			<input class="qe-input" id="qe-contact" name="contact" type="text" autocomplete="tel" placeholder="Best number or email" required />
-		</div>
-
-		<button class="qe-submit" type="submit">Send enquiry</button>
-		<p class="qe-form__status" data-qe-status role="status" aria-live="polite"></p>
-		<p class="qe-form__fine">By sending, you agree to Lili contacting you about your enquiry.</p>
-	</form>
-</dialog>
+</a>
 
 <style>
 		.qe-pill {
@@ -79,6 +32,7 @@ const treatments = [
 			color: #fff;
 			font-family: var(--font-body);
 			text-align: left;
+			text-decoration: none;
 			cursor: pointer;
 			box-shadow: 0 12px 30px -10px rgba(74, 46, 38, 0.55);
 			opacity: 0;
@@ -121,220 +75,13 @@ const treatments = [
 			width: 1.15rem;
 			height: 1.15rem;
 		}
-
-		.qe-sheet {
-			position: fixed;
-			inset: 0;
-			margin: auto;
-			width: min(30rem, 92vw);
-			height: fit-content;
-			max-height: 92svh;
-			padding: 0;
-			border: 0;
-			border-radius: 18px;
-			background: var(--shell);
-			color: var(--brown);
-			overflow-y: auto;
-			opacity: 0;
-			transform: translateY(24px);
-			transition: opacity 250ms var(--ease-standard), transform 300ms var(--ease-standard), overlay 300ms allow-discrete, display 300ms allow-discrete;
-		}
-		.qe-sheet[open] {
-			opacity: 1;
-			transform: none;
-		}
-		@starting-style {
-			.qe-sheet[open] {
-				opacity: 0;
-				transform: translateY(24px);
-			}
-		}
-		@media (max-width: 767px) {
-			.qe-sheet {
-				inset: auto 0 0 0;
-				margin: 0;
-				width: 100%;
-				border-radius: 18px 18px 0 0;
-			}
-		}
-		.qe-sheet::backdrop {
-			background: rgba(74, 46, 38, 0.55);
-		}
-
-		.qe-form {
-			padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
-			display: flex;
-			flex-direction: column;
-			gap: 1.1rem;
-		}
-		.qe-form__head {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-		.qe-form__title {
-			margin: 0;
-			font-family: var(--font-display);
-			font-style: italic;
-			font-weight: 400;
-			font-size: 1.9rem;
-		}
-		.qe-form__close {
-			border: 0;
-			background: none;
-			color: var(--brown);
-			font-size: 2rem;
-			line-height: 1;
-			padding: 0 0.4rem;
-			cursor: pointer;
-		}
-		.qe-form__sub {
-			margin: -0.6rem 0 0;
-			font-size: var(--text-sm);
-			color: var(--color-text-muted);
-		}
-		.qe-form__group {
-			border: 0;
-			margin: 0;
-			padding: 0;
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			min-width: 0;
-		}
-		.qe-form__legend {
-			padding: 0;
-			font-size: 0.7rem;
-			font-weight: 500;
-			letter-spacing: 0.14em;
-			text-transform: uppercase;
-			color: var(--mauve);
-		}
-		.qe-form__opt {
-			text-transform: none;
-			letter-spacing: 0;
-			color: var(--color-text-muted);
-		}
-		.qe-chips {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.5rem;
-		}
-		.qe-chip input {
-			position: absolute;
-			opacity: 0;
-			pointer-events: none;
-		}
-		.qe-chip span {
-			display: inline-block;
-			padding: 0.6rem 0.95rem;
-			border: 1px solid var(--color-border);
-			border-radius: 999px;
-			background: #fff;
-			font-size: var(--text-sm);
-		}
-		.qe-chip input:checked + span {
-			background: var(--brown);
-			border-color: var(--brown);
-			color: #fff;
-		}
-		.qe-chip input:focus-visible + span {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 2px;
-		}
-		.qe-input {
-			box-sizing: border-box;
-			width: 100%;
-			padding: 0.8rem 0.9rem;
-			font: inherit;
-			font-size: 1rem;
-			color: var(--brown);
-			background: #fff;
-			border: 1px solid var(--color-border);
-			border-radius: 8px;
-		}
-		.qe-input:focus-visible {
-			outline: 2px solid var(--color-accent);
-			outline-offset: 1px;
-		}
-		.qe-submit {
-			padding: 1rem;
-			border: 0;
-			border-radius: 999px;
-			background: var(--color-accent);
-			color: var(--brown);
-			font: inherit;
-			font-size: var(--text-sm);
-			font-weight: 500;
-			letter-spacing: 0.12em;
-			text-transform: uppercase;
-			cursor: pointer;
-		}
-		.qe-form__status {
-			margin: -0.4rem 0 0;
-			min-height: 1.1em;
-			font-size: var(--text-sm);
-			color: var(--mauve);
-		}
-		.qe-form__fine {
-			margin: 0;
-			font-size: 0.75rem;
-			color: var(--color-text-muted);
-		}
 </style>
 
 <script>
-	import { sendEnquiry, field, showEnquiryResult } from "../lib/enquiry";
-
 	const root = document.documentElement;
-	const dialog = document.querySelector<HTMLDialogElement>("[data-qe-dialog]");
-	const form = document.querySelector<HTMLFormElement>("[data-qe-form]");
-	const status = document.querySelector<HTMLElement>("[data-qe-status]");
 
 	// The pill only shows once the page has been scrolled a little.
 	const update = () => root.classList.toggle("qe-show", window.scrollY > 120);
 	update();
 	window.addEventListener("scroll", update, { passive: true });
-
-	document.querySelector("[data-qe-open]")?.addEventListener("click", () => dialog?.showModal());
-	document.querySelector("[data-qe-close]")?.addEventListener("click", () => dialog?.close());
-	dialog?.addEventListener("click", (event) => {
-		if (event.target === dialog) dialog.close();
-	});
-
-	form?.addEventListener("submit", async (event) => {
-		event.preventDefault();
-		const data = new FormData(form);
-		const name = field(data, "name");
-		const contact = field(data, "contact");
-		const treatment = field(data, "treatment");
-
-		if (!treatment || !name || !contact) {
-			if (status) status.textContent = "Please pick a treatment and add your name and a phone or email.";
-			return;
-		}
-
-		const text = [
-			`Hi Lili, it's ${name}.`,
-			`I'm interested in: ${treatment}.`,
-			`Contact me on: ${contact}.`,
-		]
-			.filter(Boolean)
-			.join(" ");
-
-		if (status) status.textContent = "";
-		const button = form.querySelector<HTMLButtonElement>(".qe-submit");
-		if (button) {
-			button.disabled = true;
-			button.textContent = "Sending…";
-		}
-		const ok = await sendEnquiry({
-			form: "Quick enquiry",
-			name,
-			contact,
-			treatment,
-			website: field(data, "website"),
-		});
-		showEnquiryResult(form, ok, name, text);
-	});
 </script>

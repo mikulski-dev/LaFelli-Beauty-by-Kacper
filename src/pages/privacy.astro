@@ -13,8 +13,8 @@ import { business } from "../lib/business";
 
 		<h2>Who runs this site</h2>
 		<p>
-			This site is run by Lafeli Beauty, {business.address.full}. You can call Lili on
-			<a href={business.phoneHref}>{business.phoneDisplay}</a>.
+			This site is run by Lafeli Beauty, {business.address.full}. You can message Lili on WhatsApp or by text on
+			<a href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">{business.phoneDisplay}</a>.
 		</p>
 
 		<h2>Enquiry forms</h2>
@@ -41,7 +41,7 @@ import { business } from "../lib/business";
 		<h2>Deleting your details</h2>
 		<p>
 			If you would like your details deleted sooner, contact Lili on
-			<a href={business.phoneHref}>{business.phoneDisplay}</a> or
+			<a href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">{business.phoneDisplay}</a> or
 			<a href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
 		</p>
 	</main>

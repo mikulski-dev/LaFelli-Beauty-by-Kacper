@@ -27,12 +27,12 @@ const sources = ["Instagram", "Facebook", "Google", "Friend or family", "Passing
 		<div class="hero__content">
 			<p class="hero__eyebrow">WILLASTON &middot; NANTWICH &middot; CHESHIRE</p>
 			<h1 class="hero__title">Beauty and relief, in expert <em>hands</em>.</h1>
-			<p class="hero__body">Lymphatic drainage, massage and Brazilian beauty in Willaston.</p>
+			<p class="hero__body">Specialist in Brazilian lymphatic drainage massage, plus nails, brows and waxing, in Willaston.</p>
 			<div class="hero__actions">
 				<a class="hero__button hero__button--filled" href={business.bookingUrl} target="_blank" rel="noopener noreferrer">Book online</a>
-				<a class="hero__button hero__button--outline" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">Call or WhatsApp</a>
+				<a class="hero__button hero__button--outline" href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
 			</div>
-			<p class="hero__phone"><a href={business.phoneHref}>{business.phoneDisplay}</a></p>
+			<p class="hero__phone"><a href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">{business.phoneDisplay}</a> <span class="hero__phone-label">WhatsApp or text</span></p>
 			<div class="hero__badges">
 				<p class="hero__badge"><span aria-hidden="true">&#9670;</span>Qualified massage therapist</p>
 				<p class="hero__badge"><span aria-hidden="true">&#9670;</span>Private studio in Willaston</p>
@@ -230,6 +230,11 @@ const sources = ["Instagram", "Facebook", "Google", "Friend or family", "Passing
 		text-decoration: underline;
 		text-decoration-color: var(--color-accent);
 		text-underline-offset: 0.25em;
+	}
+	.hero__phone-label {
+		font-size: 0.75rem;
+		opacity: 0.75;
+		margin-left: 0.4rem;
 	}
 	.hero__badges {
 		display: flex;

@@ -18,10 +18,6 @@ export const faqs = [
 		a: "Of course, message me on WhatsApp any time and I will get back to you as soon as I can.",
 	},
 	{
-		q: "Do you speak Portuguese?",
-		a: "Yes, treatments and consultations are available in both English and Portuguese.",
-	},
-	{
 		q: "Where is the studio?",
 		a: `The studio is at ${address}, a private studio just outside Nantwich in Willaston, Cheshire.`,
 	},
