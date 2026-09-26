@@ -1,0 +1,80 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { business } from "../lib/business";
+---
+
+<BaseLayout
+	title="Privacy Policy | Lafeli Beauty"
+	description="How Lafeli Beauty in Willaston, Nantwich handles your enquiry details."
+>
+	<main class="privacy">
+		<h1 class="privacy__title">Privacy Policy</h1>
+		<p class="privacy__updated">Last updated: September 2026</p>
+
+		<h2>Who runs this site</h2>
+		<p>
+			This site is run by Lafeli Beauty, {business.address.full}. You can call Lili on
+			<a href={business.phoneHref}>{business.phoneDisplay}</a>.
+		</p>
+
+		<h2>Enquiry forms</h2>
+		<p>
+			When you send an enquiry, your details are saved in a private Google Sheet and emailed to Lili so she can reply.
+			If you give an email address, you will also get an automatic confirmation email.
+		</p>
+
+		<h2>Bookings</h2>
+		<p>
+			Online bookings are handled by Fresha. Fresha looks after your booking details under
+			<a href="https://www.fresha.com/privacy-policy" target="_blank" rel="noopener noreferrer">Fresha's own privacy policy</a>.
+		</p>
+
+		<h2>Maps</h2>
+		<p>The map on this site loads from a third-party map provider, which may see your IP address when it does.</p>
+
+		<h2>Cookies</h2>
+		<p>We do not use tracking or advertising cookies.</p>
+
+		<h2>How long we keep your details</h2>
+		<p>We keep enquiries for up to 12 months, then delete them.</p>
+
+		<h2>Deleting your details</h2>
+		<p>
+			If you would like your details deleted sooner, contact Lili on
+			<a href={business.phoneHref}>{business.phoneDisplay}</a> or
+			<a href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+		</p>
+	</main>
+</BaseLayout>
+
+<style>
+	.privacy {
+		max-width: 44rem;
+		margin: 0 auto;
+		padding: calc(var(--section-pad-y) * 1.2) var(--space-4);
+	}
+	.privacy__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(2rem, 4vw, var(--text-3xl));
+		margin: 0 0 var(--space-2);
+	}
+	.privacy__updated {
+		color: var(--color-text-muted);
+		margin: 0 0 var(--space-5);
+	}
+	.privacy h2 {
+		font-family: var(--font-display);
+		font-weight: 400;
+		font-size: var(--text-xl, 1.5rem);
+		margin: var(--space-5) 0 var(--space-2);
+	}
+	.privacy p {
+		margin: 0;
+		line-height: var(--leading-normal);
+	}
+	.privacy a {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+</style>
