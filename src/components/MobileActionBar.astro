@@ -31,6 +31,7 @@ const treatments = [
 			<button class="qe-form__close" type="button" data-qe-close aria-label="Close">&times;</button>
 		</div>
 		<p class="qe-form__sub">Three quick taps. Lili will get back to you.</p>
+		<input class="enquiry-trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
 		<fieldset class="qe-form__group">
 			<legend class="qe-form__legend">1. What are you after?</legend>
@@ -283,8 +284,9 @@ const treatments = [
 </style>
 
 <script>
+	import { sendEnquiry, field, showEnquiryResult } from "../lib/enquiry";
+
 	const root = document.documentElement;
-	const whatsappNumber = "447769379946";
 	const dialog = document.querySelector<HTMLDialogElement>("[data-qe-dialog]");
 	const form = document.querySelector<HTMLFormElement>("[data-qe-form]");
 	const status = document.querySelector<HTMLElement>("[data-qe-status]");
@@ -300,13 +302,12 @@ const treatments = [
 		if (event.target === dialog) dialog.close();
 	});
 
-	form?.addEventListener("submit", (event) => {
+	form?.addEventListener("submit", async (event) => {
 		event.preventDefault();
 		const data = new FormData(form);
-		const get = (key: string) => String(data.get(key) ?? "").trim();
-		const name = get("name");
-		const contact = get("contact");
-		const treatment = get("treatment");
+		const name = field(data, "name");
+		const contact = field(data, "contact");
+		const treatment = field(data, "treatment");
 
 		if (!treatment || !name || !contact) {
 			if (status) status.textContent = "Please pick a treatment and add your name and a phone or email.";
@@ -321,7 +322,19 @@ const treatments = [
 			.filter(Boolean)
 			.join(" ");
 
-		window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
-		if (status) status.textContent = "Opening WhatsApp to send your enquiry…";
+		if (status) status.textContent = "";
+		const button = form.querySelector<HTMLButtonElement>(".qe-submit");
+		if (button) {
+			button.disabled = true;
+			button.textContent = "Sending…";
+		}
+		const ok = await sendEnquiry({
+			form: "Quick enquiry",
+			name,
+			contact,
+			treatment,
+			website: field(data, "website"),
+		});
+		showEnquiryResult(form, ok, name, text);
 	});
 </script>

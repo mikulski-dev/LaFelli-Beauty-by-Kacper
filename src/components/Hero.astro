@@ -41,6 +41,7 @@ const sources = ["Instagram", "Facebook", "Google", "Friend or family", "Passing
 
 		<form class="hero-form" data-hero-form novalidate>
 			<h2 class="hero-form__title">Start your enquiry</h2>
+			<input class="enquiry-trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 			<p class="hero-form__sub">Lili personally reads every message.</p>
 
 			<div class="hero-form__row">
@@ -417,36 +418,50 @@ const sources = ["Instagram", "Facebook", "Google", "Friend or family", "Passing
 </style>
 
 <script>
-	const whatsappNumber = "447769379946";
+	import { sendEnquiry, field, showEnquiryResult } from "../lib/enquiry";
 
 	document.querySelectorAll<HTMLFormElement>("[data-hero-form]").forEach((form) => {
 		const status = form.querySelector<HTMLElement>("[data-hero-status]");
+		const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
 
-		form.addEventListener("submit", (event) => {
+		form.addEventListener("submit", async (event) => {
 			event.preventDefault();
 			const data = new FormData(form);
-			const get = (key: string) => String(data.get(key) ?? "").trim();
-			const name = get("name");
-			const phone = get("phone");
+			const name = field(data, "name");
+			const phone = field(data, "phone");
 
-			if (!name || !phone || !get("treatment") || !data.get("consent")) {
+			if (!name || !phone || !field(data, "treatment") || !data.get("consent")) {
 				if (status) status.textContent = "Please add your name, phone, a treatment and tick the box.";
 				return;
 			}
 
 			const text = [
 				`Hi Lili, it's ${name}.`,
-				`I'm interested in: ${get("treatment")}.`,
+				`I'm interested in: ${field(data, "treatment")}.`,
 				`My phone number: ${phone}.`,
-				get("email") && `My email: ${get("email")}.`,
-				get("message"),
-				get("source") && `I found you via: ${get("source")}.`,
+				field(data, "email") && `My email: ${field(data, "email")}.`,
+				field(data, "message"),
+				field(data, "source") && `I found you via: ${field(data, "source")}.`,
 			]
 				.filter(Boolean)
 				.join(" ");
 
-			window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
-			if (status) status.textContent = "Opening WhatsApp to send your enquiry…";
+			if (status) status.textContent = "";
+			if (button) {
+				button.disabled = true;
+				button.textContent = "Sending…";
+			}
+			const ok = await sendEnquiry({
+				form: "Hero form",
+				name,
+				email: field(data, "email"),
+				phone,
+				treatment: field(data, "treatment"),
+				source: field(data, "source"),
+				message: field(data, "message"),
+				website: field(data, "website"),
+			});
+			showEnquiryResult(form, ok, name, text);
 		});
 	});
 </script>

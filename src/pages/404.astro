@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import { business } from "../lib/business";
+---
+
+<BaseLayout title="Page not found | Lafeli Beauty" description="This page could not be found.">
+	<main class="nf">
+		<h1 class="nf__title">Page not found</h1>
+		<p class="nf__text">Sorry, we couldn't find that page.</p>
+		<div class="nf__actions">
+			<Button href="/" label="Home" variant="outline" />
+			<Button href={business.bookingUrl} label="Book" external />
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.nf {
+		display: grid;
+		justify-items: center;
+		gap: var(--space-4);
+		padding: calc(var(--section-pad-y) * 1.5) var(--space-4);
+		text-align: center;
+	}
+	.nf__title {
+		font-family: var(--font-display);
+		font-weight: 300;
+		font-size: clamp(2rem, 4vw, var(--text-3xl));
+		margin: 0;
+	}
+	.nf__text {
+		margin: 0;
+		color: var(--color-text-muted);
+	}
+	.nf__actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-3);
+	}
+</style>

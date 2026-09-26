@@ -66,6 +66,7 @@ const whatsappUrl = "https://wa.me/447769379946";
 			</div>
 
 			<form class="contact__form" data-contact-form novalidate>
+				<input class="enquiry-trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 				<div class="contact__row">
 					<label class="contact__field">
 						<span class="contact__label">Name</span>
@@ -99,7 +100,7 @@ const whatsappUrl = "https://wa.me/447769379946";
 				<button class="contact__submit" type="submit">
 					<span class="contact__submit-bg" aria-hidden="true"></span>
 					<span class="contact__submit-edge" aria-hidden="true"></span>
-					<span class="contact__submit-label" data-label="Send on WhatsApp">Send on WhatsApp</span>
+					<span class="contact__submit-label" data-label="Send enquiry">Send enquiry</span>
 				</button>
 
 				<p class="contact__status" data-contact-status role="status" aria-live="polite"></p>
@@ -131,6 +132,7 @@ const whatsappUrl = "https://wa.me/447769379946";
 
 		<div class="contact__panel">
 			<form class="contact__form" data-contact-form novalidate>
+				<input class="enquiry-trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 				<div class="contact__row">
 					<label class="contact__field">
 						<span class="contact__label">Name</span>
@@ -164,7 +166,7 @@ const whatsappUrl = "https://wa.me/447769379946";
 				<button class="contact__submit" type="submit">
 					<span class="contact__submit-bg" aria-hidden="true"></span>
 					<span class="contact__submit-edge" aria-hidden="true"></span>
-					<span class="contact__submit-label" data-label="Send on WhatsApp">Send on WhatsApp</span>
+					<span class="contact__submit-label" data-label="Send enquiry">Send enquiry</span>
 				</button>
 
 				<p class="contact__status" data-contact-status role="status" aria-live="polite"></p>
@@ -757,22 +759,28 @@ const whatsappUrl = "https://wa.me/447769379946";
 </style>
 
 <script>
-	const forms = document.querySelectorAll<HTMLFormElement>("[data-contact-form]");
-	const whatsappNumber = "447769379946";
+	import { sendEnquiry, field, showEnquiryResult } from "../lib/enquiry";
 
-	forms.forEach((form) => {
+	document.querySelectorAll<HTMLFormElement>("[data-contact-form]").forEach((form) => {
 		const status = form.querySelector<HTMLElement>("[data-contact-status]");
+		const label = form.querySelector<HTMLElement>(".contact__submit-label");
+		const button = form.querySelector<HTMLButtonElement>("button[type=submit]");
 
-		form.addEventListener("submit", (event) => {
+		form.addEventListener("submit", async (event) => {
 			event.preventDefault();
 			const data = new FormData(form);
-			const name = String(data.get("name") ?? "");
-			const phone = String(data.get("phone") ?? "");
-			const treatment = String(data.get("treatment") ?? "");
-			const message = String(data.get("message") ?? "");
+			const name = field(data, "name");
+			const phone = field(data, "phone");
+			const treatment = field(data, "treatment");
+			const message = field(data, "message");
+
+			if (!name || !message) {
+				if (status) status.textContent = "Please add your name and a short message.";
+				return;
+			}
 
 			const text = [
-				`Hi Lili, it's ${name || "a website visitor"}.`,
+				`Hi Lili, it's ${name}.`,
 				treatment && `I'm interested in: ${treatment}.`,
 				phone && `My phone number: ${phone}.`,
 				message,
@@ -780,10 +788,21 @@ const whatsappUrl = "https://wa.me/447769379946";
 				.filter(Boolean)
 				.join(" ");
 
-			const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
-
-			window.open(whatsappHref, "_blank", "noopener,noreferrer");
-			if (status) status.textContent = "Opening WhatsApp to send this message…";
+			if (status) status.textContent = "";
+			if (button) button.disabled = true;
+			if (label) {
+				label.textContent = "Sending…";
+				label.dataset.label = "Sending…";
+			}
+			const ok = await sendEnquiry({
+				form: "Contact section",
+				name,
+				phone,
+				treatment,
+				message,
+				website: field(data, "website"),
+			});
+			showEnquiryResult(form, ok, name, text);
 		});
 	});
 </script>

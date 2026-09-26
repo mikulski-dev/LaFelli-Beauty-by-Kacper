@@ -110,6 +110,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 					</div>
 
 					<form class="k-form" data-form novalidate>
+						<input class="enquiry-trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
 						<div class="k-row2">
 							<div class="k-field">
 								<label for="f-name">Full name <span class="k-req" aria-hidden="true">*</span></label>
@@ -135,21 +136,10 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 						</div>
 						<button class="k-submit" type="submit">
 							<span class="k-submit__bg" aria-hidden="true"></span>
-							<span class="k-submit__label">Send on WhatsApp</span>
+							<span class="k-submit__label">Send enquiry</span>
 						</button>
 					</form>
 
-					<div class="k-success" data-success hidden role="status" aria-live="polite" tabindex="-1">
-						<span class="k-success__icon" aria-hidden="true">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
-						</span>
-						<h3 class="k-success__title">Opening WhatsApp…</h3>
-						<p class="k-success__body">
-							Your message is ready to send. If WhatsApp did not open,
-							<a data-success-link href={business.whatsappUrl} target="_blank" rel="noopener noreferrer">tap here</a>.
-						</p>
-						<button type="button" class="k-success__again" data-again>Send another message</button>
-					</div>
 				</div>
 			</div>
 		</section>
@@ -485,56 +475,6 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 		outline: 2px solid var(--color-text);
 		outline-offset: 3px;
 	}
-	.k-success {
-		text-align: center;
-		padding: 2.5rem 1.5rem;
-		background: var(--color-bg-light);
-		border-top: 2px solid var(--color-accent);
-	}
-	.k-success[hidden] {
-		display: none;
-	}
-	.k-success__icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.6rem;
-		height: 2.6rem;
-		border: 1px solid var(--color-accent);
-		color: var(--color-accent);
-		margin-bottom: 1rem;
-	}
-	.k-success__icon svg {
-		width: 1.2rem;
-		height: 1.2rem;
-	}
-	.k-success__title {
-		font-weight: 300;
-		font-size: 1.8rem;
-		margin-bottom: 0.5rem;
-	}
-	.k-success__body {
-		font-weight: 300;
-		color: var(--color-text-muted);
-	}
-	.k-success__body a {
-		text-decoration: underline;
-		text-underline-offset: 0.25em;
-	}
-	.k-success__again {
-		all: unset;
-		cursor: pointer;
-		margin-top: 1.2rem;
-		font-size: var(--text-xs);
-		letter-spacing: 0.15em;
-		text-transform: uppercase;
-		text-decoration: underline;
-		text-underline-offset: 0.3em;
-	}
-	.k-success__again:hover,
-	.k-success__again:focus-visible {
-		color: var(--color-accent);
-	}
 
 	/* ---------- mobile sticky bar ---------- */
 	.m-bar {
@@ -601,7 +541,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 </style>
 
 <script>
-	const WHATSAPP_NUMBER = "447769379946";
+	import { sendEnquiry, field, showEnquiryResult } from "../lib/enquiry";
 
 	// ---- Treatment tabs fill the treatment dropdown
 	const categories: Record<string, string[]> = JSON.parse(
@@ -634,8 +574,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 
 	// ---- Form: validation on blur + WhatsApp prefill
 	const form = document.querySelector<HTMLFormElement>("[data-form]");
-	const success = document.querySelector<HTMLElement>("[data-success]");
-	if (form && success) {
+	if (form) {
 		const rules: Record<string, (v: string) => string> = {
 			name: (v) => (v.trim() ? "" : "Please tell me your name so I know who I'm talking to."),
 			phone: (v) => (!v.trim() || v.replace(/\D/g, "").length >= 7 ? "" : "That number looks a little short. Please check it."),
@@ -659,7 +598,7 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 			});
 		});
 
-		form.addEventListener("submit", (event) => {
+		form.addEventListener("submit", async (event) => {
 			event.preventDefault();
 			const results = inputs.map((el) => [el, check(el)] as const);
 			const firstBad = results.find(([, ok]) => !ok);
@@ -668,35 +607,32 @@ const iconChat = "M4 5h16v11H10l-4 4v-4H4Z M8 9.5h8M8 12.5h5";
 				return;
 			}
 			const data = new FormData(form);
-			const name = String(data.get("name") ?? "");
-			const phone = String(data.get("phone") ?? "");
-			const treatment = String(data.get("treatment") ?? "");
-			const message = String(data.get("message") ?? "");
+			const name = field(data, "name");
+			const phone = field(data, "phone");
+			const treatment = field(data, "treatment");
+			const message = field(data, "message");
 			const text = [
-				`Hi Lili, it's ${name || "a website visitor"}.`,
+				`Hi Lili, it's ${name}.`,
 				treatment && `I'm interested in: ${treatment}.`,
 				phone && `My phone number: ${phone}.`,
 				message,
 			]
 				.filter(Boolean)
 				.join(" ");
-			const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 
-			success.querySelector<HTMLAnchorElement>("[data-success-link]")!.href = href;
-			form.hidden = true;
-			success.hidden = false;
-			success.focus();
-			window.open(href, "_blank", "noopener,noreferrer");
-		});
-
-		success.querySelector("[data-again]")?.addEventListener("click", () => {
-			form.reset();
-			form.querySelectorAll(".is-invalid").forEach((f) => f.classList.remove("is-invalid"));
-			form.querySelectorAll("[data-error]").forEach((e) => (e.textContent = ""));
-			fill(tabs.find((t) => t.getAttribute("aria-pressed") === "true")?.dataset.tab ?? "");
-			success.hidden = true;
-			form.hidden = false;
-			form.querySelector<HTMLElement>("#f-name")?.focus();
+			const button = form.querySelector<HTMLButtonElement>(".k-submit");
+			const label = button?.querySelector<HTMLElement>(".k-submit__label");
+			if (button) button.disabled = true;
+			if (label) label.textContent = "Sending…";
+			const ok = await sendEnquiry({
+				form: "Contact page",
+				name,
+				phone,
+				treatment,
+				message,
+				website: field(data, "website"),
+			});
+			showEnquiryResult(form, ok, name, text);
 		});
 	}
 

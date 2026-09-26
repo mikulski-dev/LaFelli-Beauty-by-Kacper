@@ -80,3 +80,32 @@ a {
 	pointer-events: none;
 	z-index: 0;
 }
+
+/* Enquiry forms: spam-trap field and post-submit result */
+.enquiry-trap {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	opacity: 0;
+}
+.enquiry-result {
+	display: grid;
+	gap: 0.75rem;
+	padding: 1.5rem 0;
+	text-align: center;
+	color: inherit;
+	outline: none;
+}
+.enquiry-result__msg {
+	margin: 0;
+	font-family: var(--font-display);
+	font-size: var(--text-xl, 1.5rem);
+}
+.enquiry-result__link {
+	color: inherit;
+	font-size: var(--text-sm);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
