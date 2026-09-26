@@ -23,7 +23,7 @@ export const business = {
 	coords: [53.0518, -2.5288] as [number, number],
 	languages: ["English", "Portuguese"],
 	// TODO: confirm live domain.
-	siteUrl: "https://lafelibeauty.co.uk",
+	siteUrl: "https://lafelibeauty.com",
 	// TODO: add Lili's Google review link (Google Business Profile "Get more reviews" URL).
 	googleReviewUrl: "",
 };
